@@ -1,0 +1,36 @@
+name: flutter_play_chess
+description: A new Flutter project.
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.1 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  chopper: ^4.0.6
+  rxdart: ^0.27.4
+  flutter_bloc: ^8.0.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  auto_route: ^4.2.0
+  
+  
+  
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  hive_generator: ^1.1.3
+  chopper_generator: ^4.0.6
+  auto_route_generator: ^4.2.0
+  build_runner: ^2.1.11
+
+flutter:
+
+  uses-material-design: true
