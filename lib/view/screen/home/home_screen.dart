@@ -7,13 +7,13 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter.pageView(
+    return AutoTabsRouter.builder(
         routes: const [PlayPageRoute(), ProfilePageRoute()],
-        builder: (context, child, controller) => Scaffold(
+        builder: (context, pages, controller) => Scaffold(
               appBar: AppBar(
                 title: Text(context.topRoute.name),
               ),
-              body: child,
+              body: pages[context.tabsRouter.activeIndex],
               bottomNavigationBar: NavigationBar(
                 selectedIndex: context.tabsRouter.activeIndex,
                 onDestinationSelected: context.tabsRouter.setActiveIndex,
