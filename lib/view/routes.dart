@@ -14,14 +14,13 @@ part 'routes.gr.dart';
 @MaterialAutoRouter(
   //replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(path: "/", initial: true, page: GoScreen, children: [
-      AutoRoute(path: "login", page: LoginScreen, children: [
-        AutoRoute(path: "default", initial: true, page: DefaultLogin)
-      ]),
-      AutoRoute(path: "home", page: HomeScreen, children: [
-        AutoRoute(path: "play", page: PlayPage),
-        AutoRoute(path: "profile", page: ProfilePage)
-      ]),
+    AutoRoute(path: "/", initial: true ,page: GoPage),
+    AutoRoute(path: "/login", page: LoginScreen, children: [
+      AutoRoute(path: "default", initial: true, page: DefaultLogin)
+    ]),
+    AutoRoute(path: "/home", page: HomeScreen, children: [
+      AutoRoute(path: "play", page: PlayPage),
+      AutoRoute(path: "profile", page: ProfilePage)
     ]),
   ],
 )

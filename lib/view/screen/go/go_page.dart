@@ -20,12 +20,12 @@ class _GoPageState extends State<GoPage> {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
         if (state.user == null) {
-          context.router.popAndPush(const LoginScreenRoute());
+          context.router.replace(const LoginScreenRoute());
           return;
         }
-        context.router.popAndPush(const HomeScreenRoute());
+        context.router.replace(const HomeScreenRoute());
       },
-      child: const Center(child: CircularProgressIndicator()),
+      child: const Center(child: Text("LOGO")),
     );
   }
 
