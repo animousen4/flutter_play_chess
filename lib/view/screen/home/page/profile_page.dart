@@ -7,10 +7,9 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return Column(
         children: const [Text("profile")],
-      ),
-    );
+      );
+
   }
 }

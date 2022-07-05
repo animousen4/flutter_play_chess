@@ -12,6 +12,7 @@ class UserService {
 
   Future<void> loadUser() async {
     userBox = await Hive.openBox(_userBoxAccountsKey);
+    //await userBox.clear();
     currentUser.add(userBox.get(_currentAccountKey));
   }
 

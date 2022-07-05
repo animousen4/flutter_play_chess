@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_play_chess/view/routes/guard/routes_guard.dart';
 import 'package:flutter_play_chess/view/screen/go/go_page.dart';
 import 'package:flutter_play_chess/view/screen/go/go_screen.dart';
 import 'package:flutter_play_chess/view/screen/home/home_screen.dart';
@@ -14,14 +15,15 @@ part 'routes.gr.dart';
 @MaterialAutoRouter(
   //replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(path: "/", initial: true ,page: GoPage),
     AutoRoute(path: "/login", page: LoginScreen, children: [
       AutoRoute(path: "default", initial: true, page: DefaultLogin)
     ]),
-    AutoRoute(path: "/home", page: HomeScreen, children: [
+    AutoRoute(path: "/home", initial: true, page: HomeScreen, guards: [RouteGuard], children: [
       AutoRoute(path: "play", page: PlayPage),
       AutoRoute(path: "profile", page: ProfilePage)
     ]),
   ],
 )
-class AppRouter extends _$AppRouter {}
+class AppRouter extends _$AppRouter {
+  AppRouter({required super.routeGuard});
+}

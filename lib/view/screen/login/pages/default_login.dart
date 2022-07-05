@@ -10,13 +10,15 @@ class DefaultLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Text("Default login"),
-          TextButton(onPressed: () {
-            context.read<LoginBloc>().add(LogIn(username: "us111", password: "pass222"));
-          }, child: Text('Log in [debug]'))
-        ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            Text("Default login"),
+            TextButton(onPressed: () {
+              context.read<LoginBloc>().add(LogIn(username: "us111", password: "pass222"));
+            }, child: Text('Log in [debug]'))
+          ],
+        ),
       ),
     );
   }

@@ -10,6 +10,9 @@ class User {
 
   User({required this.accessToken,required this.jwtToken});
 
-  
+  @override
+  String toString() {
+    return "User(accessToken: $accessToken; jwtToken: $jwtToken)";
+  }
   
 }

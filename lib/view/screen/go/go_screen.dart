@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
-import 'package:flutter_play_chess/view/routes.dart';
+import 'package:flutter_play_chess/view/routes/guard/routes.dart';
 import 'package:flutter_play_chess/view/screen/go/go_page.dart';
 
 class GoScreen extends StatefulWidget implements AutoRouteWrapper {

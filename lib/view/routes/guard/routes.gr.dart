@@ -13,14 +13,14 @@
 part of 'routes.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter([GlobalKey<NavigatorState>? navigatorKey]) : super(navigatorKey);
+  _$AppRouter(
+      {GlobalKey<NavigatorState>? navigatorKey, required this.routeGuard})
+      : super(navigatorKey);
+
+  final RouteGuard routeGuard;
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    GoPageRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const GoPage());
-    },
     LoginScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const LoginScreen());
@@ -45,7 +45,8 @@ class _$AppRouter extends RootStackRouter {
 
   @override
   List<RouteConfig> get routes => [
-        RouteConfig(GoPageRoute.name, path: '/'),
+        RouteConfig('/#redirect',
+            path: '/', redirectTo: '/home', fullMatch: true),
         RouteConfig(LoginScreenRoute.name, path: '/login', children: [
           RouteConfig('#redirect',
               path: '',
@@ -55,21 +56,15 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(DefaultLoginRoute.name,
               path: 'default', parent: LoginScreenRoute.name)
         ]),
-        RouteConfig(HomeScreenRoute.name, path: '/home', children: [
+        RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
+          routeGuard
+        ], children: [
           RouteConfig(PlayPageRoute.name,
               path: 'play', parent: HomeScreenRoute.name),
           RouteConfig(ProfilePageRoute.name,
               path: 'profile', parent: HomeScreenRoute.name)
         ])
       ];
-}
-
-/// generated route for
-/// [GoPage]
-class GoPageRoute extends PageRouteInfo<void> {
-  const GoPageRoute() : super(GoPageRoute.name, path: '/');
-
-  static const String name = 'GoPageRoute';
 }
 
 /// generated route for

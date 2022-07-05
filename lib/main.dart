@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
+  //await Hive.deleteFromDisk();
   Hive.registerAdapter(UserAdapter());
   runApp(App());
 }
