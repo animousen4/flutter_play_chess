@@ -1,8 +1,5 @@
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
-import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
 
 class PlayPage extends StatelessWidget {
@@ -13,10 +10,16 @@ class PlayPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExtendedNestedScrollView(
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        SliverPersistentHeader(delegate: PlaySliverDelegate(expandedHeight: 270), pinned: true,)
+        SliverPersistentHeader(
+          delegate: PlaySliverDelegate(expandedHeight: 270),
+          pinned: true,
+        )
       ],
       body: ListView(children: const [
-        ListTile(title: Text("Rated game")),
+        ListTile(
+          title: Text("Rated game"),
+          subtitle: Text("Button"),
+        ),
       ]),
     );
   }
