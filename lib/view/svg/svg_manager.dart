@@ -7,7 +7,7 @@ class SvgMaterial {
         fit: BoxFit.cover,
       );
   
-  static Widget get logoWhite => SvgPicture.asset("");
+  //static Widget get logoWhite => SvgPicture.asset("");
 }
 
 class SvgIcons {
@@ -15,4 +15,16 @@ class SvgIcons {
       SvgPicture.asset("assets/svg/icons/notification_bell.svg");
   static Widget get user => SvgPicture.asset("assets/svg/icons/user.svg");
   static Widget get logo => SvgPicture.asset("assets/svg/icons/logo.svg");
+
+  static Widget get playIconActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/play_active.svg");
+  static Widget get playIconNotActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/play_not_active.svg");
+
+  static Widget get profileIconActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/profile_active.svg");
+  static Widget get profileIconNotActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/profile_not_active.svg");
+
+  static Widget get trophyIconActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/trophy_active.svg");
+  static Widget get trophyIconNotActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/trophy_not_active.svg");
+
+  static Widget get lessonIconActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/lesson_active.svg");
+  static Widget get lessonIconNotActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/lesson_not_active.svg");
 }

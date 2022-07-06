@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
+import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:flutter_play_chess/view/widget/decorated_scaffold.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,17 +17,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.builder(
-        routes: const [PlayPageRoute(), ProfilePageRoute()],
+        routes: const [PlayPageRoute(), TournamentPageRoute(), LessonPageRoute(), ProfilePageRoute()],
         builder: (context, pages, controller) => DecoratedScaffold(
               body: pages[context.tabsRouter.activeIndex],
               bottomNavigationBar: NavigationBar(
                 selectedIndex: context.tabsRouter.activeIndex,
                 onDestinationSelected: context.tabsRouter.setActiveIndex,
-                destinations: const [
+                destinations: [
                   NavigationDestination(
-                      icon: Icon(Icons.play_arrow), label: "Play"),
+                      icon: SvgIcons.playIconNotActive, selectedIcon: SvgIcons.playIconActive, label: "Play"),
+
+                  NavigationDestination(icon: SvgIcons.trophyIconNotActive, selectedIcon: SvgIcons.trophyIconActive, label: "Tournaments"),
+                  NavigationDestination(icon: SvgIcons.lessonIconNotActive, selectedIcon: SvgIcons.lessonIconActive, label: "Lessons"),
                   NavigationDestination(
-                      icon: Icon(Icons.verified_user), label: "Profile")
+                      icon: SvgIcons.profileIconNotActive, selectedIcon: SvgIcons.profileIconActive, label: "Profile"),
                 ],
               ),
             ));

@@ -44,6 +44,14 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PlayPage());
     },
+    TournamentPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const TournamentPage());
+    },
+    LessonPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const LessonPage());
+    },
     ProfilePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const ProfilePage());
@@ -68,6 +76,10 @@ class _$AppRouter extends RootStackRouter {
         ], children: [
           RouteConfig(PlayPageRoute.name,
               path: 'play', parent: HomeScreenRoute.name),
+          RouteConfig(TournamentPageRoute.name,
+              path: 'tournament', parent: HomeScreenRoute.name),
+          RouteConfig(LessonPageRoute.name,
+              path: 'lesson', parent: HomeScreenRoute.name),
           RouteConfig(ProfilePageRoute.name,
               path: 'profile', parent: HomeScreenRoute.name)
         ]),
@@ -130,6 +142,23 @@ class PlayPageRoute extends PageRouteInfo<void> {
   const PlayPageRoute() : super(PlayPageRoute.name, path: 'play');
 
   static const String name = 'PlayPageRoute';
+}
+
+/// generated route for
+/// [TournamentPage]
+class TournamentPageRoute extends PageRouteInfo<void> {
+  const TournamentPageRoute()
+      : super(TournamentPageRoute.name, path: 'tournament');
+
+  static const String name = 'TournamentPageRoute';
+}
+
+/// generated route for
+/// [LessonPage]
+class LessonPageRoute extends PageRouteInfo<void> {
+  const LessonPageRoute() : super(LessonPageRoute.name, path: 'lesson');
+
+  static const String name = 'LessonPageRoute';
 }
 
 /// generated route for

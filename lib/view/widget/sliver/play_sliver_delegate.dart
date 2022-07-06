@@ -46,7 +46,7 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
   //     );
 
   Widget buildBackground(double shrinkOffset) {
-    SvgMaterial.homeBackground;
+    return SvgMaterial.homeBackground;
     
   }
 
