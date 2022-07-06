@@ -1,6 +1,12 @@
 part of 'login_bloc.dart';
 
-@immutable
-abstract class LoginState {}
+class LoginState {
+  final bool? isSuccess;
 
-class LoginInitial extends LoginState {}
+  LoginState({this.isSuccess});
+  
+}
+
+
+
+

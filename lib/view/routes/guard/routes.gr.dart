@@ -14,10 +14,10 @@ part of 'routes.dart';
 
 class _$AppRouter extends RootStackRouter {
   _$AppRouter(
-      {GlobalKey<NavigatorState>? navigatorKey, required this.routeGuard})
+      {GlobalKey<NavigatorState>? navigatorKey, required this.authRouteGuard})
       : super(navigatorKey);
 
-  final RouteGuard routeGuard;
+  final AuthRouteGuard authRouteGuard;
 
   @override
   final Map<String, PageFactory> pagesMap = {
@@ -57,7 +57,7 @@ class _$AppRouter extends RootStackRouter {
               path: 'default', parent: LoginScreenRoute.name)
         ]),
         RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
-          routeGuard
+          authRouteGuard
         ], children: [
           RouteConfig(PlayPageRoute.name,
               path: 'play', parent: HomeScreenRoute.name),

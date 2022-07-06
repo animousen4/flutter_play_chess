@@ -12,12 +12,15 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
+    return BlocProvider(
         create: (context) =>
             LoginBloc(userService: context.read<UserService>()),
-        child: const AutoRouter(),
-      ),
-    );
+        child: Builder(
+          builder: (context) {
+            return const AutoRouter();
+          }
+        ),
+      )
+    ;
   }
 }

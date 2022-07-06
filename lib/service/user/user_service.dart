@@ -10,10 +10,14 @@ class UserService {
   final BehaviorSubject<User?> currentUser = BehaviorSubject<User?>();
   late final Box<User?> userBox;
 
-  Future<void> loadUser() async {
+  bool get isAuthorized => currentUser.value != null;
+
+  Future<User?> loadUser() async {
     userBox = await Hive.openBox(_userBoxAccountsKey);
     //await userBox.clear();
     currentUser.add(userBox.get(_currentAccountKey));
+
+    return userBox.get(_currentAccountKey);
   }
 
   void _loginViaToken(User user) {
@@ -26,10 +30,10 @@ class UserService {
     currentUser.add(null);
   }
 
-  void loginViaDefault(ViaDefaultUser defaultUser, {bool isTest = false}) {
+  bool loginViaDefault(ViaDefaultUser defaultUser, {bool isTest = false}) {
     if (isTest) {
       _loginViaToken(User(accessToken: "testAccess", jwtToken: "testJWT"));
-      return;
+      return true;
     }
 
     // make request

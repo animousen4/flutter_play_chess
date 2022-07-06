@@ -8,12 +8,17 @@ part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserService userService;
-  LoginBloc({required this.userService}) : super(LoginInitial()) {
+  LoginBloc({required this.userService}) : super(LoginState()) {
     on<LogIn>((event, emit) {
       //userService.currentUser.add(User(accessToken: "accessTokenTesT", jwtToken: "jwtTeST"));
-      userService.loginViaDefault(
+      var isSuccess = userService.loginViaDefault(
           ViaDefaultUser(username: "test-us", password: "test-psw"),
           isTest: true);
+      if (isSuccess) {
+        emit(LoginState(isSuccess: true));
+      }
     });
+
+      
   }
 }
