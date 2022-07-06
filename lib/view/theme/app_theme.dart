@@ -16,25 +16,22 @@ class AppThemeManager {
               Color.fromARGB(255, 1, 14, 43),
             ])))
       ],
-      
       fontFamily: GoogleFonts.montserrat().fontFamily,
       // by default textBody2
       // headline6 for appBar title
       textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
-          headline2: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
+          headline2: TextStyle(
+              fontSize: 25.0, fontWeight: FontWeight.w600, color: Colors.white),
           headline3: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-
-          subtitle1: TextStyle(fontSize: 25,fontWeight: FontWeight.w600, letterSpacing: 0.7),
-
-
+          subtitle1: TextStyle(fontSize: 25, fontWeight: FontWeight.w600),
           bodyText2: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
           headline6: TextStyle(fontWeight: FontWeight.bold)),
-      primaryTextTheme: const TextTheme(),
+      //primaryTextTheme: const TextTheme(),
       appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
       navigationBarTheme: const NavigationBarThemeData(
           height: 48,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          backgroundColor: Color.fromARGB(255, 1, 14, 43),
+          backgroundColor: Color.fromARGB(255, 1, 11, 33),
           indicatorColor: Colors.transparent));
 }

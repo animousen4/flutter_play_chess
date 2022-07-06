@@ -37,5 +37,28 @@ dev_dependencies:
 
 flutter:
   assets:
-    - assets/bg/play_bg.svg
+    - assets/svg/bg/play_bg.svg
+
+    - assets/svg/icons/notification_bell.svg
+    - assets/svg/icons/user.svg
+    
+    - assets/svg/icons/logo.svg
+
+    - assets/svg/icons/bottom_nav_bar/lesson_active.svg
+    - assets/svg/icons/bottom_nav_bar/lesson_not_active.svg
+
+    - assets/svg/icons/bottom_nav_bar/menu_active.svg
+    - assets/svg/icons/bottom_nav_bar/menu_not_active.svg
+
+    - assets/svg/icons/bottom_nav_bar/play_active.svg
+    - assets/svg/icons/bottom_nav_bar/play_not_active.svg
+
+    - assets/svg/icons/bottom_nav_bar/profile_active.svg
+    - assets/svg/icons/bottom_nav_bar/profile_not_active.svg
+
+    - assets/svg/icons/bottom_nav_bar/trophy_active.svg
+    - assets/svg/icons/bottom_nav_bar/trophy_not_active.svg
+
+    - assets/svg/icons/eye_hide.svg
+    - assets/svg/icons/eye_open.svg
   uses-material-design: true
