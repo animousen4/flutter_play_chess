@@ -1,5 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme/decorated_scaffold_theme.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppThemeManager {
-  static ThemeData get darkTheme => ThemeData.dark();
+  static ThemeData get darkTheme => ThemeData(
+      brightness: Brightness.dark,
+      extensions: const [
+        DecoratedScaffoldTheme(
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.bottomLeft,
+                    end: Alignment.topRight,
+                    colors: [
+              Color.fromARGB(255, 1, 14, 43),
+              Color.fromARGB(255, 1, 14, 43),
+            ])))
+      ],
+      
+      fontFamily: GoogleFonts.montserrat().fontFamily,
+      // by default textBody2
+      // headline6 for appBar title
+      textTheme: const TextTheme(
+          headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
+          headline2: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
+          headline3: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
+
+          subtitle1: TextStyle(fontSize: 25,fontWeight: FontWeight.w600, letterSpacing: 0.7),
+
+
+          bodyText2: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+          headline6: TextStyle(fontWeight: FontWeight.bold)),
+      primaryTextTheme: const TextTheme(),
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.transparent),
+      navigationBarTheme: const NavigationBarThemeData(
+          height: 48,
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+          backgroundColor: Color.fromARGB(255, 1, 14, 43),
+          indicatorColor: Colors.transparent));
 }

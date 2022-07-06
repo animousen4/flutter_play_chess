@@ -9,12 +9,12 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserService userService;
   UserBloc({required this.userService}) : super(UserState()) {
-
-    on<TryAutoLogIn>((event, emit) {
-      userService.currentUser.listen((user) { 
+    userService.currentUser.listen((user) {
         add(_UserChanged(user: user));
-       });
-      userService.loadUser();
+    });
+
+    on<LogOut>((event, emit) {
+      userService.logout();
     });
 
 

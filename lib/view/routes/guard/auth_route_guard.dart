@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
-import 'package:flutter_play_chess/view/routes/guard/routes.dart';
+import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:logger/logger.dart';
 
 class AuthRouteGuard extends AutoRedirectGuard {

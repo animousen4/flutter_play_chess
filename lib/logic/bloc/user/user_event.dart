@@ -9,4 +9,6 @@ class _UserChanged extends UserEvent{
   _UserChanged({this.user});
 }
 
+class LogOut extends UserEvent {}
+
 class TryAutoLogIn extends UserEvent {}
