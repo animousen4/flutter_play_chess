@@ -1,10 +1,10 @@
-import 'dart:js';
-
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:logger/logger.dart';
-import 'package:auto_route/auto_route.dart';
+
 class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double collapsedHeight;
@@ -52,7 +52,6 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
   //     );
 
   Widget buildBackground(double shrinkOffset) {
-    final p = percentage(shrinkOffset);
     return SvgMaterial.homeBackground;
   }
 
@@ -63,10 +62,15 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
           IconButton(onPressed: () {}, icon: SvgIcons.notificationBell),
           IconButton(onPressed: () {}, icon: SvgIcons.user),
           kDebugMode
-              ? IconButton(
-                  onPressed: () {
-                    // TODO
-                  }, icon: const Icon(Icons.adb_outlined))
+              ? Builder(
+                builder: (context) {
+                  return IconButton(
+                      onPressed: () {
+                        context.router.push(DebugScreenRoute());
+                      },
+                      icon: const Icon(Icons.adb_outlined));
+                }
+              )
               : const SizedBox.shrink(),
           const SizedBox(
             width: 10,

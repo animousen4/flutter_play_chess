@@ -61,4 +61,14 @@ flutter:
 
     - assets/svg/icons/eye_hide.svg
     - assets/svg/icons/eye_open.svg
+
+
+    #fragments
+
+    - assets/svg/bg/play/fragment_BOT_rect.svg
+    - assets/svg/bg/play/fragment_circle.svg
+    - assets/svg/bg/play/fragment_L_rect.svg
+    - assets/svg/bg/play/fragment_R_rect.svg
+    - assets/svg/bg/play/fragment_TOP_rect.svg
+    
   uses-material-design: true

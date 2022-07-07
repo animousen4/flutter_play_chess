@@ -10,6 +10,14 @@ class SvgMaterial {
   //static Widget get logoWhite => SvgPicture.asset("");
 }
 
+class SvgAnimatedFragments {
+  static Widget get fragmentBotRect => SvgPicture.asset("assets/svg/bg/play/fragment_BOT_rect.svg");
+  static Widget get fragmentCircle => SvgPicture.asset("assets/svg/bg/play/fragment_circle.svg");
+  static Widget get fragmentLeftRect => SvgPicture.asset("assets/svg/bg/play/fragment_L_rect.svg");
+  static Widget get fragmentRightRect => SvgPicture.asset("assets/svg/bg/play/fragment_R_rect.svg");
+  static Widget get fragmentTopRect => SvgPicture.asset("assets/svg/bg/play/fragment_TOP_rect.svg");
+}
+
 class SvgIcons {
   static Widget get notificationBell =>
       SvgPicture.asset("assets/svg/icons/notification_bell.svg");

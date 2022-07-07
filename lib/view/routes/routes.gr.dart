@@ -29,6 +29,10 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomeScreen());
     },
+    DebugScreenRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const DebugScreen());
+    },
     OopsPageRoute.name: (routeData) {
       final args = routeData.argsAs<OopsPageRouteArgs>(
           orElse: () => const OopsPageRouteArgs());
@@ -55,6 +59,14 @@ class _$AppRouter extends RootStackRouter {
     ProfilePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const ProfilePage());
+    },
+    ElementsPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const ElementsPage());
+    },
+    AppStatePageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const AppStatePage());
     }
   };
 
@@ -83,6 +95,17 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(ProfilePageRoute.name,
               path: 'profile', parent: HomeScreenRoute.name)
         ]),
+        RouteConfig(DebugScreenRoute.name, path: '/debug', children: [
+          RouteConfig('#redirect',
+              path: '',
+              parent: DebugScreenRoute.name,
+              redirectTo: 'elements',
+              fullMatch: true),
+          RouteConfig(ElementsPageRoute.name,
+              path: 'elements', parent: DebugScreenRoute.name),
+          RouteConfig(AppStatePageRoute.name,
+              path: 'app-state', parent: DebugScreenRoute.name)
+        ]),
         RouteConfig(OopsPageRoute.name, path: '*')
       ];
 }
@@ -103,6 +126,15 @@ class HomeScreenRoute extends PageRouteInfo<void> {
       : super(HomeScreenRoute.name, path: '/home', initialChildren: children);
 
   static const String name = 'HomeScreenRoute';
+}
+
+/// generated route for
+/// [DebugScreen]
+class DebugScreenRoute extends PageRouteInfo<void> {
+  const DebugScreenRoute({List<PageRouteInfo>? children})
+      : super(DebugScreenRoute.name, path: '/debug', initialChildren: children);
+
+  static const String name = 'DebugScreenRoute';
 }
 
 /// generated route for
@@ -167,4 +199,20 @@ class ProfilePageRoute extends PageRouteInfo<void> {
   const ProfilePageRoute() : super(ProfilePageRoute.name, path: 'profile');
 
   static const String name = 'ProfilePageRoute';
+}
+
+/// generated route for
+/// [ElementsPage]
+class ElementsPageRoute extends PageRouteInfo<void> {
+  const ElementsPageRoute() : super(ElementsPageRoute.name, path: 'elements');
+
+  static const String name = 'ElementsPageRoute';
+}
+
+/// generated route for
+/// [AppStatePage]
+class AppStatePageRoute extends PageRouteInfo<void> {
+  const AppStatePageRoute() : super(AppStatePageRoute.name, path: 'app-state');
+
+  static const String name = 'AppStatePageRoute';
 }

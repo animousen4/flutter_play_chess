@@ -15,11 +15,12 @@ class PlayPage extends StatelessWidget {
           pinned: true,
         )
       ],
-      body: ListView(children: const [
+      body: ListView(children: [
         ListTile(
           title: Text("Rated game"),
-          subtitle: Text("Button"),
+          subtitle: Text("1"),
         ),
+
       ]),
     );
   }
