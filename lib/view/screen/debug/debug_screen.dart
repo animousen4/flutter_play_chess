@@ -17,19 +17,16 @@ class _DebugScreenState extends State<DebugScreen>
   Widget build(BuildContext context) {
     return AutoTabsRouter.tabBar(
       routes: [ElementsPageRoute(), AppStatePageRoute()],
-      builder: (context, content, tabController) => 
-        DecoratedScaffold(
-          appBar: AppBar(
-            title: Text("Debug"),
-            bottom: TabBar(
-              tabs: [
-              Text("Elements"),
-              Text("App state")
-            ],
-            controller: tabController,),
+      builder: (context, content, tabController) => DecoratedScaffold(
+        appBar: AppBar(
+          title: Text("Debug"),
+          bottom: TabBar(
+            tabs: [Text("Elements"), Text("App state")],
+            controller: tabController,
           ),
-          body: content,
         ),
+        body: content,
+      ),
     );
   }
 

@@ -22,6 +22,8 @@ dependencies:
   google_fonts: ^3.0.1
   flutter_svg: ^1.1.1+1
   firebase_core: ^1.19.1
+  firebase_analytics: ^9.1.12
+  firebase_crashlytics: ^2.8.4
   
   
   
