@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "904413632764",
+    "project_id": "flutter-play-chess",
+    "storage_bucket": "flutter-play-chess.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904413632764:android:c96806528d531036969f79",
+        "android_client_info": {
+          "package_name": "com.example.flutter_play_chess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904413632764-em7mritdqeussp1vdmlimdpgb1uh3b5p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABqB-cAFTTEPq0B_e6u1aZKvILwfiYyLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904413632764-em7mritdqeussp1vdmlimdpgb1uh3b5p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "904413632764-lp9oqmlp160tvra7h5d80bu380p24avu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.flutterPlayChess"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
