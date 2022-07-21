@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +12,8 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
 
-  final analyticsService = AnalyticsAppService();
-  await analyticsService.initService();
+  final firebaseService = FirebaseAppService();
+  await firebaseService.initService();
 
   final userService = UserService();
   await userService.loadUser();

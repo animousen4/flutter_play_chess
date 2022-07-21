@@ -24,6 +24,10 @@ dependencies:
   firebase_core: ^1.19.1
   firebase_analytics: ^9.1.12
   firebase_crashlytics: ^2.8.4
+  flutter_native_splash: ^2.1.0
+  flag: ^6.0.0
+  drift: ^1.7.1
+  country_icons: ^2.0.2
   
   
   
@@ -73,5 +77,9 @@ flutter:
     - assets/svg/bg/play/fragment_L_rect.svg
     - assets/svg/bg/play/fragment_R_rect.svg
     - assets/svg/bg/play/fragment_TOP_rect.svg
+
+
+    #flags
+    
     
   uses-material-design: true

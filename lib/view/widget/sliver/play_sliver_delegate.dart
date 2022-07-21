@@ -8,13 +8,12 @@ import 'package:logger/logger.dart';
 class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final double collapsedHeight;
-  final Duration appearDuration;
   final logger = Logger();
 
   PlaySliverDelegate(
       {required this.expandedHeight,
       this.collapsedHeight = kToolbarHeight,
-      this.appearDuration = const Duration(milliseconds: 100)});
+});
   @override
   double get maxExtent => expandedHeight;
 
@@ -58,6 +57,7 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
   Widget buildCleverAppBar(double shrinkOffset) => AppBar(
         toolbarHeight: 120,
         titleSpacing: 16,
+        backgroundColor: Colors.transparent,
         actions: [
           IconButton(onPressed: () {}, icon: SvgIcons.notificationBell),
           IconButton(onPressed: () {}, icon: SvgIcons.user),
@@ -108,15 +108,6 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
         }),
       );
 
-  Widget buildDisappearingAppBar(double shrinkOffset) => AnimatedOpacity(
-        opacity: appearOnCollapse(shrinkOffset),
-        duration: const Duration(milliseconds: 300),
-        child: AppBar(
-          shadowColor: Colors.transparent,
-          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
-          title: const Text("GGGGG"),
-        ),
-      );
 
   double disappearOnCollapse(double shrinkOffset) {
     return 1 - shrinkOffset / expandedHeight;

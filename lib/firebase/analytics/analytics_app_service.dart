@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_play_chess/firebase_options.dart';
 import 'package:logger/logger.dart';
 
-class AnalyticsAppService {
+class FirebaseAppService {
   final logger = Logger();
   late bool isFirebaseFriendly;
   Future<void> initService() async {

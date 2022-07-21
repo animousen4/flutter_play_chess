@@ -38,11 +38,22 @@ class AppStatePage extends StatelessWidget {
         ),
         ListTile(
           title: Text("Analytics events"),
-          subtitle: OutlinedButton(
-              onPressed: () {
-                FirebaseAnalytics.instance.logEvent(name: "sign_up");
-              },
-              child: Text("Send sign_up event")),
+          subtitle: Column(
+            
+            children: [
+              OutlinedButton(
+                  onPressed: () {
+                    FirebaseAnalytics.instance.logEvent(name: "sign_up");
+                  },
+                  child: Text("Send sign_up event")),
+              OutlinedButton(
+                  onPressed: () => FirebaseAnalytics.instance
+                      .logEvent(name: "test_purchase", parameters: {
+                        "item_id" : 111111
+                      }),
+                  child: Text("Test purchase"))
+            ],
+          ),
         )
       ],
     );
