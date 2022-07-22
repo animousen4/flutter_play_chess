@@ -8,6 +8,7 @@ class ProfileBadgeHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget rating;
   final double expandedHeight;
   final double collapsedHeight;
+
   const ProfileBadgeHeaderDelegate(
       {Key? key,
       required this.avatar,
@@ -18,28 +19,35 @@ class ProfileBadgeHeaderDelegate extends SliverPersistentHeaderDelegate {
       this.collapsedHeight = 162})
       : super();
 
+  double percentage(double currentHeight) => currentHeight / expandedHeight;
+
   @override
-  Widget build(BuildContext context, expValue, isTramTam) {
+  Widget build(BuildContext context, currentHeight, isTramTam) {
     return AppBar(
-      flexibleSpace: Center(
-        child: ListTile(
-          title: username,
-          subtitle: Row(
-            children: [
-              countryFlag, SizedBox(width: 10,), rating
-            ],
-          ),
-          leading: CircleAvatar(
-            radius: 30,
-            backgroundColor: Colors.black,
-            backgroundImage: avatar,
+      flexibleSpace: Opacity(
+        opacity: 1 - percentage(currentHeight), //visibility
+        child: Center(
+          child: ListTile(
+            title: username,
+            subtitle: Row(
+              children: [
+                countryFlag,
+                SizedBox(
+                  width: 10,
+                ),
+                rating
+              ],
+            ),
+            leading: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.black,
+              backgroundImage: avatar,
+            ),
           ),
         ),
       ),
     );
   }
-
-  double percentageExpansion(double expValue) => expValue / expandedHeight;
 
   @override
   // TODO: implement maxExtent

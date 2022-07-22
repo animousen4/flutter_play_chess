@@ -15,7 +15,8 @@ class ProfilePage extends StatelessWidget {
       headerSliverBuilder: (context, innerBoxIsScrolled) => [
         SliverPersistentHeader(
             delegate: ProfileBadgeHeaderDelegate(
-                avatar: NetworkImage("https://www.bostonmagazine.com/wp-content/uploads/sites/2/2021/08/rubber-duck-stock-t.jpg"),
+                avatar: NetworkImage(
+                    "https://www.bostonmagazine.com/wp-content/uploads/sites/2/2021/08/rubber-duck-stock-t.jpg"),
                 username: Text("Antonio"),
                 countryFlag: CountryView(countryName: "eu"),
                 rating: Text("2243 ELO")))
