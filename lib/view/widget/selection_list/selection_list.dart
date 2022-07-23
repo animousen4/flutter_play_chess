@@ -1,26 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_play_chess/view/widget/const/k_const.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_item.dart';
+import 'package:logger/logger.dart';
 
 class SelectionItemList extends StatelessWidget {
   final Axis direction;
   final List<Widget> items;
-  final int selectedIndex;
+  final Function(int)? callback;
+  final int? selectedIndex;
   const SelectionItemList(
       {Key? key,
       required this.items,
+      required this.callback,
       required this.selectedIndex,
       this.direction = Axis.horizontal})
       : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      child: ListView.builder(
+      height: kDefaultSelectionSquareSize,
+      child: ListView.separated(
+        separatorBuilder: (context, index) => SizedBox(width: 10),
         scrollDirection: direction,
         itemBuilder: (context, index) => SelectionItem(
-          selected: selectedIndex == index,
+          selected: selectedIndex == index ,
+          index: index,
+          callback: callback,
           child: items[index],
         ),
         itemCount: items.length,

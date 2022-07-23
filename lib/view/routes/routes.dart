@@ -22,7 +22,7 @@ part 'routes.gr.dart';
     AutoRoute(path: "/login", page: LoginScreen, children: [
       AutoRoute(path: "default", initial: true, page: DefaultLogin)
     ]),
-    AutoRoute(path: "/home", initial: true, page: HomeScreen, guards: [
+    AutoRoute(path: "/home", page: HomeScreen, guards: [
       AuthRouteGuard
     ], children: [
       AutoRoute(path: "play", page: PlayPage),
@@ -30,7 +30,7 @@ part 'routes.gr.dart';
       AutoRoute(path: "lesson", page:  LessonPage),
       AutoRoute(path: "profile", page: ProfilePage),
     ]),
-    AutoRoute(path: "/debug", page: DebugScreen, children: [
+    AutoRoute(path: "/debug", initial: true, page: DebugScreen, children: [
       AutoRoute(path: "elements", initial: true, page: ElementsPage),
       AutoRoute(path: "app-state", page: AppStatePage)
     ]),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme/decorated_scaffold_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+const backgroundColor = Color.fromARGB(255, 1, 14, 43);
 class AppThemeManager {
   static ThemeData get darkTheme => ThemeData(
       brightness: Brightness.dark,
@@ -47,6 +48,12 @@ class AppThemeManager {
       fontFamily: GoogleFonts.montserrat().fontFamily,
       // by default textBody2
       // headline6 for appBar title
+      toggleButtonsTheme: ToggleButtonsThemeData(
+        disabledColor: Colors.white.withOpacity(0.3),
+        selectedColor: backgroundColor,
+        borderRadius: BorderRadius.circular(5),
+        color: Colors.white.withOpacity(0.6)
+      ),
       textTheme: const TextTheme(
           headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
           headline2: TextStyle(
