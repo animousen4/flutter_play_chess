@@ -2,6 +2,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_play_chess/view/widget/debug/text_style_description.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
 
 class ElementsPage extends StatefulWidget {
@@ -17,6 +18,8 @@ class _ElementsPageState extends State<ElementsPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        ListTile(title: Text("Text headlines"), subtitle: TextStyleDescription(),),
+        Divider(),
         ListTile(
           title: const Text("Elevated button"),
           subtitle: Column(
@@ -33,6 +36,7 @@ class _ElementsPageState extends State<ElementsPage> {
             ],
           ),
         ),
+        Divider(),
         ListTile(
           title: const Text("Outlined button"),
           subtitle: Column(
@@ -49,6 +53,7 @@ class _ElementsPageState extends State<ElementsPage> {
             ],
           ),
         ),
+        Divider(),
         ListTile(
           title: const Text("TextButton button"),
           subtitle: Column(
@@ -65,6 +70,7 @@ class _ElementsPageState extends State<ElementsPage> {
             ],
           ),
         ),
+        Divider(),
         ListTile(
           title: const Text("Material Button [abstract]"),
           subtitle: Column(
@@ -81,6 +87,7 @@ class _ElementsPageState extends State<ElementsPage> {
             ],
           ),
         ),
+        Divider(),
         ListTile(
           title: const Text("Switch buttons"),
           subtitle: SelectionItemList(

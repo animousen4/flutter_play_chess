@@ -32,9 +32,10 @@ class SelectionItem extends StatelessWidget {
                 : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(width: 1, color: Colors.grey)),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Material(
+        color: Colors.transparent,
+        //borderRadius: BorderRadius.circular(10),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           child: DefaultTextStyle(
