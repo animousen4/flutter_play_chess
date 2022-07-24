@@ -13,12 +13,15 @@ class ElementsPage extends StatefulWidget {
 }
 
 class _ElementsPageState extends State<ElementsPage> {
-  int selectedIndex = 0;
+  List<int> selectedIndexList = [0];
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        ListTile(title: Text("Text headlines"), subtitle: TextStyleDescription(),),
+        ListTile(
+          title: Text("Text headlines"),
+          subtitle: TextStyleDescription(),
+        ),
         Divider(),
         ListTile(
           title: const Text("Elevated button"),
@@ -92,10 +95,14 @@ class _ElementsPageState extends State<ElementsPage> {
           title: const Text("Switch buttons"),
           subtitle: SelectionItemList(
             items: [Text("0"), Text("1")],
-            selectedIndexList: [selectedIndex],
+            selectedIndexList: selectedIndexList,
             callback: (index) {
               setState(() {
-                selectedIndex = index;
+                if (selectedIndexList.contains(index)) {
+                  selectedIndexList.remove(index);
+                } else {
+                  selectedIndexList.add(index);
+                }
               });
             },
           ),
