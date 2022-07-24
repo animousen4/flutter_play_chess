@@ -6,13 +6,17 @@ import 'package:logger/logger.dart';
 class SelectionItemList extends StatelessWidget {
   final Axis direction;
   final List<Widget> items;
-  final Function(int)? callback;
-  final int? selectedIndex;
+  final Function(int)? callback; // null -> unavailable
+  final List<int>? lockedItemList; // null -> no locked items
+  final List<int>? selectedIndexList; // null -> 
+
+
   const SelectionItemList(
       {Key? key,
       required this.items,
       required this.callback,
-      required this.selectedIndex,
+      required this.selectedIndexList,
+      this.lockedItemList,
       this.direction = Axis.horizontal})
       : super(key: key);
 
@@ -24,9 +28,13 @@ class SelectionItemList extends StatelessWidget {
         separatorBuilder: (context, index) => SizedBox(width: 10),
         scrollDirection: direction,
         itemBuilder: (context, index) => SelectionItem(
-          selected: selectedIndex == index ,
-          index: index,
-          callback: callback,
+          data: SelectionItemData(
+            index: index,
+            selected: selectedIndexList == null
+              ? false
+              : selectedIndexList!.contains(index),
+            callback: callback,
+          ),
           child: items[index],
         ),
         itemCount: items.length,

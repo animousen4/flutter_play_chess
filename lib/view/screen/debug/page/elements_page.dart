@@ -92,7 +92,7 @@ class _ElementsPageState extends State<ElementsPage> {
           title: const Text("Switch buttons"),
           subtitle: SelectionItemList(
             items: [Text("0"), Text("1")],
-            selectedIndex: selectedIndex,
+            selectedIndexList: [selectedIndex],
             callback: (index) {
               setState(() {
                 selectedIndex = index;
