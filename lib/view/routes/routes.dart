@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_play_chess/logic/error/reason/reason.dart';
 import 'package:flutter_play_chess/view/common/oops_page.dart';
 import 'package:flutter_play_chess/view/routes/guard/auth_route_guard.dart';
+import 'package:flutter_play_chess/view/routes/guard/debug_route_guard.dart';
 import 'package:flutter_play_chess/view/screen/debug/debug_screen.dart';
 import 'package:flutter_play_chess/view/screen/debug/page/app_state_page.dart';
 import 'package:flutter_play_chess/view/screen/debug/page/elements_page.dart';
@@ -33,12 +34,12 @@ part 'routes.gr.dart';
     AutoRoute(path: "/debug", initial: true, page: DebugScreen, children: [
       AutoRoute(path: "elements", initial: true, page: ElementsPage),
       AutoRoute(path: "app-state", page: AppStatePage)
-    ]),
+    ], guards: [DebugRouteGuard]),
 
     AutoRoute(path: "*", page: OopsPage)
 
   ],
 )
 class AppRouter extends _$AppRouter {
-  AppRouter({required super.authRouteGuard});
+  AppRouter({required super.authRouteGuard, required super.debugRouteGuard});
 }

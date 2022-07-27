@@ -7,19 +7,29 @@ class SelectionItemList extends StatelessWidget {
   final Axis direction;
   final List<Widget> items;
   final Function(int)? callback; // null -> unavailable
-  final List<int>? lockedItemList; // null -> no locked items
-  final List<int>? selectedIndexList; // null -> 
-
+  final List<int>? lockedIndexList; // null -> no locked items
+  final List<int>? selectedIndexList; // null ->
 
   const SelectionItemList(
       {Key? key,
       required this.items,
       required this.callback,
       required this.selectedIndexList,
-      this.lockedItemList,
+      this.lockedIndexList,
       this.direction = Axis.horizontal})
       : super(key: key);
-
+  factory SelectionItemList.radio(
+          {Key? key,
+          required List<Widget> items,
+          required Function(int)? callback,
+          required int selectedIndex,
+          List<int>? lockedItemList,
+          Axis direction = Axis.horizontal}) =>
+      SelectionItemList(
+          items: items,
+          callback: callback,
+          lockedIndexList: [],
+          selectedIndexList: [selectedIndex]);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,8 +41,8 @@ class SelectionItemList extends StatelessWidget {
           data: SelectionItemData(
             index: index,
             selected: selectedIndexList == null
-              ? false
-              : selectedIndexList!.contains(index),
+                ? false
+                : selectedIndexList!.contains(index),
             callback: callback,
           ),
           child: items[index],

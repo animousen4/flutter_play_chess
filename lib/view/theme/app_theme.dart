@@ -64,7 +64,7 @@ class AppThemeManager {
           headline3: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
           headline4: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
           headline5: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
-          headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w500),
+          //headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w500),
           subtitle1: TextStyle(
               fontSize: 25, fontWeight: FontWeight.w600, letterSpacing: 0.7),
           bodyText2: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),),

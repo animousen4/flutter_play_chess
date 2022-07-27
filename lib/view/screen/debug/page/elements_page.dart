@@ -14,6 +14,7 @@ class ElementsPage extends StatefulWidget {
 
 class _ElementsPageState extends State<ElementsPage> {
   List<int> selectedIndexList = [0];
+  int selectedIndexRadioList = 0;
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -92,7 +93,7 @@ class _ElementsPageState extends State<ElementsPage> {
         ),
         Divider(),
         ListTile(
-          title: const Text("Switch buttons"),
+          title: const Text("variants buttons"),
           subtitle: SelectionItemList(
             items: [Text("0"), Text("1")],
             selectedIndexList: selectedIndexList,
@@ -103,6 +104,18 @@ class _ElementsPageState extends State<ElementsPage> {
                 } else {
                   selectedIndexList.add(index);
                 }
+              });
+            },
+          ),
+        ),
+        ListTile(
+          title: const Text("radio buttons"),
+          subtitle: SelectionItemList.radio(
+            items: [Text("0"), Text("1")],
+            selectedIndex: selectedIndexRadioList,
+            callback: (index) {
+              setState(() {
+                selectedIndexRadioList = index;
               });
             },
           ),
