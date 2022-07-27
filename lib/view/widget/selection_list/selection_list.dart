@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 class SelectionItemList extends StatelessWidget {
   final Axis direction;
   final List<Widget> items;
-  final Function(int)? callback; // null -> unavailable
+  final Function(int index)? callback; // null -> unavailable
   final List<int>? lockedIndexList; // null -> no locked items
   final List<int>? selectedIndexList; // null ->
 
