@@ -32,14 +32,15 @@ class SelectionItemList extends StatelessWidget {
           selectedIndexList: [selectedIndex]);
   @override
   Widget build(BuildContext context) {
+    //assert(false);
     return Container(
       height: kDefaultSelectionSquareSize,
       child: ListView.separated(
         separatorBuilder: (context, index) => SizedBox(width: 10),
         scrollDirection: direction,
         itemBuilder: (context, index) => SelectionItem(
+          index: index,
           data: SelectionItemData(
-            index: index,
             selected: selectedIndexList == null
                 ? false
                 : selectedIndexList!.contains(index),

@@ -6,12 +6,10 @@ import 'package:logger/logger.dart';
 class SelectionItem extends StatelessWidget {
   final Widget? child;
   final bool doCenter;
+  final int index;
   final SelectionItemData data;
   const SelectionItem(
-      {Key? key,
-      required this.data,
-      required this.child,
-      this.doCenter = true})
+      {Key? key, required this.data, required this.child, this.doCenter = true, required this.index})
       : super(key: key);
 
   @override
@@ -46,7 +44,7 @@ class SelectionItem extends StatelessWidget {
           onTap: data.selected == null
               ? null
               : () {
-                  data.callback?.call(data.index);
+                  data.callback?.call(index);
                 },
         ),
       ),
@@ -56,8 +54,8 @@ class SelectionItem extends StatelessWidget {
 
 class SelectionItemData {
   final bool selected;
-  final int index;
+  //final int index;
   final Function(int)? callback; // null -> disabled
 
-  SelectionItemData({required this.index, required this.selected, required this.callback});
+  SelectionItemData({required this.selected, required this.callback});
 }

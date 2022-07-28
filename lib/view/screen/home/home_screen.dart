@@ -23,15 +23,15 @@ class _HomeScreenState extends State<HomeScreen> {
           create: (context) => PlayMenuBloc(),
         ),
       ],
-      child: AutoTabsRouter.builder(
+      child: AutoTabsRouter(
           routes: const [
             PlayPageRoute(),
             TournamentPageRoute(),
             LessonPageRoute(),
             ProfilePageRoute()
           ],
-          builder: (context, pages, controller) => DecoratedScaffold(
-                body: pages[context.tabsRouter.activeIndex],
+          builder: (context, page, controller) => DecoratedScaffold(
+                body: page,
                 bottomNavigationBar: NavigationBar(
                   selectedIndex: context.tabsRouter.activeIndex,
                   onDestinationSelected: context.tabsRouter.setActiveIndex,
