@@ -1,7 +1,9 @@
+import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
+import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
 
@@ -33,7 +35,7 @@ class _PlayPageState extends State<PlayPage> {
             ListTile(
               title: Padding(
                 padding: const EdgeInsets.only(bottom: 15),
-                child: Text("Rated game"),
+                child: Text("Rated game GG"),
               ),
               subtitle: SelectionItemList.radio(
                 callback: (index) => context.read<PlayMenuBloc>().add(RatedGameChanged(index)),
@@ -44,6 +46,17 @@ class _PlayPageState extends State<PlayPage> {
                 selectedIndex: state.selectedRatedIndex,
               ),
             ),
+            ExpansionTileCard(title: Text("GG"), children: [
+              Container(color: Colors.white,)
+            ],),
+            DropdownPhysicalButton(
+              selectedIndex: 0,
+              options: [
+                Text("1"),
+                Text("2"),
+                Text("3"),
+              ],
+            )
           ]),
               onError: (state) => Center(child: Text("Error occured"),));
         },

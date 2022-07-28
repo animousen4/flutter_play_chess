@@ -27,6 +27,7 @@ dependencies:
   flutter_native_splash: ^2.1.0
   flag: ^6.0.0
   drift: ^1.7.1
+  expansion_tile_card: ^2.0.0
   country_icons: ^2.0.2
   
   
