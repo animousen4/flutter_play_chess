@@ -46,10 +46,12 @@ class _PlayPageState extends State<PlayPage> {
                 selectedIndex: state.selectedRatedIndex,
               ),
             ),
-            ExpansionTileCard(title: Text("GG"), children: [
-              Container(color: Colors.white,)
-            ],),
-            DropdownPhysicalButton(
+            ListTile(
+              title: Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Text("Category"),
+              ),
+              subtitle: DropdownPhysicalButton(
               selectedIndex: 0,
               callback: (index) => null,
               options: [
@@ -57,7 +59,9 @@ class _PlayPageState extends State<PlayPage> {
                 Text("2"),
                 Text("3"),
               ],
-            )
+            ),
+            ),
+            
           ]),
               onError: (state) => Center(child: Text("Error occured"),));
         },

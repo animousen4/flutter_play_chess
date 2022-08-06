@@ -53,33 +53,36 @@ class _DropdownPhysicalButtonState extends State<DropdownPhysicalButton>
   List<Widget> variants() {
     final data = <Widget>[];
     for (int index = 0; index < widget.options.length; index++) {
-      data.add(InkWell(
-          onTap: enabled
+      data.add(baseFragment(widget.options[index], color: Color.fromARGB(22, 0, 0, 0), callback: enabled
               ? () {
                   widget.callback?.call(index);
                   reExpand();
                 }
-              : null,
-          child: baseFragment(widget.options[index])));
+              : null,));
     }
     return data;
   }
 
-  Widget frontFragment(Widget rawWidget) => InkWell(
-      onTap: enabled
+  Widget frontFragment(Widget rawWidget) => baseFragment(rawWidget, callback: enabled
           ? () {
               reExpand();
             }
-          : null,
-      child: baseFragment(rawWidget));
+          : null);
 
-  Widget baseFragment(Widget rawWidget) => Padding(
-        padding: const EdgeInsets.only(top: 15, bottom: 15, left: 21),
-        child: Container(
-          child: rawWidget,
-          width: double.infinity,
-        ),
-      );
+  Widget baseFragment(Widget rawWidget, {Color? color = Colors.transparent, required Function()? callback}) => InkWell(
+    onTap: callback,
+    child: Container(
+      color: color,
+      child: Padding(
+            padding: const EdgeInsets.only(top: 15, bottom: 15, left: 21),
+            child: Container(
+              constraints: BoxConstraints(),
+              child: rawWidget,
+              width: double.infinity,
+            ),
+          ),
+    ),
+  );
 
   void reExpand() {
     expanded = !expanded;
@@ -91,8 +94,6 @@ class _DropdownPhysicalButtonState extends State<DropdownPhysicalButton>
     }
 
     animationController.reverse();
-
-    
   }
 
   @override
