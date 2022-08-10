@@ -12,6 +12,10 @@ class UserService {
 
   bool get isAuthorized => currentUser.value != null;
 
+  Future<void> updateToken() async {
+    
+  }
+
   Future<User?> loadUser() async {
     userBox = await Hive.openBox(_userBoxAccountsKey);
     //await userBox.clear();
