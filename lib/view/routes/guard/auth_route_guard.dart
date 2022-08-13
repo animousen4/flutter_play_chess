@@ -7,7 +7,7 @@ class AuthRouteGuard extends AutoRedirectGuard {
   final UserService userService;
   final _logger = Logger();
   AuthRouteGuard(this.userService) {
-    userService.currentUser.listen((value) { 
+    userService.accessToken.listen((value) { 
       if (value == null) {
         reevaluate();
       }
@@ -17,7 +17,7 @@ class AuthRouteGuard extends AutoRedirectGuard {
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
     _logger.w("call onNavigation");
 
-    if (userService.currentUser.value == null) {
+    if (userService.accessToken.value == null) {
       router.popAndPush(const LoginScreenRoute());
       return;
     }
@@ -28,6 +28,6 @@ class AuthRouteGuard extends AutoRedirectGuard {
   @override
   Future<bool> canNavigate(RouteMatch route) {
     _logger.w("call canNavigate");
-    return Future.sync(() => userService.currentUser.value != null);
+    return Future.sync(() => userService.accessToken.value != null);
   }
 }

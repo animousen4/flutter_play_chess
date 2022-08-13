@@ -1,3 +1,4 @@
+import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
+  
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
 
@@ -19,4 +21,6 @@ void main() async {
   await userService.loadUser();
 
   runApp(App(userService: userService));
+    
+  
 }

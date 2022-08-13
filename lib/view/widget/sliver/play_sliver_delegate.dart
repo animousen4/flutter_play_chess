@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:logger/logger.dart';
@@ -10,10 +12,10 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
   final double collapsedHeight;
   final logger = Logger();
 
-  PlaySliverDelegate(
-      {required this.expandedHeight,
-      this.collapsedHeight = kToolbarHeight,
-});
+  PlaySliverDelegate({
+    required this.expandedHeight,
+    this.collapsedHeight = kToolbarHeight,
+  });
   @override
   double get maxExtent => expandedHeight;
 
@@ -60,17 +62,38 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(onPressed: () {}, icon: SvgIcons.notificationBell),
-          IconButton(onPressed: () {}, icon: SvgIcons.user),
+          Builder(builder: (context) {
+            return IconButton(
+                onPressed: () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                            title: Text("USER"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    context.read<UserService>().logout();
+                                    context.popRoute();
+                                  },
+                                  child: Text("Log out")),
+                              TextButton(
+                                  onPressed: () {
+                                    context.popRoute();
+                                  },
+                                  child: Text("Cancel"))
+                            ],
+                          ));
+                },
+                icon: SvgIcons.user);
+          }),
           kDebugMode
-              ? Builder(
-                builder: (context) {
+              ? Builder(builder: (context) {
                   return IconButton(
                       onPressed: () {
                         context.router.push(DebugScreenRoute());
                       },
                       icon: const Icon(Icons.adb_outlined));
-                }
-              )
+                })
               : const SizedBox.shrink(),
           const SizedBox(
             width: 10,
@@ -107,7 +130,6 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
           );
         }),
       );
-
 
   double disappearOnCollapse(double shrinkOffset) {
     return 1 - shrinkOffset / expandedHeight;
