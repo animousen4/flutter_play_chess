@@ -8,7 +8,8 @@ part 'play_menu_state.dart';
 
 class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
   PlayMenuBloc() : super(PlayMenuLoading()) {
-    on<StartLoadData>((event, emit) {
+    on<StartLoadData>((event, emit) async {
+      
       if (state is PlayMenuNormal) {
         emit(state);
         return;

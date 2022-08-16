@@ -142,7 +142,7 @@ packages:
     source: hosted
     version: "2.0.1"
   chopper:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: chopper
       url: "https://pub.dartlang.org"
