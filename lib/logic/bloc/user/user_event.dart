@@ -3,12 +3,13 @@ part of 'user_bloc.dart';
 @immutable
 abstract class UserEvent {}
 
-class _UserChanged extends UserEvent{
-  final User? user;
+class _UserChanged extends UserEvent {
+  final String? accessToken;
+  final String? jwtToken;
 
-  _UserChanged({this.user});
+  _UserChanged({this.accessToken, this.jwtToken});
 }
 
-class LogOut extends UserEvent {}
 
-class TryAutoLogIn extends UserEvent {}
+
+class LogOut extends UserEvent {}

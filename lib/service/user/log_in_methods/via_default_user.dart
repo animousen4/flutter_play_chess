@@ -4,5 +4,7 @@ class ViaDefaultUser extends ViaAbstractUser {
   final String username;
   final String password;
 
+  
+
   ViaDefaultUser({required this.username, required this.password});
 }

@@ -45,7 +45,8 @@ class UserService {
 
   bool loginViaDefault(ViaDefaultUser defaultUser, {bool isTest = false}) {
     if (isTest) {
-      _loginViaToken(User(accessToken: "testAccess", jwtToken: "testJWT"));
+      _loginViaToken(
+          User(accessToken: "${defaultUser.username};${defaultUser.password}", jwtToken: "jwt-zzzz"));
       return true;
     }
 

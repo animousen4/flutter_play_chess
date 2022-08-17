@@ -15,16 +15,27 @@ class AppStatePage extends StatelessWidget {
           builder: (context, state) {
             return ListTile(
                 title: Text("Current account"),
-                subtitle: state.user != null
+                subtitle: 
+                state.isReady ? 
+                state.isAuthorized
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("status: authorized"),
-                          Text("accessToken: '${state.user?.accessToken}'"),
-                          Text("jwtToken: '${state.user?.jwtToken}'")
+                          Text("accessToken: '${state.accessToken}'"),
+                          Text("jwtToken: '${state.jwtToken}'")
                         ],
                       )
-                    : Text("status: not authorized"));
+                    : Text("status: not authorized") : Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text("Prepairing data"),
+                        SizedBox(width: 10,),
+                        SizedBox.square(child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ), dimension: 10,)
+                      ],
+                    )) ;
           },
         ),
         ListTile(

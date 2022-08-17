@@ -2,35 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/log_in/log_in_bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 
-class RequestsPage extends StatefulWidget {
+class RequestsPage extends StatelessWidget {
   const RequestsPage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<RequestsPage> createState() => _RequestsPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => LogInBloc(userService: context.read<UserService>()),
+      child: RequestsPageView(),
+    );
+  }
 }
 
-class _RequestsPageState extends State<RequestsPage> {
+class RequestsPageView extends StatefulWidget {
+  const RequestsPageView({Key? key}) : super(key: key);
+
+  @override
+  State<RequestsPageView> createState() => _RequestsPageViewState();
+}
+
+class _RequestsPageViewState extends State<RequestsPageView> {
   bool canLogIn = false;
-  String login = "";
+  String username = "";
   String password = "";
   @override
   Widget build(BuildContext context) {
-    final userService = context.read<UserService>();
     return ListView(
       children: [
         ListTile(
-            title: Text("Log in request"),
+            title: Padding(
+              padding: const EdgeInsets.only(
+                bottom: 5
+              ),
+              child: Text("Log in request"),
+            ),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextFormField(
                   textAlignVertical: TextAlignVertical.center,
                   onChanged: (data) {
-                    login = data;
+                    username = data;
                     validateLogIn();
                   },
                   decoration:
@@ -53,7 +71,10 @@ class _RequestsPageState extends State<RequestsPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: ElevatedButton(
-                    onPressed: canLogIn ? () {} : null,
+                    onPressed: canLogIn
+                        ? () => context.read<LogInBloc>().add(LogInDefault(
+                            username: username, password: password))
+                        : null,
                     child: Text("Log in"),
                   ),
                 )
@@ -65,7 +86,7 @@ class _RequestsPageState extends State<RequestsPage> {
 
   void validateLogIn() {
     setState(() {
-      canLogIn = login.isNotEmpty && password.isNotEmpty;
+      canLogIn = username.isNotEmpty && password.isNotEmpty;
     });
   }
 }

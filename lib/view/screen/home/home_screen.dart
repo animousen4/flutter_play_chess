@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
@@ -60,7 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    //context.read<UserBloc>().add(TryAutoLogIn());
+    if (kDebugMode) {
+      context.pushRoute(DebugScreenRoute());
+    }
     super.initState();
   }
 }

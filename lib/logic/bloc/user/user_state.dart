@@ -1,9 +1,11 @@
 part of 'user_bloc.dart';
 
 class UserState {
-  final User? user;
+  final String? accessToken;
+  final String? jwtToken;
+  final bool isReady;
 
-  UserState({this.user});
+  bool get isAuthorized => jwtToken != null && accessToken != null;
 
-  
+  UserState({this.accessToken, this.jwtToken, this.isReady = true});
 }

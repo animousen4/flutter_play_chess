@@ -81,7 +81,7 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig('/#redirect',
-            path: '/', redirectTo: '/debug', fullMatch: true),
+            path: '/', redirectTo: '/home', fullMatch: true),
         RouteConfig(LoginScreenRoute.name, path: '/login', children: [
           RouteConfig('#redirect',
               path: '',
