@@ -12,7 +12,8 @@ const textTheme = TextTheme(
         headline5: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
         //headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w500),
         subtitle1: TextStyle(
-            fontSize: 25, fontWeight: FontWeight.w600, letterSpacing: 0.7),
+            fontSize: 15, fontWeight: FontWeight.w600, letterSpacing: 0.7),
+      
         bodyText2: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
       );
 
@@ -40,9 +41,10 @@ class AppThemeManager {
       dividerTheme: DividerThemeData(thickness: 2),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+            animationDuration: Duration(milliseconds: 100),
         backgroundColor: MaterialStateProperty.resolveWith((states) =>
             states.contains(MaterialState.disabled)
-                ? Colors.white.withOpacity(0.5)
+                ? Colors.grey
                 : Colors.white),
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -69,12 +71,21 @@ class AppThemeManager {
       fontFamily: GoogleFonts.montserrat().fontFamily,
       // by default textBody2
       // headline6 for appBar title
+      listTileTheme: ListTileThemeData(
+        
+      ),
       toggleButtonsTheme: ToggleButtonsThemeData(
           disabledColor: Colors.white.withOpacity(0.3),
           selectedColor: backgroundColor,
           borderRadius: BorderRadius.circular(5),
           color: Colors.white.withOpacity(0.6)),
       textTheme: textTheme,
+      inputDecorationTheme: InputDecorationTheme(
+        constraints: BoxConstraints(maxHeight: 48),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10)
+        )
+      ),
       //primaryTextTheme: const TextTheme(),
       appBarTheme:
           const AppBarTheme(backgroundColor: Color.fromARGB(255, 1, 11, 33)),

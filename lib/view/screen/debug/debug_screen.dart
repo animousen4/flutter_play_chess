@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/widget/decorated_scaffold.dart';
 
@@ -16,12 +18,12 @@ class _DebugScreenState extends State<DebugScreen>
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.tabBar(
-      routes: [ElementsPageRoute(), AppStatePageRoute()],
+      routes: [ElementsPageRoute(), AppStatePageRoute(), RequestsPageRoute()],
       builder: (context, content, tabController) => DecoratedScaffold(
         appBar: AppBar(
           title: Text("Debug"),
           bottom: TabBar(
-            tabs: [Text("Elements"), Text("App state")],
+            tabs: [Text("Elements"), Text("App state"), Text("Requests")],
             controller: tabController,
           ),
         ),

@@ -71,13 +71,17 @@ class _$AppRouter extends RootStackRouter {
     AppStatePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const AppStatePage());
+    },
+    RequestsPageRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const RequestsPage());
     }
   };
 
   @override
   List<RouteConfig> get routes => [
         RouteConfig('/#redirect',
-            path: '/', redirectTo: '/home', fullMatch: true),
+            path: '/', redirectTo: '/debug', fullMatch: true),
         RouteConfig(LoginScreenRoute.name, path: '/login', children: [
           RouteConfig('#redirect',
               path: '',
@@ -105,12 +109,14 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig('#redirect',
               path: '',
               parent: DebugScreenRoute.name,
-              redirectTo: 'elements',
+              redirectTo: 'requests',
               fullMatch: true),
           RouteConfig(ElementsPageRoute.name,
               path: 'elements', parent: DebugScreenRoute.name),
           RouteConfig(AppStatePageRoute.name,
-              path: 'app-state', parent: DebugScreenRoute.name)
+              path: 'app-state', parent: DebugScreenRoute.name),
+          RouteConfig(RequestsPageRoute.name,
+              path: 'requests', parent: DebugScreenRoute.name)
         ]),
         RouteConfig(OopsPageRoute.name, path: '*')
       ];
@@ -221,4 +227,12 @@ class AppStatePageRoute extends PageRouteInfo<void> {
   const AppStatePageRoute() : super(AppStatePageRoute.name, path: 'app-state');
 
   static const String name = 'AppStatePageRoute';
+}
+
+/// generated route for
+/// [RequestsPage]
+class RequestsPageRoute extends PageRouteInfo<void> {
+  const RequestsPageRoute() : super(RequestsPageRoute.name, path: 'requests');
+
+  static const String name = 'RequestsPageRoute';
 }
