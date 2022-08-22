@@ -33,7 +33,7 @@ class UserService {
     jwtToken = newJwtToken;
   }
 
-  void _loginViaToken(User user) {
+  void loginViaToken(User user) {
     _changeAccessToken(user.accessToken);
     changeJwtToken(user.jwtToken);
   }
@@ -43,15 +43,16 @@ class UserService {
     changeJwtToken(null);
   }
 
-  bool loginViaDefault(ViaDefaultUser defaultUser, {bool isTest = false}) {
-    if (isTest) {
-      _loginViaToken(
-          User(accessToken: "${defaultUser.username};${defaultUser.password}", jwtToken: "jwt-zzzz"));
-      return true;
-    }
+  // bool loginViaDefault(ViaDefaultUser defaultUser, {bool isTest = false}) {
+  //   if (isTest) {
+  //     _loginViaToken(
+  //         User(accessToken: "${defaultUser.username};${defaultUser.password}", jwtToken: "jwt-zzzz"));
+  //     return true;
+  //   }
 
-    // make request
-    // get token
-    throw UnimplementedError("Implement request to server");
-  }
+
+  //   // make request
+  //   // get token
+  //   throw UnimplementedError("Implement request to server");
+  // }
 }
