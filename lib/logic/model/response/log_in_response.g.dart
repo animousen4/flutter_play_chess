@@ -21,7 +21,7 @@ class _$LogInResponseSerializer implements StructuredSerializer<LogInResponse> {
     final result = <Object?>[
       'createdEntity',
       serializers.serialize(object.createdEntity,
-          specifiedType: const FullType(EntityLogin)),
+          specifiedType: const FullType(CreatedLoginEntity)),
       'code',
       serializers.serialize(object.code,
           specifiedType: const FullType(ServerCode)),
@@ -63,7 +63,8 @@ class _$LogInResponseSerializer implements StructuredSerializer<LogInResponse> {
       switch (key) {
         case 'createdEntity':
           result.createdEntity.replace(serializers.deserialize(value,
-              specifiedType: const FullType(EntityLogin))! as EntityLogin);
+                  specifiedType: const FullType(CreatedLoginEntity))!
+              as CreatedLoginEntity);
           break;
         case 'code':
           result.code = serializers.deserialize(value,
@@ -104,7 +105,7 @@ class _$LogInResponseSerializer implements StructuredSerializer<LogInResponse> {
 
 class _$LogInResponse extends LogInResponse {
   @override
-  final EntityLogin createdEntity;
+  final CreatedLoginEntity createdEntity;
   @override
   final ServerCode code;
   @override
@@ -202,10 +203,10 @@ class LogInResponseBuilder
     implements Builder<LogInResponse, LogInResponseBuilder> {
   _$LogInResponse? _$v;
 
-  EntityLoginBuilder? _createdEntity;
-  EntityLoginBuilder get createdEntity =>
-      _$this._createdEntity ??= new EntityLoginBuilder();
-  set createdEntity(EntityLoginBuilder? createdEntity) =>
+  CreatedLoginEntityBuilder? _createdEntity;
+  CreatedLoginEntityBuilder get createdEntity =>
+      _$this._createdEntity ??= new CreatedLoginEntityBuilder();
+  set createdEntity(CreatedLoginEntityBuilder? createdEntity) =>
       _$this._createdEntity = createdEntity;
 
   ServerCode? _code;

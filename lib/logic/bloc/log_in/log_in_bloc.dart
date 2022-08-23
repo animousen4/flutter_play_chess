@@ -20,6 +20,7 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
   LogInBloc({required this.userService, required this.logInService})
       : super(LogInState(formStatus: FormStatus.initial)) {
     on<LogInDefault>((event, emit) async {
+      emit(LogInState(formStatus: FormStatus.loading));
       var resp = await logInService.loginDefault(LogInRequest((r) => r
         ..version = "not defined"
         ..entityAction =
@@ -31,7 +32,7 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
           ..appVersion = "0.0.0"
           ..userLogin = event.username
           ..userPass = event.password).toBuilder()));
-
+      
       //logger.e(resp.body);
       //emit(LogInState(formStatus: FormStatus.success));
     });

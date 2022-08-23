@@ -2,7 +2,7 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
-import 'package:flutter_play_chess/logic/client/chopper_client.dart';
+import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/guard/debug_route_guard.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_play_chess/view/theme/app_theme.dart';
 
 class App extends StatelessWidget {
   final UserService userService;
-  final AppClient chopperClient;
+  final NetworkClientSecured chopperClient;
   const App({Key? key, required this.userService, required this.chopperClient}) : super(key: key);
 
   //final _router = AppRouter(routeGuard: RouteGuard(userService));

@@ -4,6 +4,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:flutter_play_chess/logic/model/abstract_response.dart';
 import 'package:flutter_play_chess/logic/model/code/server_code.dart';
+import 'package:flutter_play_chess/logic/model/entity/info/created_login/created_login.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/entity_info.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/login/entity_login.dart';
 import 'package:flutter_play_chess/logic/model/error/server_error.dart';
@@ -16,7 +17,7 @@ abstract class LogInResponse
   // Fields
 
   @override
-  EntityLogin get createdEntity;
+  CreatedLoginEntity get createdEntity;
 
   LogInResponse._();
 

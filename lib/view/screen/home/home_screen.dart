@@ -6,7 +6,7 @@ import 'package:flutter_play_chess/globals.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
-import 'package:flutter_play_chess/logic/client/chopper_client.dart';
+import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/service/user_info/user_info_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocProvider(
           create: (context) => PlayMenuBloc(),
         ),
-        BlocProvider(create: (context) => UserInfoBloc(userInfoService: context.read<AppClient>().getService<UserInfoService>()))
+        BlocProvider(create: (context) => UserInfoBloc(userInfoService: context.read<NetworkClientSecured>().getService<UserInfoService>()))
       ],
       child: AutoTabsRouter(
           routes: const [

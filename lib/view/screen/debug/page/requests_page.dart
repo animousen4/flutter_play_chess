@@ -4,7 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/log_in/log_in_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
-import 'package:flutter_play_chess/logic/client/chopper_client.dart';
+import 'package:flutter_play_chess/logic/client/network_client.dart';
+import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 
@@ -16,7 +17,7 @@ class RequestsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LogInBloc(userService: context.read<UserService>(), logInService: context.read<AppClient>().getService<LogInService>()),
+      create: (context) => LogInBloc(userService: context.read<UserService>(), logInService: context.read<NetworkClient>().getService<LogInService>()),
       child: RequestsPageView(),
     );
   }

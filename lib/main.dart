@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_play_chess/app/app.dart';
 import 'package:flutter_play_chess/firebase/analytics/analytics_app_service.dart';
 import 'package:flutter_play_chess/firebase_options.dart';
-import 'package:flutter_play_chess/logic/client/chopper_client.dart';
+import 'package:flutter_play_chess/logic/client/network_client.dart';
+import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/logic/client/http_override/http_override.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user.dart';
@@ -26,7 +27,7 @@ void main() async {
 
   HttpOverrides.global = DebugHttpOverride(); 
   
-  final chopperClient = AppClient(userService: userService);
+  final chopperClient = NetworkClientSecured(userService: userService, networkClient: NetworkClient());
 
 
   runApp(App(userService: userService, chopperClient: chopperClient,));
