@@ -3,6 +3,7 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
@@ -32,38 +33,41 @@ class _PlayPageState extends State<PlayPage> {
                     child: CircularProgressIndicator(),
                   ),
               onNormal: (state) => ListView(children: [
-            ListTile(
-              title: Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: Text("Rated game GG"),
-              ),
-              subtitle: SelectionItemList.radio(
-                callback: (index) => context.read<PlayMenuBloc>().add(RatedGameChanged(index)),
-                items: [
-                  Text("On"),
-                  Text("Off"),
-                ],
-                selectedIndex: state.selectedRatedIndex,
-              ),
-            ),
-            ListTile(
-              title: Padding(
-                padding: const EdgeInsets.only(bottom: 15),
-                child: Text("Category"),
-              ),
-              subtitle: DropdownPhysicalButton(
-              selectedIndex: 0,
-              callback: (index) => null,
-              options: [
-                Text("1"),
-                Text("2"),
-                Text("3"),
-              ],
-            ),
-            ),
-            
-          ]),
-              onError: (state) => Center(child: Text("Error occured"),));
+                    ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Text("Rated game GG"),
+                      ),
+                      subtitle: SelectionItemList.radio(
+                        callback: (index) => context
+                            .read<PlayMenuBloc>()
+                            .add(RatedGameChanged(index)),
+                        items: [
+                          Text("On"),
+                          Text("Off"),
+                        ],
+                        selectedIndex: state.selectedRatedIndex,
+                      ),
+                    ),
+                    ListTile(
+                      title: Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Text("Category"),
+                      ),
+                      subtitle: DropdownPhysicalButton(
+                        selectedIndex: state.selectedCategoryIndex,
+                        callback: (index) => context.read<PlayMenuBloc>().add(CategoryGameChanged(index)),
+                        options: [
+                          Text("1"),
+                          Text("2"),
+                          Text("3"),
+                        ],
+                      ),
+                    ),
+                  ]),
+              onError: (state) => Center(
+                    child: Text("Error occured"),
+                  ));
         },
       ),
     );
@@ -88,6 +92,7 @@ class _PlayPageState extends State<PlayPage> {
   @override
   void initState() {
     context.read<PlayMenuBloc>().add(StartLoadData());
+    context.read<UserInfoBloc>().add(GetUsername(id: 0)); // get from UserService
     super.initState();
   }
 }

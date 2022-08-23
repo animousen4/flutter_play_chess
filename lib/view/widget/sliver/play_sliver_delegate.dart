@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
@@ -100,6 +101,7 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
           )
         ],
         title: Builder(builder: (context) {
+          //final String username = context.read<UserInfoBloc>();
           return Container(
             constraints: const BoxConstraints(),
             child: Stack(
@@ -109,9 +111,16 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
                     child: Opacity(
                   opacity: disappearOnCollapse(shrinkOffset) *
                       disappearOnCollapse(shrinkOffset),
-                  child: Text(
-                    "Welcome,\nUSERNAME",
-                    style: Theme.of(context).textTheme.headline2,
+                  child: BlocBuilder<UserInfoBloc, UserInfoState>(
+                    builder: (context, state) {
+                      if (state.username == null) {
+                        return CircularProgressIndicator();
+                      }
+                      return Text(
+                        "Welcome,\n${state.username}",
+                        style: Theme.of(context).textTheme.headline2,
+                      );
+                    },
                   ),
                 )),
                 Positioned(

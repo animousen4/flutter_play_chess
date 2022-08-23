@@ -9,17 +9,22 @@ part 'play_menu_state.dart';
 class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
   PlayMenuBloc() : super(PlayMenuLoading()) {
     on<StartLoadData>((event, emit) async {
-      
       if (state is PlayMenuNormal) {
         emit(state);
         return;
       }
 
-      emit(PlayMenuNormal(selectedRatedIndex: 0));
+      emit(PlayMenuNormal(selectedRatedIndex: 0, selectedCategoryIndex: 0));
     });
 
     on<RatedGameChanged>((event, emit) {
-      emit((state as PlayMenuNormal).copyWith(selectedRatedIndex: event.newIndex));
+      emit((state as PlayMenuNormal)
+          .copyWith(selectedRatedIndex: event.newIndex));
+    });
+
+    on<CategoryGameChanged>((event, emit) {
+      emit((state as PlayMenuNormal)
+          .copyWith(selectedCategoryIndex: event.newIndex));
     });
   }
 }

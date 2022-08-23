@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:flutter_play_chess/logic/client/chopper_client.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/created_login/created_login.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/login/entity_login.dart';
@@ -31,5 +32,5 @@ abstract class LogInService extends ChopperService {
   Future<Response<LogInResponse>> loginDefault(
       @Body() LogInRequest logInRequest);
 
-  static LogInService create([ChopperClient? client]) => _$LogInService(client);
+  static LogInService create([AppClient? client]) => _$LogInService(client);
 }
