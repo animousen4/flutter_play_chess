@@ -8,6 +8,7 @@ class ServerCode extends EnumClass {
   // static const ServerCode yes = _$yes;
   static const ServerCode OC_OK = _$OC_OK;
   static const ServerCode OC_UNKNOWN_ERROR = _$OC_UNKNOWN_ERROR;
+  static const ServerCode OC_GENERAL_ERROR = _$OC_GENERAL_ERROR;
 
   const ServerCode._(String name) : super(name);
 

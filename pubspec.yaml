@@ -30,6 +30,9 @@ dependencies:
   expansion_tile_card: ^2.0.0
   country_icons: ^2.0.2
   chopper: ^4.0.6
+  easy_localization: ^3.0.1
+  #shared_preferences: ^2.0.15
+  #easy_localization: ^3.0.1
   
   
   
@@ -83,6 +86,11 @@ flutter:
 
 
     #flags
+
+
+    #localizations
+
+    - assets/localization/
     
     
   uses-material-design: true

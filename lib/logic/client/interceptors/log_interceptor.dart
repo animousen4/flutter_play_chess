@@ -14,7 +14,7 @@ class LogInterceptor implements RequestInterceptor, ResponseInterceptor {
 
   @override
   FutureOr<Response> onResponse(Response response) {
-    logger.d("RESPONSE\nbody: ${response.body}");
+    logger.d("RESPONSE [CODE: ${response.statusCode}]\nbody: ${response.body}");
     return response;
   }
 }

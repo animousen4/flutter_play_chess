@@ -8,6 +8,7 @@ part of 'server_code.dart';
 
 const ServerCode _$OC_OK = const ServerCode._('OC_OK');
 const ServerCode _$OC_UNKNOWN_ERROR = const ServerCode._('OC_UNKNOWN_ERROR');
+const ServerCode _$OC_GENERAL_ERROR = const ServerCode._('OC_GENERAL_ERROR');
 
 ServerCode _$valueOf(String name) {
   switch (name) {
@@ -15,6 +16,8 @@ ServerCode _$valueOf(String name) {
       return _$OC_OK;
     case 'OC_UNKNOWN_ERROR':
       return _$OC_UNKNOWN_ERROR;
+    case 'OC_GENERAL_ERROR':
+      return _$OC_GENERAL_ERROR;
     default:
       throw new ArgumentError(name);
   }
@@ -24,6 +27,7 @@ final BuiltSet<ServerCode> _$values =
     new BuiltSet<ServerCode>(const <ServerCode>[
   _$OC_OK,
   _$OC_UNKNOWN_ERROR,
+  _$OC_GENERAL_ERROR,
 ]);
 
 Serializer<ServerCode> _$serverCodeSerializer = new _$ServerCodeSerializer();

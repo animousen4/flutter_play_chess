@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_play_chess/logic/model/code/server_code.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/entity_info.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/login/entity_login.dart';
@@ -32,7 +33,10 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
           ..appVersion = "0.0.0"
           ..userLogin = event.username
           ..userPass = event.password).toBuilder()));
-      
+
+      if (resp.body!.code != ServerCode.OC_OK) {
+        throw
+      }
       //logger.e(resp.body);
       //emit(LogInState(formStatus: FormStatus.success));
     });

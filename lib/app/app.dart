@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
@@ -31,6 +32,8 @@ class App extends StatelessWidget {
           create: (context) =>
               UserBloc(userService: context.read<UserService>()),
           child: MaterialApp.router(
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
             debugShowCheckedModeBanner: false,
             routerDelegate: router.delegate(),
             routeInformationParser: router.defaultRouteParser(),

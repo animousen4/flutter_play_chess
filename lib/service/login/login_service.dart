@@ -1,4 +1,5 @@
 import 'package:chopper/chopper.dart';
+import 'package:flutter_play_chess/logic/client/network_client.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/created_login/created_login.dart';
@@ -20,5 +21,6 @@ abstract class LogInService extends ChopperService {
 
   
 
-  static LogInService create([NetworkClientSecured? client]) => _$LogInService(client);
+  static LogInService create([NetworkClient? client]) => _$LogInService(client);
+  
 }
