@@ -13,6 +13,7 @@ import 'package:flutter_play_chess/logic/bloc/observer/app_bloc_observer.dart';
 import 'package:flutter_play_chess/logic/client/network_client.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/logic/client/http_override/http_override.dart';
+import 'package:flutter_play_chess/service/excpetion_service/exception_service.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
@@ -21,7 +22,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  
+
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapter());
 
@@ -36,6 +37,9 @@ void main() async {
   final chopperClient = NetworkClientSecured(
       userService: userService, networkClient: NetworkClient());
 
+  final exceptionService = ExceptionService();
+
+
   BlocOverrides.runZoned(
       () => runApp(EasyLocalization(
             supportedLocales: [Locale("en")],
@@ -44,7 +48,8 @@ void main() async {
             child: App(
               userService: userService,
               chopperClient: chopperClient,
+              exceptionService: exceptionService,
             ),
           )),
-      blocObserver: AppBlocObserver());
+      blocObserver: AppBlocObserver(exceptionService));
 }

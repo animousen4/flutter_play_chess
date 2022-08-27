@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_play_chess/logic/error/reason/reason.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/common/oops_page.dart';
 import 'package:flutter_play_chess/view/routes/guard/auth_route_guard.dart';

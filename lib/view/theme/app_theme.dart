@@ -37,6 +37,7 @@ class AppThemeManager {
       dialogTheme: DialogTheme(
         backgroundColor: Colors.white,
         titleTextStyle: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w700),
+        contentTextStyle: TextStyle(color: Colors.black, fontSize: 14)
       ),
       dividerTheme: DividerThemeData(thickness: 2),
       elevatedButtonTheme: ElevatedButtonThemeData(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
+import 'package:flutter_play_chess/service/excpetion_service/exception_service.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/guard/debug_route_guard.dart';
@@ -14,7 +15,10 @@ import 'package:flutter_play_chess/view/theme/app_theme.dart';
 class App extends StatelessWidget {
   final UserService userService;
   final NetworkClientSecured chopperClient;
-  const App({Key? key, required this.userService, required this.chopperClient}) : super(key: key);
+  final ExceptionService exceptionService;
+  
+  const App({Key? key, required this.userService, required this.chopperClient, required this.exceptionService})
+      : super(key: key);
 
   //final _router = AppRouter(routeGuard: RouteGuard(userService));
   @override
@@ -22,7 +26,8 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: userService),
-        RepositoryProvider.value(value: chopperClient)
+        RepositoryProvider.value(value: chopperClient),
+        RepositoryProvider.value(value: exceptionService)
       ],
       child: Builder(builder: (context) {
         final router = AppRouter(

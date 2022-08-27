@@ -27,7 +27,7 @@ class _$AppRouter extends RootStackRouter {
   final Map<String, PageFactory> pagesMap = {
     LoginScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const LoginScreen());
+          routeData: routeData, child: LoginScreen());
     },
     HomeScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -38,11 +38,8 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const DebugScreen());
     },
     OopsPageRoute.name: (routeData) {
-      final args = routeData.argsAs<OopsPageRouteArgs>(
-          orElse: () => const OopsPageRouteArgs());
       return MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: OopsPage(key: args.key, reason: args.reason));
+          routeData: routeData, child: const OopsPage());
     },
     DefaultLoginRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -151,25 +148,10 @@ class DebugScreenRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [OopsPage]
-class OopsPageRoute extends PageRouteInfo<OopsPageRouteArgs> {
-  OopsPageRoute({Key? key, Reason? reason})
-      : super(OopsPageRoute.name,
-            path: '*', args: OopsPageRouteArgs(key: key, reason: reason));
+class OopsPageRoute extends PageRouteInfo<void> {
+  const OopsPageRoute() : super(OopsPageRoute.name, path: '*');
 
   static const String name = 'OopsPageRoute';
-}
-
-class OopsPageRouteArgs {
-  const OopsPageRouteArgs({this.key, this.reason});
-
-  final Key? key;
-
-  final Reason? reason;
-
-  @override
-  String toString() {
-    return 'OopsPageRouteArgs{key: $key, reason: $reason}';
-  }
 }
 
 /// generated route for
