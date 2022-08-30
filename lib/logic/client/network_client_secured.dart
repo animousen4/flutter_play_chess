@@ -8,6 +8,7 @@ import 'package:flutter_play_chess/logic/client/converter/converter.dart';
 import 'package:flutter_play_chess/logic/client/http_override/http_override.dart';
 import 'package:flutter_play_chess/logic/client/interceptors/auth_interceptor.dart';
 import 'package:flutter_play_chess/logic/client/interceptors/log_interceptor.dart';
+import 'package:flutter_play_chess/logic/client/interceptors/server_exception_interceptor.dart';
 import 'package:flutter_play_chess/logic/client/network_client.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
@@ -22,7 +23,8 @@ class NetworkClientSecured extends ChopperClient {
             converter: DataConverter(),
             interceptors: [
               //JwtInterceptor(userService: userService),
-              LogInterceptor()
+              LogInterceptor(),
+              ServerExceptionInterceptor()
             ],
             authenticator: AppAuthenticator(userService: userService, networkClient: networkClient),
             services: [UserInfoService.create()]);

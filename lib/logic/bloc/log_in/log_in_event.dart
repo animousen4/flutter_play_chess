@@ -11,3 +11,9 @@ class LogInDefault extends AbstractLogIn {
 
   LogInDefault({required this.username, required this.password});
 }
+
+class _ErrorOccured extends LogInEvent {
+  final AppException appException;
+
+  _ErrorOccured(this.appException);
+}

@@ -1,9 +1,13 @@
 part of 'log_in_bloc.dart';
 
-enum FormStatus { initial, submitting, success, fail, loading }
+abstract class LogInState {}
 
-class LogInState {
-  final FormStatus formStatus;
+class LogInReady extends LogInState {}
 
-  LogInState({required this.formStatus});
+class LogInLoading extends LogInState {}
+
+class LogInError extends LogInState {
+  final AppException appException;
+
+  LogInError(this.appException);
 }

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/safe_bloc/safe_bloc.dart';
+import 'package:flutter_play_chess/logic/exception/app_exception.dart';
 import 'package:flutter_play_chess/logic/exception/server_exception.dart';
 import 'package:flutter_play_chess/logic/model/code/server_code.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
@@ -17,12 +19,15 @@ part 'log_in_state.dart';
 
 class LogInBloc extends Bloc<LogInEvent, LogInState> {
   final UserService userService;
+
   final LogInService logInService;
-  final logger = Logger();
+
   LogInBloc({required this.userService, required this.logInService})
-      : super(LogInState(formStatus: FormStatus.initial)) {
+      : super(LogInLoading()) {
+    on<_ErrorOccured>((event, emit) {
+      emit(LogInError(event.appException));
+    });
     on<LogInDefault>((event, emit) async {
-      emit(LogInState(formStatus: FormStatus.loading));
       var resp = await logInService.loginDefault(LogInRequest((r) => r
         ..version = "not defined"
         ..entityAction =
@@ -35,17 +40,13 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
           ..userLogin = event.username
           ..userPass = event.password).toBuilder()));
 
-      if (resp.body!.code != ServerCode.OC_OK) {
-        throw ServerException.resolve(resp.body!.code);
-      }
-      //logger.e(resp.body);
-      //emit(LogInState(formStatus: FormStatus.success));
+      emit(LogInReady());
     });
   }
 
-  // @override
-  // void onError(Object error, StackTrace stackTrace) {
-    
-  //   //super.onError(error, stackTrace);
-  // }
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    add(_ErrorOccured(AppException.resolve(error)));
+    super.onError(error, stackTrace);
+  }
 }

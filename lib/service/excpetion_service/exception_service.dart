@@ -3,6 +3,8 @@ import 'package:rxdart/rxdart.dart';
 
 class ExceptionService {
   final exceptionStream = BehaviorSubject<AppException>();
+
+  
   
   ExceptionService();
 }
