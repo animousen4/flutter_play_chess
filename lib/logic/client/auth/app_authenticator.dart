@@ -6,7 +6,7 @@ import 'package:flutter_play_chess/logic/client/network_client.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/entity_info.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/login/entity_login.dart';
-import 'package:flutter_play_chess/logic/model/request/log_in_request.dart';
+import 'package:flutter_play_chess/logic/model/request/log_in/log_in_request.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:logger/logger.dart';

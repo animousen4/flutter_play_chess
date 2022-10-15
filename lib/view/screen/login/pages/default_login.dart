@@ -17,11 +17,14 @@ class DefaultLogin extends StatelessWidget {
           if (state is LogInReady) {
             context.router.replace(const HomeScreenRoute());
           } else if (state is LogInError) {
-            showDialog(context: context, builder: (context) =>  ErrorDialog(error: state.appException));
+            showDialog(
+                context: context,
+                builder: (context) => ErrorDialog(error: state.appException));
           }
         },
         child: SafeArea(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text("Default login"),
               TextButton(
@@ -29,7 +32,12 @@ class DefaultLogin extends StatelessWidget {
                     context.read<LogInBloc>().add(
                         LogInDefault(username: "us111", password: "pass222"));
                   },
-                  child: const Text('Log in [debug]'))
+                  child: const Text('Log in [debug]')),
+              TextButton(
+                  onPressed: () {
+                    context.pushRoute(SignUpScreenRoute());
+                  },
+                  child: Text("Go to sign up"))
             ],
           ),
         ),

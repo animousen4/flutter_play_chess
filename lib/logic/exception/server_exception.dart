@@ -7,7 +7,7 @@ abstract class ServerException extends AppException {
 
   ServerException({this.message});
 
-  static ServerException resolveCode(ServerCode error) {
+  static ServerException resolveException(ServerCode error) {
     switch (error) {
       case ServerCode.OC_GENERAL_ERROR:
         return GeneralServerException();

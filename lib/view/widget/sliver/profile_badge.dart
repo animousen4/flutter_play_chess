@@ -1,6 +1,7 @@
 import 'package:flag/flag_widget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter_play_chess/view/routes/routes.dart';
 class ProfileBadgeHeaderDelegate extends SliverPersistentHeaderDelegate {
   final ImageProvider<Object> avatar;
   final Widget username;
@@ -38,10 +39,16 @@ class ProfileBadgeHeaderDelegate extends SliverPersistentHeaderDelegate {
                 rating
               ],
             ),
-            leading: CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.black,
-              backgroundImage: avatar,
+            leading: GestureDetector(
+              onTap: () => context.pushRoute(PhotoViewScreenRoute(tag: "local-view", img: Image(image: avatar,))),
+              child: Hero(
+                tag: "local-view",
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.black,
+                  backgroundImage: avatar,
+                ),
+              ),
             ),
           ),
         ),

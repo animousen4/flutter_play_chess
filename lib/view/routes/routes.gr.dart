@@ -15,9 +15,12 @@ part of 'routes.dart';
 class _$AppRouter extends RootStackRouter {
   _$AppRouter(
       {GlobalKey<NavigatorState>? navigatorKey,
+      required this.unauthorizedRouteGuard,
       required this.authRouteGuard,
       required this.debugRouteGuard})
       : super(navigatorKey);
+
+  final UnauthorizedRouteGuard unauthorizedRouteGuard;
 
   final AuthRouteGuard authRouteGuard;
 
@@ -26,8 +29,14 @@ class _$AppRouter extends RootStackRouter {
   @override
   final Map<String, PageFactory> pagesMap = {
     LoginScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<LoginScreenRouteArgs>(
+          orElse: () => const LoginScreenRouteArgs());
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: LoginScreen());
+          routeData: routeData, child: LoginScreen(key: args.key));
+    },
+    SignUpScreenRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const SignUpScreen());
     },
     HomeScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -36,6 +45,12 @@ class _$AppRouter extends RootStackRouter {
     DebugScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const DebugScreen());
+    },
+    PhotoViewScreenRoute.name: (routeData) {
+      final args = routeData.argsAs<PhotoViewScreenRouteArgs>();
+      return MaterialPageX<dynamic>(
+          routeData: routeData,
+          child: PhotoViewScreen(key: args.key, tag: args.tag, img: args.img));
     },
     OopsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -86,8 +101,12 @@ class _$AppRouter extends RootStackRouter {
               redirectTo: 'default',
               fullMatch: true),
           RouteConfig(DefaultLoginRoute.name,
-              path: 'default', parent: LoginScreenRoute.name)
+              path: 'default',
+              parent: LoginScreenRoute.name,
+              guards: [unauthorizedRouteGuard])
         ]),
+        RouteConfig(SignUpScreenRoute.name,
+            path: '/sign_up', guards: [unauthorizedRouteGuard]),
         RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
           authRouteGuard
         ], children: [
@@ -115,17 +134,40 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(RequestsPageRoute.name,
               path: 'requests', parent: DebugScreenRoute.name)
         ]),
+        RouteConfig(PhotoViewScreenRoute.name, path: '/view'),
         RouteConfig(OopsPageRoute.name, path: '*')
       ];
 }
 
 /// generated route for
 /// [LoginScreen]
-class LoginScreenRoute extends PageRouteInfo<void> {
-  const LoginScreenRoute({List<PageRouteInfo>? children})
-      : super(LoginScreenRoute.name, path: '/login', initialChildren: children);
+class LoginScreenRoute extends PageRouteInfo<LoginScreenRouteArgs> {
+  LoginScreenRoute({Key? key, List<PageRouteInfo>? children})
+      : super(LoginScreenRoute.name,
+            path: '/login',
+            args: LoginScreenRouteArgs(key: key),
+            initialChildren: children);
 
   static const String name = 'LoginScreenRoute';
+}
+
+class LoginScreenRouteArgs {
+  const LoginScreenRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'LoginScreenRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [SignUpScreen]
+class SignUpScreenRoute extends PageRouteInfo<void> {
+  const SignUpScreenRoute() : super(SignUpScreenRoute.name, path: '/sign_up');
+
+  static const String name = 'SignUpScreenRoute';
 }
 
 /// generated route for
@@ -144,6 +186,33 @@ class DebugScreenRoute extends PageRouteInfo<void> {
       : super(DebugScreenRoute.name, path: '/debug', initialChildren: children);
 
   static const String name = 'DebugScreenRoute';
+}
+
+/// generated route for
+/// [PhotoViewScreen]
+class PhotoViewScreenRoute extends PageRouteInfo<PhotoViewScreenRouteArgs> {
+  PhotoViewScreenRoute({Key? key, required String tag, required Widget img})
+      : super(PhotoViewScreenRoute.name,
+            path: '/view',
+            args: PhotoViewScreenRouteArgs(key: key, tag: tag, img: img));
+
+  static const String name = 'PhotoViewScreenRoute';
+}
+
+class PhotoViewScreenRouteArgs {
+  const PhotoViewScreenRouteArgs(
+      {this.key, required this.tag, required this.img});
+
+  final Key? key;
+
+  final String tag;
+
+  final Widget img;
+
+  @override
+  String toString() {
+    return 'PhotoViewScreenRouteArgs{key: $key, tag: $tag, img: $img}';
+  }
 }
 
 /// generated route for

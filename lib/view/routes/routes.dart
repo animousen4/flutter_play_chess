@@ -4,6 +4,7 @@ import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/common/oops_page.dart';
 import 'package:flutter_play_chess/view/routes/guard/auth_route_guard.dart';
 import 'package:flutter_play_chess/view/routes/guard/debug_route_guard.dart';
+import 'package:flutter_play_chess/view/routes/guard/unauthorized_route_guard.dart';
 import 'package:flutter_play_chess/view/screen/debug/debug_screen.dart';
 import 'package:flutter_play_chess/view/screen/debug/page/app_state_page.dart';
 import 'package:flutter_play_chess/view/screen/debug/page/elements_page.dart';
@@ -15,6 +16,8 @@ import 'package:flutter_play_chess/view/screen/home/page/profile_page.dart';
 import 'package:flutter_play_chess/view/screen/home/page/tournament_page.dart';
 import 'package:flutter_play_chess/view/screen/login/login_screen.dart';
 import 'package:flutter_play_chess/view/screen/login/pages/default_login.dart';
+import 'package:flutter_play_chess/view/screen/photo_view/photo_view_screen.dart';
+import 'package:flutter_play_chess/view/screen/sign_up/sign_up_screen.dart';
 
 part 'routes.gr.dart';
 
@@ -22,8 +25,9 @@ part 'routes.gr.dart';
   //replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(path: "/login", page: LoginScreen, children: [
-      AutoRoute(path: "default", initial: true, page: DefaultLogin)
+      AutoRoute(path: "default", initial: true, page: DefaultLogin, guards: [UnauthorizedRouteGuard])
     ]),
+    AutoRoute(path: "/sign_up", page: SignUpScreen, guards: [UnauthorizedRouteGuard]),
     AutoRoute(path: "/home", initial: true, page: HomeScreen, guards: [
       AuthRouteGuard
     ], children: [
@@ -37,11 +41,11 @@ part 'routes.gr.dart';
       AutoRoute(path: "app-state", page: AppStatePage),
       AutoRoute(path: "requests", initial: true ,page: RequestsPage)
     ], guards: [DebugRouteGuard]),
-
+    AutoRoute(path: "/view", page: PhotoViewScreen),
     AutoRoute(path: "*", page: OopsPage)
 
   ],
 )
 class AppRouter extends _$AppRouter {
-  AppRouter({required super.authRouteGuard, required super.debugRouteGuard});
+  AppRouter({required super.authRouteGuard, required super.debugRouteGuard, required super.unauthorizedRouteGuard});
 }

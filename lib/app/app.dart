@@ -8,6 +8,7 @@ import 'package:flutter_play_chess/service/excpetion_service/exception_service.d
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/guard/debug_route_guard.dart';
+import 'package:flutter_play_chess/view/routes/guard/unauthorized_route_guard.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/routes/guard/auth_route_guard.dart';
 import 'package:flutter_play_chess/view/theme/app_theme.dart';
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
       child: Builder(builder: (context) {
         final router = AppRouter(
             authRouteGuard: AuthRouteGuard(context.read<UserService>()),
+            unauthorizedRouteGuard: UnauthorizedRouteGuard(context.read<UserService>()),
             debugRouteGuard: DebugRouteGuard());
         return BlocProvider(
           create: (context) =>

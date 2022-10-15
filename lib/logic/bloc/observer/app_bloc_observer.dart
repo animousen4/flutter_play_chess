@@ -10,8 +10,8 @@ class AppBlocObserver extends BlocObserver {
   AppBlocObserver(this.exceptionService);
   @override
   void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
-    logger.w("Bloc Observer caught an error!\nbloc: $bloc\nerror: $error");
-    //exceptionService.exceptionStream.add(GeneralServerException());
+    logger.w(
+        "[${bloc.runtimeType} BLOC] Bloc Observer caught an error!\nERROR: [${error.runtimeType}]\nerror: $error");
 
     super.onError(bloc, error, stackTrace);
   }
