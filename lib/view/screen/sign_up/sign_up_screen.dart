@@ -7,6 +7,7 @@ import 'package:flutter_play_chess/logic/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/logic/client/network_client.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
+import 'package:flutter_play_chess/logic/exception/client_exception.dart';
 import 'package:flutter_play_chess/service/sign_up/sign_up_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
@@ -26,35 +27,47 @@ class SignUpScreen extends StatelessWidget {
               userService: context.read<UserService>()),
           child: Builder(builder: (context) {
             return Scaffold(
-                body: SafeArea(
-                    child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Sign up"),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "email"),
-                  onChanged: (value) =>
-                      context.read<SignUpBloc>().add(EmailChanged(value)),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "username"),
-                  onChanged: (value) =>
-                      context.read<SignUpBloc>().add(LoginChanged(value)),
-                ),
-                TextFormField(
-                  decoration: InputDecoration(hintText: "password"),
-                  onChanged: (value) =>
-                      context.read<SignUpBloc>().add(PasswordChanged(value)),
-                ),
-                Align(
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        context.read<SignUpBloc>().add(TryDefaultSignUp()),
-                    child: Text("Sign up"),
+                body: BlocListener<SignUpBloc, SignUpState>(
+              listener: (context, state) {
+                if (state is SignUpReady) {
+                  if (state.appException is ConnectionException) {
+                    showDialog(context: context, builder: (c) => AlertDialog(
+                      title: Text("Connection Exception"),
+                      content: Text("Please, try again later"),
+                    ));
+                  }
+                }
+              },
+              child: SafeArea(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Sign up"),
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "email"),
+                    onChanged: (value) =>
+                        context.read<SignUpBloc>().add(EmailChanged(value)),
                   ),
-                )
-              ],
-            )));
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "username"),
+                    onChanged: (value) =>
+                        context.read<SignUpBloc>().add(LoginChanged(value)),
+                  ),
+                  TextFormField(
+                    decoration: InputDecoration(hintText: "password"),
+                    onChanged: (value) =>
+                        context.read<SignUpBloc>().add(PasswordChanged(value)),
+                  ),
+                  Align(
+                    child: ElevatedButton(
+                      onPressed: () =>
+                          context.read<SignUpBloc>().add(TryDefaultSignUp()),
+                      child: Text("Sign up"),
+                    ),
+                  )
+                ],
+              )),
+            ));
           }),
         );
       }),

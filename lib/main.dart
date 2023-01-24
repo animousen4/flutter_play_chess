@@ -39,7 +39,6 @@ void main() async {
 
   final exceptionService = ExceptionService();
 
-
   BlocOverrides.runZoned(
       () => runApp(EasyLocalization(
             supportedLocales: [Locale("en")],

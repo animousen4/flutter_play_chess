@@ -5,3 +5,5 @@ abstract class ClientExcpetion extends AppException {}
 class UnknownClientException extends ClientExcpetion {}
 
 class SerializationException extends ClientExcpetion {}
+
+class ConnectionException extends ClientExcpetion {}

@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_play_chess/logic/exception/app_exception.dart';
+import 'package:flutter_play_chess/logic/exception/client_exception.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/user_info/user_info.dart';
 import 'package:flutter_play_chess/logic/model/request/sign_up/sign_up_request.dart';
@@ -34,9 +38,9 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
     });
 
     on<TryDefaultSignUp>((event, emit) async {
-      if (kDebugMode)
-        userService.loginViaToken(
-            User(jwtToken: "testPassJwt", accessToken: "testPassAccess"));
+      //if (kDebugMode)
+      //  userService.loginViaToken(
+      //      User(jwtToken: "testPassJwt", accessToken: "testPassAccess"));
       var resp = await signUpService.registryDefault(SignUpRequest((r) => r
         ..version = "not defined"
         ..entityAction =
@@ -47,5 +51,18 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
           ..userLogin = "username0"
           ..password = "password0").toBuilder()));
     });
+
+    on<_ConnectionError>((event, emit) {
+      emit(SignUpReady(appException: ConnectionException()));
+    });
+    
+  }
+
+  @override
+  void onError(Object error, StackTrace stackTrace) {
+    if (error is SocketException) {
+      add(_ConnectionError());
+    }
+    super.onError(error, stackTrace);
   }
 }
