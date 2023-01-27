@@ -15,19 +15,23 @@ part of 'routes.dart';
 class _$AppRouter extends RootStackRouter {
   _$AppRouter(
       {GlobalKey<NavigatorState>? navigatorKey,
-      required this.unauthorizedRouteGuard,
       required this.authRouteGuard,
+      required this.unauthorizedRouteGuard,
       required this.debugRouteGuard})
       : super(navigatorKey);
 
-  final UnauthorizedRouteGuard unauthorizedRouteGuard;
-
   final AuthRouteGuard authRouteGuard;
+
+  final UnauthorizedRouteGuard unauthorizedRouteGuard;
 
   final DebugRouteGuard debugRouteGuard;
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    HomeScreenRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const HomeScreen());
+    },
     LoginScreenRoute.name: (routeData) {
       final args = routeData.argsAs<LoginScreenRouteArgs>(
           orElse: () => const LoginScreenRouteArgs());
@@ -42,10 +46,6 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const PlayGameScreen());
     },
-    HomeScreenRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const HomeScreen());
-    },
     DebugScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const DebugScreen());
@@ -59,10 +59,6 @@ class _$AppRouter extends RootStackRouter {
     OopsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const OopsPage());
-    },
-    DefaultLoginRoute.name: (routeData) {
-      return MaterialPageX<dynamic>(
-          routeData: routeData, child: const DefaultLogin());
     },
     PlayPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -79,6 +75,10 @@ class _$AppRouter extends RootStackRouter {
     ProfilePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const ProfilePage());
+    },
+    DefaultLoginRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const DefaultLogin());
     },
     ElementsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
@@ -97,7 +97,19 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig('/#redirect',
-            path: '/', redirectTo: '/playgame', fullMatch: true),
+            path: '/', redirectTo: '/home', fullMatch: true),
+        RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
+          authRouteGuard
+        ], children: [
+          RouteConfig(PlayPageRoute.name,
+              path: 'play', parent: HomeScreenRoute.name),
+          RouteConfig(TournamentPageRoute.name,
+              path: 'tournament', parent: HomeScreenRoute.name),
+          RouteConfig(LessonPageRoute.name,
+              path: 'lesson', parent: HomeScreenRoute.name),
+          RouteConfig(ProfilePageRoute.name,
+              path: 'profile', parent: HomeScreenRoute.name)
+        ]),
         RouteConfig(LoginScreenRoute.name, path: '/login', children: [
           RouteConfig('#redirect',
               path: '',
@@ -112,18 +124,6 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(SignUpScreenRoute.name,
             path: '/sign_up', guards: [unauthorizedRouteGuard]),
         RouteConfig(PlayGameScreenRoute.name, path: '/playgame'),
-        RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
-          authRouteGuard
-        ], children: [
-          RouteConfig(PlayPageRoute.name,
-              path: 'play', parent: HomeScreenRoute.name),
-          RouteConfig(TournamentPageRoute.name,
-              path: 'tournament', parent: HomeScreenRoute.name),
-          RouteConfig(LessonPageRoute.name,
-              path: 'lesson', parent: HomeScreenRoute.name),
-          RouteConfig(ProfilePageRoute.name,
-              path: 'profile', parent: HomeScreenRoute.name)
-        ]),
         RouteConfig(DebugScreenRoute.name, path: '/debug', guards: [
           debugRouteGuard
         ], children: [
@@ -142,6 +142,15 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(PhotoViewScreenRoute.name, path: '/view'),
         RouteConfig(OopsPageRoute.name, path: '*')
       ];
+}
+
+/// generated route for
+/// [HomeScreen]
+class HomeScreenRoute extends PageRouteInfo<void> {
+  const HomeScreenRoute({List<PageRouteInfo>? children})
+      : super(HomeScreenRoute.name, path: '/home', initialChildren: children);
+
+  static const String name = 'HomeScreenRoute';
 }
 
 /// generated route for
@@ -182,15 +191,6 @@ class PlayGameScreenRoute extends PageRouteInfo<void> {
       : super(PlayGameScreenRoute.name, path: '/playgame');
 
   static const String name = 'PlayGameScreenRoute';
-}
-
-/// generated route for
-/// [HomeScreen]
-class HomeScreenRoute extends PageRouteInfo<void> {
-  const HomeScreenRoute({List<PageRouteInfo>? children})
-      : super(HomeScreenRoute.name, path: '/home', initialChildren: children);
-
-  static const String name = 'HomeScreenRoute';
 }
 
 /// generated route for
@@ -238,14 +238,6 @@ class OopsPageRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [DefaultLogin]
-class DefaultLoginRoute extends PageRouteInfo<void> {
-  const DefaultLoginRoute() : super(DefaultLoginRoute.name, path: 'default');
-
-  static const String name = 'DefaultLoginRoute';
-}
-
-/// generated route for
 /// [PlayPage]
 class PlayPageRoute extends PageRouteInfo<void> {
   const PlayPageRoute() : super(PlayPageRoute.name, path: 'play');
@@ -276,6 +268,14 @@ class ProfilePageRoute extends PageRouteInfo<void> {
   const ProfilePageRoute() : super(ProfilePageRoute.name, path: 'profile');
 
   static const String name = 'ProfilePageRoute';
+}
+
+/// generated route for
+/// [DefaultLogin]
+class DefaultLoginRoute extends PageRouteInfo<void> {
+  const DefaultLoginRoute() : super(DefaultLoginRoute.name, path: 'default');
+
+  static const String name = 'DefaultLoginRoute';
 }
 
 /// generated route for

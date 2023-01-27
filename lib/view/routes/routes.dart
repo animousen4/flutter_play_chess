@@ -26,29 +26,39 @@ part 'routes.gr.dart';
 @MaterialAutoRouter(
   //replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
-    AutoRoute(path: "/login", page: LoginScreen, children: [
-      AutoRoute(path: "default", initial: true, page: DefaultLogin, guards: [UnauthorizedRouteGuard])
-    ]),
-    AutoRoute(path: "/sign_up", page: SignUpScreen, guards: [UnauthorizedRouteGuard]),
-    AutoRoute(path: "/playgame", initial: true, page: PlayGameScreen ),
-    AutoRoute(path: "/home", initial: false, page: HomeScreen, guards: [
+    AutoRoute(path: "/home", initial: true, page: HomeScreen, guards: [
       AuthRouteGuard
     ], children: [
       AutoRoute(path: "play", page: PlayPage),
       AutoRoute(path: "tournament", page: TournamentPage),
-      AutoRoute(path: "lesson", page:  LessonPage),
+      AutoRoute(path: "lesson", page: LessonPage),
       AutoRoute(path: "profile", page: ProfilePage),
     ]),
+    AutoRoute(path: "/login", page: LoginScreen, children: [
+      AutoRoute(path: "default", initial: true, page: DefaultLogin,
+          guards: [
+            UnauthorizedRouteGuard
+          ])
+    ]),
+    AutoRoute(
+        path: "/sign_up", page: SignUpScreen, guards: [
+          UnauthorizedRouteGuard
+        ]),
+    AutoRoute(path: "/playgame", page: PlayGameScreen),
     AutoRoute(path: "/debug", page: DebugScreen, children: [
       AutoRoute(path: "elements", page: ElementsPage),
       AutoRoute(path: "app-state", page: AppStatePage),
-      AutoRoute(path: "requests", initial: true ,page: RequestsPage)
-    ], guards: [DebugRouteGuard]),
+      AutoRoute(path: "requests", initial: true, page: RequestsPage)
+    ], guards: [
+      DebugRouteGuard
+    ]),
     AutoRoute(path: "/view", page: PhotoViewScreen),
     AutoRoute(path: "*", page: OopsPage)
-
   ],
 )
 class AppRouter extends _$AppRouter {
-  AppRouter({required super.authRouteGuard, required super.debugRouteGuard, required super.unauthorizedRouteGuard});
+  AppRouter(
+      {required super.authRouteGuard,
+      required super.debugRouteGuard,
+      required super.unauthorizedRouteGuard});
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -39,7 +41,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
               shadowColor: Colors.transparent,
               title: ListTile(
                 title: Text(
-                  "15 classic",
+                  "15 Classic",
                   style:
                       TextStyle(fontSize: 20.68, fontWeight: FontWeight.w800),
                 ),
@@ -64,10 +66,17 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: BoardController(
-                state: state.board,
+                state: flipBoard ? state.board.flipped() : state.board,
                 playState: state.state,
                 pieceSet: PieceSet.merida(),
-              ),
+                theme: BoardTheme.brown,
+                moves: state.moves,
+                onMove: _onMove,
+                onPremove: _onMove,
+                markerTheme: MarkerTheme(
+                  empty: MarkerTheme.dot,
+                  piece: MarkerTheme.corners(),
+                )),
             ),
             SizedBox(
               height: 20,
@@ -78,6 +87,21 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                 avatar: NetworkImage(
                     "https://images.anime-pictures.net/b11/b11544980df2eaf9431233d2ed95e8b3.png"),
                 countryFlag: CountryView(countryName: "ru")),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                for(bishop.Move m in game.moveHistory)
+                  Row(
+                    children: [
+                      Text(bishop.squareName(m.to), overflow: TextOverflow.fade),
+                    ],
+                  )
+              ],
+            ),
+            
+            
           ],
         ),
       ),
@@ -88,6 +112,23 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   void initState() {
     _resetGame(false);
     super.initState();
+  }
+
+  void _onMove(Move move) async {
+    bool result = game.makeSquaresMove(move);
+    if (result) {
+      setState(() => state = game.squaresState(player));
+    }
+    if (state.state == PlayState.theirTurn && !aiThinking) {
+      setState(() => aiThinking = true);
+      await Future.delayed(
+          Duration(milliseconds: Random().nextInt(4750) + 250));
+      game.makeRandomMove();
+      setState(() {
+        aiThinking = false;
+        state = game.squaresState(player);
+      });
+    }
   }
 
   void _resetGame([bool ss = true]) {

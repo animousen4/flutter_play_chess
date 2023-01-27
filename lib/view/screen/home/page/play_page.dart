@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
+import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
-
+import 'package:auto_route/auto_route.dart';
 class PlayPage extends StatefulWidget {
   const PlayPage({Key? key}) : super(key: key);
 
@@ -64,6 +65,10 @@ class _PlayPageState extends State<PlayPage> {
                         ],
                       ),
                     ),
+
+                    ElevatedButton(onPressed: () {
+                      context.pushRoute(PlayGameScreenRoute());
+                    }, child: Text("Go Play"))
                   ]),
               onError: (state) => Center(
                     child: Text("Error occured"),
