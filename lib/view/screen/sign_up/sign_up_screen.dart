@@ -7,14 +7,22 @@ import 'package:flutter_play_chess/logic/bloc/sign_up/sign_up_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/logic/client/network_client.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
-import 'package:flutter_play_chess/logic/exception/client_exception.dart';
+import 'package:flutter_play_chess/logic/error/client_error.dart';
 import 'package:flutter_play_chess/service/sign_up/sign_up_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  late String email;
+  late String username;
+  late String password;
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
@@ -30,11 +38,13 @@ class SignUpScreen extends StatelessWidget {
                 body: BlocListener<SignUpBloc, SignUpState>(
               listener: (context, state) {
                 if (state is SignUpReady) {
-                  if (state.appException is ConnectionException) {
-                    showDialog(context: context, builder: (c) => AlertDialog(
-                      title: Text("Connection Exception"),
-                      content: Text("Please, try again later"),
-                    ));
+                  if (state.appException is AppConnectionError) {
+                    showDialog(
+                        context: context,
+                        builder: (c) => AlertDialog(
+                              title: Text("Connection Exception"),
+                              content: Text("Please, try again later"),
+                            ));
                   }
                 }
               },
@@ -45,23 +55,22 @@ class SignUpScreen extends StatelessWidget {
                   Text("Sign up"),
                   TextFormField(
                     decoration: InputDecoration(hintText: "email"),
-                    onChanged: (value) =>
-                        context.read<SignUpBloc>().add(EmailChanged(value)),
+                    onChanged: (value) => email = value,
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "username"),
                     onChanged: (value) =>
-                        context.read<SignUpBloc>().add(LoginChanged(value)),
+                        username = value,
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: "password"),
                     onChanged: (value) =>
-                        context.read<SignUpBloc>().add(PasswordChanged(value)),
+                        password = value,
                   ),
                   Align(
                     child: ElevatedButton(
                       onPressed: () =>
-                          context.read<SignUpBloc>().add(TryDefaultSignUp()),
+                          context.read<SignUpBloc>().add(TryDefaultSignUp(email: email, username: username, password: password)),
                       child: Text("Sign up"),
                     ),
                   )

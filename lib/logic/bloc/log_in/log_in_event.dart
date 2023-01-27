@@ -13,7 +13,7 @@ class LogInDefault extends AbstractLogIn {
 }
 
 class _ErrorOccured extends LogInEvent {
-  final AppException appException;
+  final AppError appError;
 
-  _ErrorOccured(this.appException);
+  _ErrorOccured(this.appError);
 }

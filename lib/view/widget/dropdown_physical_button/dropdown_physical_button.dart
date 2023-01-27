@@ -6,9 +6,11 @@ class DropdownPhysicalButton extends StatefulWidget {
       {Key? key,
       required this.options,
       required this.selectedIndex,
-      required this.callback})
+      required this.callback,
+      this.duration = const Duration(milliseconds: 200)})
       : super(key: key);
   final List<Widget> options;
+  final Duration duration;
   final Function(int index)? callback;
   final int selectedIndex;
 
@@ -53,27 +55,34 @@ class _DropdownPhysicalButtonState extends State<DropdownPhysicalButton>
   List<Widget> variants() {
     final data = <Widget>[];
     for (int index = 0; index < widget.options.length; index++) {
-      data.add(baseFragment(widget.options[index], color: Color.fromARGB(22, 0, 0, 0), callback: enabled
-              ? () {
-                  widget.callback?.call(index);
-                  reExpand();
-                }
-              : null,));
+      data.add(baseFragment(
+        widget.options[index],
+        color: Color.fromARGB(22, 0, 0, 0),
+        callback: enabled
+            ? () {
+                widget.callback?.call(index);
+                reExpand();
+              }
+            : null,
+      ));
     }
     return data;
   }
 
-  Widget frontFragment(Widget rawWidget) => baseFragment(rawWidget, callback: enabled
+  Widget frontFragment(Widget rawWidget) => baseFragment(rawWidget,
+      callback: enabled
           ? () {
               reExpand();
             }
           : null);
 
-  Widget baseFragment(Widget rawWidget, {Color? color = Colors.transparent, required Function()? callback}) => InkWell(
-    onTap: callback,
-    child: Container(
-      color: color,
-      child: Padding(
+  Widget baseFragment(Widget rawWidget,
+          {Color? color = Colors.transparent, required Function()? callback}) =>
+      InkWell(
+        onTap: callback,
+        child: Container(
+          color: color,
+          child: Padding(
             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 21),
             child: Container(
               constraints: BoxConstraints(),
@@ -81,8 +90,8 @@ class _DropdownPhysicalButtonState extends State<DropdownPhysicalButton>
               width: double.infinity,
             ),
           ),
-    ),
-  );
+        ),
+      );
 
   void reExpand() {
     expanded = !expanded;
@@ -99,7 +108,7 @@ class _DropdownPhysicalButtonState extends State<DropdownPhysicalButton>
   @override
   void initState() {
     animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+        AnimationController(vsync: this, duration: widget.duration);
     // animationController.repeat(
     //   reverse: true,
     //   period: Duration(milliseconds: 1300)

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/log_in/log_in_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/safe_bloc/safe_bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/status/status.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/widget/dialog/error/error_dialog.dart';
 
@@ -13,13 +14,25 @@ class DefaultLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<LogInBloc, LogInState>(
-        listener: (context, state) {
-          if (state is LogInReady) {
+        listener: (context, state) async {
+          if (state.status is SubmissionSuccess) {
+            await context.router.pop();
             context.router.replace(const HomeScreenRoute());
-          } else if (state is LogInError) {
+          } else if (state.status is SubmittingStatus) {
+            showDialog(context: context, builder: (context) => AlertDialog(title: Text("Loading"), content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+              ],
+            ),), barrierDismissible: false);
+
+          }
+          
+          else if (state.status is ErrorStatus) {
+            await context.router.pop();
             showDialog(
                 context: context,
-                builder: (context) => ErrorDialog(error: state.appException));
+                builder: (context) => ErrorDialog(error: (state.status as ErrorStatus).error));
           }
         },
         child: SafeArea(

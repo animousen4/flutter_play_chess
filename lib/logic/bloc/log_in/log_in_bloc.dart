@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/safe_bloc/safe_bloc.dart';
-import 'package:flutter_play_chess/logic/exception/app_exception.dart';
-import 'package:flutter_play_chess/logic/exception/server_exception.dart';
+import 'package:flutter_play_chess/logic/bloc/status/status.dart';
+import 'package:flutter_play_chess/logic/bloc/status/status_bloc_state.dart';
+import 'package:flutter_play_chess/logic/error/app_error.dart';
+import 'package:flutter_play_chess/logic/error/server_error.dart';
 import 'package:flutter_play_chess/logic/model/code/server_code.dart';
 import 'package:flutter_play_chess/logic/model/entity/action/entity_action.dart';
 import 'package:flutter_play_chess/logic/model/entity/info/entity_info.dart';
@@ -23,11 +25,12 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
   final LogInService logInService;
 
   LogInBloc({required this.userService, required this.logInService})
-      : super(LogInLoading()) {
+      : super(LogInState(Status.initial())) {
     on<_ErrorOccured>((event, emit) {
-      emit(LogInError(event.appException));
+      emit(LogInState(Status.error(event.appError)));
     });
     on<LogInDefault>((event, emit) async {
+      emit(LogInState(Status.submitting()));
       var resp = await logInService.loginDefault(LogInRequest((r) => r
         ..version = "not defined"
         ..entityAction =
@@ -40,13 +43,13 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
           ..userLogin = event.username
           ..userPass = event.password).toBuilder()));
 
-      emit(LogInReady());
+      emit(LogInState(Status.submissionSuccess()));
     });
   }
 
   @override
   void onError(Object error, StackTrace stackTrace) {
-    add(_ErrorOccured(AppException.resolve(error)));
+    add(_ErrorOccured(AppError.resolve(error)));
     super.onError(error, stackTrace);
   }
 }

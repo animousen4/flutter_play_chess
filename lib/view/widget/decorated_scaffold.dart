@@ -37,6 +37,7 @@ class DecoratedScaffold extends Scaffold {
                   Theme.of(context).extension<DecoratedScaffoldTheme>()!;
               return Container(
                 decoration: decoration ?? theme.decoration,
+                constraints: BoxConstraints(minHeight: double.infinity, minWidth: double.infinity),
                 child: body,
               );
             }));

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_play_chess/logic/exception/app_exception.dart';
+import 'package:flutter_play_chess/logic/error/app_error.dart';
 import 'package:flutter_play_chess/service/excpetion_service/exception_service.dart';
 
 abstract class AppScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _AppScreenState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) => widget.build(context);
 
-  void onError(AppException exception) {
+  void onError(AppError exception) {
     showDialog(
         context: context,
         builder: (c) => AlertDialog(

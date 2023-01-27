@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_play_chess/logic/exception/server_exception.dart';
+import 'package:flutter_play_chess/logic/error/server_error.dart';
 import 'package:flutter_play_chess/service/excpetion_service/exception_service.dart';
 import 'package:logger/logger.dart';
 

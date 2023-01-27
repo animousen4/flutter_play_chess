@@ -15,16 +15,11 @@ abstract class SignUpDataChanged extends SignUpEvent {
 
 class TrySignUp extends SignUpEvent {}
 
-class TryDefaultSignUp extends SignUpEvent {}
+class TryDefaultSignUp extends SignUpEvent {
+  final String email;
+  final String username;
+  final String password;
 
-class LoginChanged extends SignUpDataChanged {
-  LoginChanged(super.data);
+  TryDefaultSignUp({required this.email, required this.username, required this.password});
 }
 
-class PasswordChanged extends SignUpDataChanged {
-  PasswordChanged(super.data);
-}
-
-class EmailChanged extends SignUpDataChanged {
-  EmailChanged(super.data);
-}

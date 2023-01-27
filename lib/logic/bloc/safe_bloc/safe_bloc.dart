@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/stable_work_helper.dart';
-import 'package:flutter_play_chess/logic/exception/app_exception.dart';
-import 'package:flutter_play_chess/logic/exception/client_exception.dart';
-import 'package:flutter_play_chess/logic/exception/server_exception.dart';
+import 'package:flutter_play_chess/logic/error/app_error.dart';
+import 'package:flutter_play_chess/logic/error/client_error.dart';
+import 'package:flutter_play_chess/logic/error/server_error.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
@@ -10,8 +10,7 @@ import 'package:rxdart/rxdart.dart';
 part 'safe_event.dart';
 part 'safe_state.dart';
 
-abstract class SafeBloc<E, S>
-    extends Bloc<E, S> {
+abstract class SafeBloc<E, S> extends Bloc<E, S> {
   final logger = Logger();
 
   final exceptionStream = BehaviorSubject<Object>();
@@ -22,11 +21,10 @@ abstract class SafeBloc<E, S>
         onFailure: (e) {
           addError(e);
         });
-    
   }
 
   void onErrorOccured(
-      AppException exception, StackTrace? stackTrace, Emitter<SafeState> emit) {
+      AppError exception, StackTrace? stackTrace, Emitter<SafeState> emit) {
     emit(ErrorState(exception));
   }
 
@@ -37,8 +35,8 @@ abstract class SafeBloc<E, S>
     super.onError(error, stackTrace);
   }
 
-  AppException _resolveError(Object error) {
+  AppError _resolveError(Object error) {
     // resolve errors;
-    return UnknownServerException();
+    return UnknownServerError();
   }
 }

@@ -27,7 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
         BlocProvider(
           create: (context) => PlayMenuBloc(),
         ),
-        BlocProvider(create: (context) => UserInfoBloc(userInfoService: context.read<NetworkClientSecured>().getService<UserInfoService>()))
+        BlocProvider(
+            create: (context) => UserInfoBloc(
+                userInfoService: context
+                    .read<NetworkClientSecured>()
+                    .getService<UserInfoService>()))
       ],
       child: AutoTabsRouter(
           routes: const [
@@ -36,33 +40,42 @@ class _HomeScreenState extends State<HomeScreen> {
             LessonPageRoute(),
             ProfilePageRoute()
           ],
-          builder: (context, page, controller) => DecoratedScaffold(
-                body: page,
-                bottomNavigationBar: NavigationBar(
-                  selectedIndex: context.tabsRouter.activeIndex,
-                  onDestinationSelected: context.tabsRouter.setActiveIndex,
-                  destinations: [
-                    NavigationDestination(
-                        icon: SvgIcons.playIconNotActive,
-                        selectedIcon: SvgIcons.playIconActive,
-                        label: "Play"),
-                    NavigationDestination(
-                        icon: SvgIcons.trophyIconNotActive,
-                        selectedIcon: SvgIcons.trophyIconActive,
-                        label: "Tournaments"),
-                    NavigationDestination(
-                        icon: SvgIcons.lessonIconNotActive,
-                        selectedIcon: SvgIcons.lessonIconActive,
-                        label: "Lessons"),
-                    NavigationDestination(
-                        icon: SvgIcons.profileIconNotActive,
-                        selectedIcon: SvgIcons.profileIconActive,
-                        label: "Profile"),
-                  ],
+          builder: (context, page, controller) => OrientationBuilder(
+                builder: (context, orientation) => DecoratedScaffold(
+                  body: page,
+                  drawer: orientation == Orientation.landscape ? Drawer(
+                    child: navigationBar(context),
+                  ) : null,
+                  bottomNavigationBar: orientation == Orientation.portrait
+                      ? navigationBar(context)
+                      : null,
                 ),
               )),
     );
   }
+
+  Widget navigationBar(BuildContext context) => NavigationBar(
+        selectedIndex: context.tabsRouter.activeIndex,
+        onDestinationSelected: context.tabsRouter.setActiveIndex,
+        destinations: [
+          NavigationDestination(
+              icon: SvgIcons.playIconNotActive,
+              selectedIcon: SvgIcons.playIconActive,
+              label: "Play"),
+          NavigationDestination(
+              icon: SvgIcons.trophyIconNotActive,
+              selectedIcon: SvgIcons.trophyIconActive,
+              label: "Tournaments"),
+          NavigationDestination(
+              icon: SvgIcons.lessonIconNotActive,
+              selectedIcon: SvgIcons.lessonIconActive,
+              label: "Lessons"),
+          NavigationDestination(
+              icon: SvgIcons.profileIconNotActive,
+              selectedIcon: SvgIcons.profileIconActive,
+              label: "Profile"),
+        ],
+      );
 
   @override
   void initState() {

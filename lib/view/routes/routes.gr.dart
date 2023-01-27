@@ -38,6 +38,10 @@ class _$AppRouter extends RootStackRouter {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const SignUpScreen());
     },
+    PlayGameScreenRoute.name: (routeData) {
+      return MaterialPageX<dynamic>(
+          routeData: routeData, child: const PlayGameScreen());
+    },
     HomeScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
           routeData: routeData, child: const HomeScreen());
@@ -93,7 +97,7 @@ class _$AppRouter extends RootStackRouter {
   @override
   List<RouteConfig> get routes => [
         RouteConfig('/#redirect',
-            path: '/', redirectTo: '/home', fullMatch: true),
+            path: '/', redirectTo: '/playgame', fullMatch: true),
         RouteConfig(LoginScreenRoute.name, path: '/login', children: [
           RouteConfig('#redirect',
               path: '',
@@ -107,6 +111,7 @@ class _$AppRouter extends RootStackRouter {
         ]),
         RouteConfig(SignUpScreenRoute.name,
             path: '/sign_up', guards: [unauthorizedRouteGuard]),
+        RouteConfig(PlayGameScreenRoute.name, path: '/playgame'),
         RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
           authRouteGuard
         ], children: [
@@ -168,6 +173,15 @@ class SignUpScreenRoute extends PageRouteInfo<void> {
   const SignUpScreenRoute() : super(SignUpScreenRoute.name, path: '/sign_up');
 
   static const String name = 'SignUpScreenRoute';
+}
+
+/// generated route for
+/// [PlayGameScreen]
+class PlayGameScreenRoute extends PageRouteInfo<void> {
+  const PlayGameScreenRoute()
+      : super(PlayGameScreenRoute.name, path: '/playgame');
+
+  static const String name = 'PlayGameScreenRoute';
 }
 
 /// generated route for

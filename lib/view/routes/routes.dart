@@ -19,6 +19,8 @@ import 'package:flutter_play_chess/view/screen/login/pages/default_login.dart';
 import 'package:flutter_play_chess/view/screen/photo_view/photo_view_screen.dart';
 import 'package:flutter_play_chess/view/screen/sign_up/sign_up_screen.dart';
 
+import '../screen/play/play_game_screen.dart';
+
 part 'routes.gr.dart';
 
 @MaterialAutoRouter(
@@ -28,7 +30,8 @@ part 'routes.gr.dart';
       AutoRoute(path: "default", initial: true, page: DefaultLogin, guards: [UnauthorizedRouteGuard])
     ]),
     AutoRoute(path: "/sign_up", page: SignUpScreen, guards: [UnauthorizedRouteGuard]),
-    AutoRoute(path: "/home", initial: true, page: HomeScreen, guards: [
+    AutoRoute(path: "/playgame", initial: true, page: PlayGameScreen ),
+    AutoRoute(path: "/home", initial: false, page: HomeScreen, guards: [
       AuthRouteGuard
     ], children: [
       AutoRoute(path: "play", page: PlayPage),

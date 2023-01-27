@@ -23,6 +23,10 @@ dependencies:
   firebase_core: ^1.19.1
   firebase_analytics: ^9.1.12
   firebase_crashlytics: ^2.8.4
+  #flutter_stateless_chessboard: ^1.1.2
+  square_bishop: ^0.2.8
+  squares: ^1.1.2
+  bishop: ^0.6.4
   flutter_native_splash: ^2.1.0
   flag: ^6.0.0
   drift: ^1.7.1

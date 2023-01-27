@@ -50,6 +50,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.0"
+  badges:
+    dependency: transitive
+    description:
+      name: badges
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.3"
+  bishop:
+    dependency: "direct main"
+    description:
+      name: bishop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.4"
   bloc:
     dependency: transitive
     description:
@@ -253,6 +267,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
   expansion_tile_card:
     dependency: "direct main"
     description:
@@ -831,6 +852,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.2"
+  square_bishop:
+    dependency: "direct main"
+    description:
+      name: square_bishop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.8"
+  squares:
+    dependency: "direct main"
+    description:
+      name: squares
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   stack_trace:
     dependency: transitive
     description:

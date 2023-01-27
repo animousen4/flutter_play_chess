@@ -4,8 +4,8 @@ part of 'safe_bloc.dart';
 abstract class SafeEvent {}
 
 class _OccureError extends SafeEvent {
-  final AppException exception;
+  final AppError exception;
   final StackTrace? stackTrace;
 
-  _OccureError({required this.exception, this.stackTrace });
+  _OccureError({required this.exception, this.stackTrace});
 }
