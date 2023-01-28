@@ -21,4 +21,8 @@ class CategoryGameChanged extends IndexedDataChanged {
 
 }
 
+class ColorGameChanged extends IndexedDataChanged {
+  ColorGameChanged(super.newIndex);
+}
+
 class StartLoadData extends PlayMenuEvent {}

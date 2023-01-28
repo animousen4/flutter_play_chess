@@ -350,50 +350,28 @@ class _$EntityUserInfo extends EntityUserInfo {
 
   @override
   int get hashCode {
-    return $jf($jc(
-        $jc(
-            $jc(
-                $jc(
-                    $jc(
-                        $jc(
-                            $jc(
-                                $jc(
-                                    $jc(
-                                        $jc(
-                                            $jc(
-                                                $jc(
-                                                    $jc(
-                                                        $jc(
-                                                            $jc(
-                                                                $jc(
-                                                                    $jc(
-                                                                        $jc(
-                                                                            $jc(
-                                                                                0,
-                                                                                playerKindId
-                                                                                    .hashCode),
-                                                                            playerStatusId
-                                                                                .hashCode),
-                                                                        password
-                                                                            .hashCode),
-                                                                    userLogin
-                                                                        .hashCode),
-                                                                phone.hashCode),
-                                                            mail.hashCode),
-                                                        activationDate
-                                                            .hashCode),
-                                                    firstName.hashCode),
-                                                middleName.hashCode),
-                                            birthDate.hashCode),
-                                        genderId.hashCode),
-                                    countryIso.hashCode),
-                                languageId.hashCode),
-                            avatar.hashCode),
-                        email.hashCode),
-                    isVerified.hashCode),
-                verifyDate.hashCode),
-            currentElo.hashCode),
-        newUser.hashCode));
+    var _$hash = 0;
+    _$hash = $jc(_$hash, playerKindId.hashCode);
+    _$hash = $jc(_$hash, playerStatusId.hashCode);
+    _$hash = $jc(_$hash, password.hashCode);
+    _$hash = $jc(_$hash, userLogin.hashCode);
+    _$hash = $jc(_$hash, phone.hashCode);
+    _$hash = $jc(_$hash, mail.hashCode);
+    _$hash = $jc(_$hash, activationDate.hashCode);
+    _$hash = $jc(_$hash, firstName.hashCode);
+    _$hash = $jc(_$hash, middleName.hashCode);
+    _$hash = $jc(_$hash, birthDate.hashCode);
+    _$hash = $jc(_$hash, genderId.hashCode);
+    _$hash = $jc(_$hash, countryIso.hashCode);
+    _$hash = $jc(_$hash, languageId.hashCode);
+    _$hash = $jc(_$hash, avatar.hashCode);
+    _$hash = $jc(_$hash, email.hashCode);
+    _$hash = $jc(_$hash, isVerified.hashCode);
+    _$hash = $jc(_$hash, verifyDate.hashCode);
+    _$hash = $jc(_$hash, currentElo.hashCode);
+    _$hash = $jc(_$hash, newUser.hashCode);
+    _$hash = $jf(_$hash);
+    return _$hash;
   }
 
   @override
@@ -588,4 +566,4 @@ class EntityUserInfoBuilder
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas
+// ignore_for_file: deprecated_member_use_from_same_package,type=lint

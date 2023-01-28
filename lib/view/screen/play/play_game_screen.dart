@@ -1,11 +1,15 @@
 import 'dart:math';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_play_chess/view/svg/svg_manager.dart';
+import 'package:flutter_play_chess/view/widget/clock/clock_widget.dart';
 import 'package:flutter_play_chess/view/widget/country/country_view.dart';
 import 'package:flutter_play_chess/view/widget/decorated_scaffold.dart';
+import 'package:flutter_play_chess/view/widget/move_list_widget/move_list_widget.dart';
 import 'package:flutter_play_chess/view/widget/user_game_badge/user_game_badge.dart';
 import 'package:squares/squares.dart';
 import 'package:square_bishop/square_bishop.dart';
@@ -39,6 +43,12 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
             AppBar(
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,
+              leading: context.router.canPop() ? IconButton(
+                icon: SvgIcons.backIcon,
+                onPressed: () {
+                  context.popRoute();
+                },
+              ) : null,
               title: ListTile(
                 title: Text(
                   "15 Classic",
@@ -57,6 +67,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
             UserGameBadge(
                 name: Text("Demiso Pomodjo"),
                 rating: 2000,
+                clock: ClockWidget(enabled: aiThinking),
                 avatar: NetworkImage(
                     "https://images.anime-pictures.net/4e1/4e1f90be2af3303f330ba4f6e5b02697.jpeg"),
                 countryFlag: CountryView(countryName: "eu")),
@@ -66,17 +77,17 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: BoardController(
-                state: flipBoard ? state.board.flipped() : state.board,
-                playState: state.state,
-                pieceSet: PieceSet.merida(),
-                theme: BoardTheme.brown,
-                moves: state.moves,
-                onMove: _onMove,
-                onPremove: _onMove,
-                markerTheme: MarkerTheme(
-                  empty: MarkerTheme.dot,
-                  piece: MarkerTheme.corners(),
-                )),
+                  state: flipBoard ? state.board.flipped() : state.board,
+                  playState: state.state,
+                  pieceSet: PieceSet.merida(),
+                  theme: BoardTheme.brown,
+                  moves: state.moves,
+                  onMove: _onMove,
+                  onPremove: _onMove,
+                  markerTheme: MarkerTheme(
+                    empty: MarkerTheme.dot,
+                    piece: MarkerTheme.corners(),
+                  )),
             ),
             SizedBox(
               height: 20,
@@ -85,23 +96,16 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                 name: Text("Lebro"),
                 rating: 2000,
                 avatar: NetworkImage(
-                    "https://images.anime-pictures.net/b11/b11544980df2eaf9431233d2ed95e8b3.png"),
+                    "https://images.anime-pictures.net/ca4/ca41ad3fbeefd41370474821321c9665.png"),
+                clock: ClockWidget(enabled: !aiThinking),
                 countryFlag: CountryView(countryName: "ru")),
             SizedBox(
               height: 20,
             ),
-            Row(
-              children: [
-                for(bishop.Move m in game.moveHistory)
-                  Row(
-                    children: [
-                      Text(bishop.squareName(m.to), overflow: TextOverflow.fade),
-                    ],
-                  )
-              ],
-            ),
-            
-            
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: MoveListWidget(sanMoves: game.moveHistorySan, currentHalfMove: game.moveHistorySan.length),
+            )
           ],
         ),
       ),
@@ -122,7 +126,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     if (state.state == PlayState.theirTurn && !aiThinking) {
       setState(() => aiThinking = true);
       await Future.delayed(
-          Duration(milliseconds: Random().nextInt(4750) + 250));
+          Duration(milliseconds: Random().nextInt(250) + 250));
       game.makeRandomMove();
       setState(() {
         aiThinking = false;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_play_chess/view/theme/app_theme.dart';
+import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:flutter_play_chess/view/widget/const/k_const.dart';
 import 'package:logger/logger.dart';
 
@@ -8,24 +9,34 @@ class SelectionItem extends StatelessWidget {
   final bool doCenter;
   final int index;
   final SelectionItemData data;
-  const SelectionItem(
-      {Key? key, required this.data, required this.child, this.doCenter = true, required this.index})
-      : super(key: key);
+  final SelectionItemThemeData? theme;
+  SelectionItem(
+      {Key? key,
+      required this.data,
+      required this.child,
+      this.doCenter = true,
+      required this.index,
+      this.theme})
+      : super(key: key) {
+    state = {};
+    if (data.callback == null) {
+      state.add(MaterialState.disabled);
+    }
+    if (data.selected) {
+      state.add(MaterialState.selected);
+    }
+  }
 
+  late final Set<MaterialState> state;
   @override
   Widget build(BuildContext context) {
+    final usingTheme =
+        theme ?? Theme.of(context).extension<SelectionItemThemeData>()!;
     return AnimatedContainer(
       duration: kDefaultTransitionDuration,
       width: kDefaultSelectionSquareSize,
       height: kDefaultSelectionSquareSize,
-      decoration: BoxDecoration(
-          color: data.callback == null
-              ? Colors.white.withOpacity(0.6)
-              : data.selected == true
-                  ? Colors.white
-                  : Colors.transparent,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1, color: Colors.grey)),
+      decoration: usingTheme.decoration!.resolve(state),
       child: Material(
         color: Colors.transparent,
         //borderRadius: BorderRadius.circular(10),
@@ -34,12 +45,10 @@ class SelectionItem extends StatelessWidget {
         child: InkWell(
           child: DefaultTextStyle(
             child: doCenter ? Center(child: child) : child ?? SizedBox.shrink(),
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                color: data.callback == null
-                    ? Colors.red
-                    : data.selected == true
-                        ? backgroundColor
-                        : Colors.grey),
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2!
+                .merge(usingTheme.textStyle!.resolve(state)!),
           ),
           onTap: data.selected == null
               ? null

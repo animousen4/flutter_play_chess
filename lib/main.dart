@@ -32,6 +32,8 @@ void main() async {
   final userService = UserService();
   await userService.loadUser();
 
+  //final alice = Alice();
+
   HttpOverrides.global = DebugHttpOverride();
 
   final chopperClient = NetworkClientSecured(

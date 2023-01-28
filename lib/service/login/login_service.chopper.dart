@@ -18,9 +18,14 @@ class _$LogInService extends LogInService {
 
   @override
   Future<Response<LogInResponse>> loginDefault(LogInRequest logInRequest) {
-    final $url = '/api/chess-mobile/login';
+    final Uri $url = Uri.parse('/api/chess-mobile/login');
     final $body = logInRequest;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
     return client.send<LogInResponse, LogInResponse>($request);
   }
 }

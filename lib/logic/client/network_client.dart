@@ -8,7 +8,7 @@ import 'package:flutter_play_chess/service/login/login_service.dart';
 
 class NetworkClient extends ChopperClient {
   NetworkClient() : super(
-    baseUrl: Globals.url,
+    baseUrl: Uri.parse(Globals.url),
     converter: DataConverter(),
     interceptors: [LogInterceptor(), ServerExceptionInterceptor()],
     services: [LogInService.create()]

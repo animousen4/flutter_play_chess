@@ -13,12 +13,12 @@
 part of 'routes.dart';
 
 class _$AppRouter extends RootStackRouter {
-  _$AppRouter(
-      {GlobalKey<NavigatorState>? navigatorKey,
-      required this.authRouteGuard,
-      required this.unauthorizedRouteGuard,
-      required this.debugRouteGuard})
-      : super(navigatorKey);
+  _$AppRouter({
+    GlobalKey<NavigatorState>? navigatorKey,
+    required this.authRouteGuard,
+    required this.unauthorizedRouteGuard,
+    required this.debugRouteGuard,
+  }) : super(navigatorKey);
 
   final AuthRouteGuard authRouteGuard;
 
@@ -30,117 +30,203 @@ class _$AppRouter extends RootStackRouter {
   final Map<String, PageFactory> pagesMap = {
     HomeScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const HomeScreen());
+        routeData: routeData,
+        child: const HomeScreen(),
+      );
     },
     LoginScreenRoute.name: (routeData) {
       final args = routeData.argsAs<LoginScreenRouteArgs>(
           orElse: () => const LoginScreenRouteArgs());
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: LoginScreen(key: args.key));
+        routeData: routeData,
+        child: LoginScreen(key: args.key),
+      );
     },
     SignUpScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const SignUpScreen());
+        routeData: routeData,
+        child: const SignUpScreen(),
+      );
     },
     PlayGameScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const PlayGameScreen());
+        routeData: routeData,
+        child: const PlayGameScreen(),
+      );
     },
     DebugScreenRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const DebugScreen());
+        routeData: routeData,
+        child: const DebugScreen(),
+      );
     },
     PhotoViewScreenRoute.name: (routeData) {
       final args = routeData.argsAs<PhotoViewScreenRouteArgs>();
       return MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: PhotoViewScreen(key: args.key, tag: args.tag, img: args.img));
+        routeData: routeData,
+        child: PhotoViewScreen(
+          key: args.key,
+          tag: args.tag,
+          img: args.img,
+        ),
+      );
     },
     OopsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const OopsPage());
+        routeData: routeData,
+        child: const OopsPage(),
+      );
     },
     PlayPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const PlayPage());
+        routeData: routeData,
+        child: const PlayPage(),
+      );
     },
     TournamentPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const TournamentPage());
+        routeData: routeData,
+        child: const TournamentPage(),
+      );
     },
     LessonPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const LessonPage());
+        routeData: routeData,
+        child: const LessonPage(),
+      );
     },
     ProfilePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const ProfilePage());
+        routeData: routeData,
+        child: const ProfilePage(),
+      );
     },
     DefaultLoginRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const DefaultLogin());
+        routeData: routeData,
+        child: const DefaultLogin(),
+      );
     },
     ElementsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const ElementsPage());
+        routeData: routeData,
+        child: const ElementsPage(),
+      );
     },
     AppStatePageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const AppStatePage());
+        routeData: routeData,
+        child: const AppStatePage(),
+      );
     },
     RequestsPageRoute.name: (routeData) {
       return MaterialPageX<dynamic>(
-          routeData: routeData, child: const RequestsPage());
-    }
+        routeData: routeData,
+        child: const RequestsPage(),
+      );
+    },
   };
 
   @override
   List<RouteConfig> get routes => [
-        RouteConfig('/#redirect',
-            path: '/', redirectTo: '/home', fullMatch: true),
-        RouteConfig(HomeScreenRoute.name, path: '/home', guards: [
-          authRouteGuard
-        ], children: [
-          RouteConfig(PlayPageRoute.name,
-              path: 'play', parent: HomeScreenRoute.name),
-          RouteConfig(TournamentPageRoute.name,
-              path: 'tournament', parent: HomeScreenRoute.name),
-          RouteConfig(LessonPageRoute.name,
-              path: 'lesson', parent: HomeScreenRoute.name),
-          RouteConfig(ProfilePageRoute.name,
-              path: 'profile', parent: HomeScreenRoute.name)
-        ]),
-        RouteConfig(LoginScreenRoute.name, path: '/login', children: [
-          RouteConfig('#redirect',
+        RouteConfig(
+          '/#redirect',
+          path: '/',
+          redirectTo: '/home',
+          fullMatch: true,
+        ),
+        RouteConfig(
+          HomeScreenRoute.name,
+          path: '/home',
+          guards: [authRouteGuard],
+          children: [
+            RouteConfig(
+              PlayPageRoute.name,
+              path: 'play',
+              parent: HomeScreenRoute.name,
+            ),
+            RouteConfig(
+              TournamentPageRoute.name,
+              path: 'tournament',
+              parent: HomeScreenRoute.name,
+            ),
+            RouteConfig(
+              LessonPageRoute.name,
+              path: 'lesson',
+              parent: HomeScreenRoute.name,
+            ),
+            RouteConfig(
+              ProfilePageRoute.name,
+              path: 'profile',
+              parent: HomeScreenRoute.name,
+            ),
+          ],
+        ),
+        RouteConfig(
+          LoginScreenRoute.name,
+          path: '/login',
+          children: [
+            RouteConfig(
+              '#redirect',
               path: '',
               parent: LoginScreenRoute.name,
               redirectTo: 'default',
-              fullMatch: true),
-          RouteConfig(DefaultLoginRoute.name,
+              fullMatch: true,
+            ),
+            RouteConfig(
+              DefaultLoginRoute.name,
               path: 'default',
               parent: LoginScreenRoute.name,
-              guards: [unauthorizedRouteGuard])
-        ]),
-        RouteConfig(SignUpScreenRoute.name,
-            path: '/sign_up', guards: [unauthorizedRouteGuard]),
-        RouteConfig(PlayGameScreenRoute.name, path: '/playgame'),
-        RouteConfig(DebugScreenRoute.name, path: '/debug', guards: [
-          debugRouteGuard
-        ], children: [
-          RouteConfig('#redirect',
+              guards: [unauthorizedRouteGuard],
+            ),
+          ],
+        ),
+        RouteConfig(
+          SignUpScreenRoute.name,
+          path: '/sign_up',
+          guards: [unauthorizedRouteGuard],
+        ),
+        RouteConfig(
+          PlayGameScreenRoute.name,
+          path: '/playgame',
+        ),
+        RouteConfig(
+          DebugScreenRoute.name,
+          path: '/debug',
+          guards: [debugRouteGuard],
+          children: [
+            RouteConfig(
+              '#redirect',
               path: '',
               parent: DebugScreenRoute.name,
               redirectTo: 'requests',
-              fullMatch: true),
-          RouteConfig(ElementsPageRoute.name,
-              path: 'elements', parent: DebugScreenRoute.name),
-          RouteConfig(AppStatePageRoute.name,
-              path: 'app-state', parent: DebugScreenRoute.name),
-          RouteConfig(RequestsPageRoute.name,
-              path: 'requests', parent: DebugScreenRoute.name)
-        ]),
-        RouteConfig(PhotoViewScreenRoute.name, path: '/view'),
-        RouteConfig(OopsPageRoute.name, path: '*')
+              fullMatch: true,
+            ),
+            RouteConfig(
+              ElementsPageRoute.name,
+              path: 'elements',
+              parent: DebugScreenRoute.name,
+            ),
+            RouteConfig(
+              AppStatePageRoute.name,
+              path: 'app-state',
+              parent: DebugScreenRoute.name,
+            ),
+            RouteConfig(
+              RequestsPageRoute.name,
+              path: 'requests',
+              parent: DebugScreenRoute.name,
+            ),
+          ],
+        ),
+        RouteConfig(
+          PhotoViewScreenRoute.name,
+          path: '/view',
+        ),
+        RouteConfig(
+          OopsPageRoute.name,
+          path: '*',
+        ),
       ];
 }
 
@@ -148,7 +234,11 @@ class _$AppRouter extends RootStackRouter {
 /// [HomeScreen]
 class HomeScreenRoute extends PageRouteInfo<void> {
   const HomeScreenRoute({List<PageRouteInfo>? children})
-      : super(HomeScreenRoute.name, path: '/home', initialChildren: children);
+      : super(
+          HomeScreenRoute.name,
+          path: '/home',
+          initialChildren: children,
+        );
 
   static const String name = 'HomeScreenRoute';
 }
@@ -156,11 +246,15 @@ class HomeScreenRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [LoginScreen]
 class LoginScreenRoute extends PageRouteInfo<LoginScreenRouteArgs> {
-  LoginScreenRoute({Key? key, List<PageRouteInfo>? children})
-      : super(LoginScreenRoute.name,
-            path: '/login',
-            args: LoginScreenRouteArgs(key: key),
-            initialChildren: children);
+  LoginScreenRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          LoginScreenRoute.name,
+          path: '/login',
+          args: LoginScreenRouteArgs(key: key),
+          initialChildren: children,
+        );
 
   static const String name = 'LoginScreenRoute';
 }
@@ -179,7 +273,11 @@ class LoginScreenRouteArgs {
 /// generated route for
 /// [SignUpScreen]
 class SignUpScreenRoute extends PageRouteInfo<void> {
-  const SignUpScreenRoute() : super(SignUpScreenRoute.name, path: '/sign_up');
+  const SignUpScreenRoute()
+      : super(
+          SignUpScreenRoute.name,
+          path: '/sign_up',
+        );
 
   static const String name = 'SignUpScreenRoute';
 }
@@ -188,7 +286,10 @@ class SignUpScreenRoute extends PageRouteInfo<void> {
 /// [PlayGameScreen]
 class PlayGameScreenRoute extends PageRouteInfo<void> {
   const PlayGameScreenRoute()
-      : super(PlayGameScreenRoute.name, path: '/playgame');
+      : super(
+          PlayGameScreenRoute.name,
+          path: '/playgame',
+        );
 
   static const String name = 'PlayGameScreenRoute';
 }
@@ -197,7 +298,11 @@ class PlayGameScreenRoute extends PageRouteInfo<void> {
 /// [DebugScreen]
 class DebugScreenRoute extends PageRouteInfo<void> {
   const DebugScreenRoute({List<PageRouteInfo>? children})
-      : super(DebugScreenRoute.name, path: '/debug', initialChildren: children);
+      : super(
+          DebugScreenRoute.name,
+          path: '/debug',
+          initialChildren: children,
+        );
 
   static const String name = 'DebugScreenRoute';
 }
@@ -205,17 +310,29 @@ class DebugScreenRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [PhotoViewScreen]
 class PhotoViewScreenRoute extends PageRouteInfo<PhotoViewScreenRouteArgs> {
-  PhotoViewScreenRoute({Key? key, required String tag, required Widget img})
-      : super(PhotoViewScreenRoute.name,
-            path: '/view',
-            args: PhotoViewScreenRouteArgs(key: key, tag: tag, img: img));
+  PhotoViewScreenRoute({
+    Key? key,
+    required String tag,
+    required Widget img,
+  }) : super(
+          PhotoViewScreenRoute.name,
+          path: '/view',
+          args: PhotoViewScreenRouteArgs(
+            key: key,
+            tag: tag,
+            img: img,
+          ),
+        );
 
   static const String name = 'PhotoViewScreenRoute';
 }
 
 class PhotoViewScreenRouteArgs {
-  const PhotoViewScreenRouteArgs(
-      {this.key, required this.tag, required this.img});
+  const PhotoViewScreenRouteArgs({
+    this.key,
+    required this.tag,
+    required this.img,
+  });
 
   final Key? key;
 
@@ -232,7 +349,11 @@ class PhotoViewScreenRouteArgs {
 /// generated route for
 /// [OopsPage]
 class OopsPageRoute extends PageRouteInfo<void> {
-  const OopsPageRoute() : super(OopsPageRoute.name, path: '*');
+  const OopsPageRoute()
+      : super(
+          OopsPageRoute.name,
+          path: '*',
+        );
 
   static const String name = 'OopsPageRoute';
 }
@@ -240,7 +361,11 @@ class OopsPageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [PlayPage]
 class PlayPageRoute extends PageRouteInfo<void> {
-  const PlayPageRoute() : super(PlayPageRoute.name, path: 'play');
+  const PlayPageRoute()
+      : super(
+          PlayPageRoute.name,
+          path: 'play',
+        );
 
   static const String name = 'PlayPageRoute';
 }
@@ -249,7 +374,10 @@ class PlayPageRoute extends PageRouteInfo<void> {
 /// [TournamentPage]
 class TournamentPageRoute extends PageRouteInfo<void> {
   const TournamentPageRoute()
-      : super(TournamentPageRoute.name, path: 'tournament');
+      : super(
+          TournamentPageRoute.name,
+          path: 'tournament',
+        );
 
   static const String name = 'TournamentPageRoute';
 }
@@ -257,7 +385,11 @@ class TournamentPageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [LessonPage]
 class LessonPageRoute extends PageRouteInfo<void> {
-  const LessonPageRoute() : super(LessonPageRoute.name, path: 'lesson');
+  const LessonPageRoute()
+      : super(
+          LessonPageRoute.name,
+          path: 'lesson',
+        );
 
   static const String name = 'LessonPageRoute';
 }
@@ -265,7 +397,11 @@ class LessonPageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [ProfilePage]
 class ProfilePageRoute extends PageRouteInfo<void> {
-  const ProfilePageRoute() : super(ProfilePageRoute.name, path: 'profile');
+  const ProfilePageRoute()
+      : super(
+          ProfilePageRoute.name,
+          path: 'profile',
+        );
 
   static const String name = 'ProfilePageRoute';
 }
@@ -273,7 +409,11 @@ class ProfilePageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [DefaultLogin]
 class DefaultLoginRoute extends PageRouteInfo<void> {
-  const DefaultLoginRoute() : super(DefaultLoginRoute.name, path: 'default');
+  const DefaultLoginRoute()
+      : super(
+          DefaultLoginRoute.name,
+          path: 'default',
+        );
 
   static const String name = 'DefaultLoginRoute';
 }
@@ -281,7 +421,11 @@ class DefaultLoginRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [ElementsPage]
 class ElementsPageRoute extends PageRouteInfo<void> {
-  const ElementsPageRoute() : super(ElementsPageRoute.name, path: 'elements');
+  const ElementsPageRoute()
+      : super(
+          ElementsPageRoute.name,
+          path: 'elements',
+        );
 
   static const String name = 'ElementsPageRoute';
 }
@@ -289,7 +433,11 @@ class ElementsPageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [AppStatePage]
 class AppStatePageRoute extends PageRouteInfo<void> {
-  const AppStatePageRoute() : super(AppStatePageRoute.name, path: 'app-state');
+  const AppStatePageRoute()
+      : super(
+          AppStatePageRoute.name,
+          path: 'app-state',
+        );
 
   static const String name = 'AppStatePageRoute';
 }
@@ -297,7 +445,11 @@ class AppStatePageRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [RequestsPage]
 class RequestsPageRoute extends PageRouteInfo<void> {
-  const RequestsPageRoute() : super(RequestsPageRoute.name, path: 'requests');
+  const RequestsPageRoute()
+      : super(
+          RequestsPageRoute.name,
+          path: 'requests',
+        );
 
   static const String name = 'RequestsPageRoute';
 }

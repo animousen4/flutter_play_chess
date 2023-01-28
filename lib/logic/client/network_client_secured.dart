@@ -19,7 +19,7 @@ class NetworkClientSecured extends ChopperClient {
   final NetworkClient networkClient;
   NetworkClientSecured({required this.userService, required this.networkClient})
       : super(
-            baseUrl: Globals.url,
+            baseUrl: Uri.parse(Globals.url),
             converter: DataConverter(),
             interceptors: [
               //JwtInterceptor(userService: userService),

@@ -8,7 +8,7 @@ class LogInterceptor implements RequestInterceptor, ResponseInterceptor {
   @override
   FutureOr<Request> onRequest(Request request) {
     logger.d(
-        "REQUEST [${request.method}]\nurl: ${request.baseUrl}${request.url}\nheaders: ${request.headers}\nbody: ${request.body}");
+        "REQUEST [${request.method}]\nurl: ${request.url}\nheaders: ${request.headers}\nbody: ${request.body}");
     return request;
   }
 

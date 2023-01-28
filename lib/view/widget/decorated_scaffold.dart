@@ -1,6 +1,6 @@
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme/decorated_scaffold_theme.dart';
+import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme.dart';
 
 class DecoratedScaffold extends Scaffold {
   final Decoration? decoration;

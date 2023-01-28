@@ -19,9 +19,14 @@ class _$SignUpService extends SignUpService {
   @override
   Future<Response<SignUpResponse>> registryDefault(
       SignUpRequest signUpRequest) {
-    final $url = '/api/chess-mobile/registry';
+    final Uri $url = Uri.parse('/api/chess-mobile/registry');
     final $body = signUpRequest;
-    final $request = Request('POST', $url, client.baseUrl, body: $body);
+    final Request $request = Request(
+      'POST',
+      $url,
+      client.baseUrl,
+      body: $body,
+    );
     return client.send<SignUpResponse, SignUpResponse>($request);
   }
 }

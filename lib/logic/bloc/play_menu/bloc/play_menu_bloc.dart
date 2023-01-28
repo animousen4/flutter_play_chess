@@ -14,7 +14,7 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
         return;
       }
 
-      emit(PlayMenuNormal(selectedRatedIndex: 0, selectedCategoryIndex: 0));
+      emit(PlayMenuNormal(selectedRatedIndex: 0, selectedCategoryIndex: 0, selectedColorIndex: 2, selectedOpponentIndex: 0, selectedTypeIndex: 0));
     });
 
     on<RatedGameChanged>((event, emit) {
@@ -25,6 +25,10 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
     on<CategoryGameChanged>((event, emit) {
       emit((state as PlayMenuNormal)
           .copyWith(selectedCategoryIndex: event.newIndex));
+    });
+
+    on<ColorGameChanged>((event, emit) {
+      emit((state as PlayMenuNormal).copyWith(selectedColorIndex: event.newIndex));
     });
   }
 }

@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme/decorated_scaffold_theme.dart';
-import 'package:flutter_play_chess/view/theme/dropdown_physical_button_theme/dropdown_physical_button_theme.dart';
+import 'package:flutter_play_chess/view/png/png_assets.dart';
+import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme.dart';
+import 'package:flutter_play_chess/view/theme/dropdown_physical_button_theme.dart';
+import 'package:flutter_play_chess/view/theme/expandable_card_theme.dart';
+import 'package:flutter_play_chess/view/theme/clock_widget_theme.dart';
+import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_play_chess/view/theme/play_button_theme.dart';
 
 const backgroundColor = Color.fromARGB(255, 1, 14, 43);
 const textTheme = TextTheme(
   headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
   headline2: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
-  headline3: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.white),
+  headline3: TextStyle(
+      fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.white),
   headline4: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
   headline5: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
   //headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w500),
@@ -20,7 +26,7 @@ const textTheme = TextTheme(
 class AppThemeManager {
   static ThemeData get darkTheme => ThemeData(
       brightness: Brightness.dark,
-      extensions: const [
+      extensions: [
         DecoratedScaffoldTheme(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -37,7 +43,98 @@ class AppThemeManager {
               Color.fromRGBO(61, 71, 93, 1),
             ]))),
         DropdownPhysicalButtonTheme(
-            backgroundColor: Colors.white, onBackground: Colors.black)
+            backgroundColor: Colors.white, onBackground: Colors.black),
+        ClockWidgetTheme(
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(55, 65, 88, 1),
+              borderRadius: BorderRadius.circular(7),
+            ),
+            decorationEnabled: BoxDecoration(
+                color: Colors.white.withOpacity(0.95),
+                borderRadius: BorderRadius.circular(7)),
+            timeStyle: textTheme.headline3,
+            timeStyleEnabled: textTheme.headline3!
+                .copyWith(color: Color.fromRGBO(2, 15, 44, 1))),
+        PlayButtonTheme(
+            buttonStyle: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(Colors.transparent),
+                shadowColor: MaterialStatePropertyAll(Colors.transparent),
+                shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)))),
+            decoration: BoxDecoration(
+                gradient: LinearGradient(colors: [
+                  Color(0xFF5F37FF),
+                  Color(0xFFA54BFF),
+                ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
+                borderRadius: BorderRadius.circular(10))),
+        ExpandableCardTheme(
+            iconColor: MaterialStateProperty.all(Colors.red),
+            contentTextStyle: MaterialStateProperty.all(
+                textTheme.bodyText2!.copyWith(color: Colors.black)),
+            decorationImage: Image.asset(PngAssets.gameModeBackground).image,
+            decoration: MaterialStateProperty.resolveWith<BoxDecoration>(
+                (states) => BoxDecoration(color: Colors.white)),
+            headerDecoration:
+                MaterialStateProperty.resolveWith<BoxDecoration>((states) {
+              if (states.contains(MaterialState.disabled)) {
+                return BoxDecoration(color: Colors.grey);
+              }
+
+              return BoxDecoration(
+                  gradient: states.containsAll([MaterialState.selected])
+                      ? LinearGradient(
+                          colors: states.containsAll([MaterialState.pressed])
+                              ? [
+                                  Color.fromARGB(255, 126, 113, 182),
+                                  Color.fromARGB(255, 35, 15, 119),
+                                ]
+                              : [
+                                  Color.fromARGB(255, 251, 251, 251),
+                                  Color.fromARGB(255, 35, 15, 119),
+                                ])
+                      : LinearGradient(colors: [
+                          Color.fromARGB(255, 44, 35, 79),
+                          Color.fromARGB(255, 9, 20, 49)
+                        ]));
+            }),
+            headerTextStyle:
+                MaterialStateProperty.resolveWith<TextStyle>((states) {
+              return states.containsAll([MaterialState.selected])
+                  ? states.containsAll([MaterialState.pressed])
+                      ? textTheme.bodyText2!.copyWith(color: Colors.white)
+                      : textTheme.bodyText2!.copyWith(color: Colors.black)
+                  : textTheme.bodyText2!.copyWith(color: Colors.blueGrey);
+            })),
+        SelectionItemThemeData(
+            decoration: MaterialStateProperty.resolveWith((states) {
+              return BoxDecoration(
+                  color: states.contains(MaterialState.disabled)
+                      ? Colors.white.withOpacity(0.6)
+                      : states.contains(MaterialState.selected)
+                          ? Colors.white
+                          : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1, color: Colors.grey));
+            }),
+            textStyle: MaterialStateProperty.resolveWith((states) => TextStyle(
+                color: states.contains(MaterialState.disabled)
+                    ? Colors.red
+                    : states.contains(MaterialState.selected)
+                        ? backgroundColor
+                        : Colors.grey))),
+        SelectionItemThemeSecondary(SelectionItemThemeData(
+            decoration: MaterialStateProperty.resolveWith((states) {
+              return BoxDecoration(
+                  color: states.contains(MaterialState.disabled)
+                      ? Color(0xFFDDD8DF)
+                      : states.contains(MaterialState.selected)
+                          ? Color(0xFFDDD8DF)
+                          : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1, color: Colors.grey));
+            }),
+            textStyle: MaterialStateProperty.resolveWith(
+                (states) => TextStyle(color: Colors.black))))
       ],
       dialogTheme: DialogTheme(
           backgroundColor: Colors.white,
@@ -47,6 +144,7 @@ class AppThemeManager {
       dividerTheme: DividerThemeData(thickness: 2),
       elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
+        minimumSize: MaterialStateProperty.all<Size>(const Size(343, 50)),
         animationDuration: Duration(milliseconds: 100),
         backgroundColor: MaterialStateProperty.resolveWith((states) =>
             states.contains(MaterialState.disabled)
@@ -77,8 +175,7 @@ class AppThemeManager {
       fontFamily: GoogleFonts.montserrat().fontFamily,
       // by default textBody2
       // headline6 for appBar title
-      listTileTheme: ListTileThemeData(
-      ),
+      listTileTheme: ListTileThemeData(),
       toggleButtonsTheme: ToggleButtonsThemeData(
           disabledColor: Colors.white.withOpacity(0.3),
           selectedColor: backgroundColor,
@@ -89,8 +186,7 @@ class AppThemeManager {
           constraints: BoxConstraints(maxHeight: 48),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
       //primaryTextTheme: const TextTheme(),
-      appBarTheme:
-          AppBarTheme(backgroundColor: Color.fromARGB(255, 1, 11, 33)),
+      appBarTheme: AppBarTheme(backgroundColor: Color.fromARGB(255, 1, 11, 33)),
       navigationBarTheme: const NavigationBarThemeData(
           height: 48,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,

@@ -23,6 +23,7 @@ class SvgIcons {
       SvgPicture.asset("assets/svg/icons/notification_bell.svg");
   static Widget get user => SvgPicture.asset("assets/svg/icons/user.svg");
   static Widget get logo => SvgPicture.asset("assets/svg/icons/logo.svg");
+  static Widget get backIcon => SvgPicture.asset("assets/svg/icons/icon_back.svg");
 
   static Widget get playIconActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/play_active.svg");
   static Widget get playIconNotActive => SvgPicture.asset("assets/svg/icons/bottom_nav_bar/play_not_active.svg");

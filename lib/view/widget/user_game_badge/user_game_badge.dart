@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_play_chess/view/widget/clock/clock_widget.dart';
 
 class UserGameBadge extends StatelessWidget {
   const UserGameBadge(
@@ -8,11 +9,13 @@ class UserGameBadge extends StatelessWidget {
       required this.name,
       required this.rating,
       required this.avatar,
+      required this.clock,
       required this.countryFlag});
 
   final int rating;
   final Widget countryFlag;
   final Widget name;
+  final Widget clock;
   final ImageProvider<Object> avatar;
   @override
   Widget build(BuildContext context) {
@@ -21,19 +24,7 @@ class UserGameBadge extends StatelessWidget {
         backgroundImage: avatar,
         radius: 25,
       ),
-      trailing: Container(
-        decoration: BoxDecoration(
-          color: Color.fromRGBO(55, 65, 88, 1),
-          borderRadius: BorderRadius.circular(7),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 18),
-          child: Text(
-            "10:55",
-            style: Theme.of(context).textTheme.headline3,
-          ),
-        ),
-      ),
+      trailing: clock,
       title: DefaultTextStyle(
         child: name,
         style: Theme.of(context).textTheme.headline3!,
