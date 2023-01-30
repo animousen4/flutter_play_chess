@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_play_chess/view/png/png_assets.dart';
 import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme.dart';
@@ -25,6 +27,8 @@ const textTheme = TextTheme(
 
 class AppThemeManager {
   static ThemeData get darkTheme => ThemeData(
+      useMaterial3: true,
+      typography: Typography.material2021(colorScheme: ColorScheme.dark()),
       brightness: Brightness.dark,
       extensions: [
         DecoratedScaffoldTheme(
@@ -52,9 +56,8 @@ class AppThemeManager {
             decorationEnabled: BoxDecoration(
                 color: Colors.white.withOpacity(0.95),
                 borderRadius: BorderRadius.circular(7)),
-            timeStyle: textTheme.headline3,
-            timeStyleEnabled: textTheme.headline3!
-                .copyWith(color: Color.fromRGBO(2, 15, 44, 1))),
+            timeStyle: null,
+            timeStyleEnabled: TextStyle(color: Color.fromRGBO(2, 15, 44, 1))),
         PlayButtonTheme(
             buttonStyle: ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.transparent),
@@ -69,8 +72,8 @@ class AppThemeManager {
                 borderRadius: BorderRadius.circular(10))),
         ExpandableCardTheme(
             iconColor: MaterialStateProperty.all(Colors.red),
-            contentTextStyle: MaterialStateProperty.all(
-                textTheme.bodyText2!.copyWith(color: Colors.black)),
+            contentTextStyle:
+                MaterialStateProperty.all(TextStyle(color: Colors.black)),
             decorationImage: Image.asset(PngAssets.gameModeBackground).image,
             decoration: MaterialStateProperty.resolveWith<BoxDecoration>(
                 (states) => BoxDecoration(color: Colors.white)),
@@ -89,7 +92,8 @@ class AppThemeManager {
                                   Color.fromARGB(255, 35, 15, 119),
                                 ]
                               : [
-                                  Color.fromARGB(255, 251, 251, 251),
+                                  Color.fromARGB(255, 255, 255, 255),
+                                  Color.fromARGB(255, 255, 255, 255),
                                   Color.fromARGB(255, 35, 15, 119),
                                 ])
                       : LinearGradient(colors: [
@@ -101,9 +105,9 @@ class AppThemeManager {
                 MaterialStateProperty.resolveWith<TextStyle>((states) {
               return states.containsAll([MaterialState.selected])
                   ? states.containsAll([MaterialState.pressed])
-                      ? textTheme.bodyText2!.copyWith(color: Colors.white)
-                      : textTheme.bodyText2!.copyWith(color: Colors.black)
-                  : textTheme.bodyText2!.copyWith(color: Colors.blueGrey);
+                      ? TextStyle(color: Colors.white)
+                      : TextStyle(color: Colors.black)
+                  : TextStyle(color: Colors.blueGrey);
             })),
         SelectionItemThemeData(
             decoration: MaterialStateProperty.resolveWith((states) {

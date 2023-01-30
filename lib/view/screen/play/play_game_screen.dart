@@ -77,6 +77,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: BoardController(
+                  animatePieces: false,
                   state: flipBoard ? state.board.flipped() : state.board,
                   playState: state.state,
                   pieceSet: PieceSet.merida(),

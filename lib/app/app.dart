@@ -18,9 +18,10 @@ class App extends StatelessWidget {
   final NetworkClientSecured chopperClient;
   final ExceptionService exceptionService;
   
-  const App({Key? key, required this.userService, required this.chopperClient, required this.exceptionService})
+  const App({Key? key, required this.userService, required this.chopperClient, required this.exceptionService, required this.router})
       : super(key: key);
 
+  final AppRouter router;
   //final _router = AppRouter(routeGuard: RouteGuard(userService));
   @override
   Widget build(BuildContext context) {
@@ -31,10 +32,6 @@ class App extends StatelessWidget {
         RepositoryProvider.value(value: exceptionService)
       ],
       child: Builder(builder: (context) {
-        final router = AppRouter(
-            authRouteGuard: AuthRouteGuard(context.read<UserService>()),
-            unauthorizedRouteGuard: UnauthorizedRouteGuard(context.read<UserService>()),
-            debugRouteGuard: DebugRouteGuard());
         return BlocProvider(
           create: (context) =>
               UserBloc(userService: context.read<UserService>()),

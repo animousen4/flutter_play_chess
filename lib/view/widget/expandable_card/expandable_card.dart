@@ -8,7 +8,7 @@ class ExpandableCard extends StatefulWidget {
   final dynamic Function()? onTap;
   final Widget? description;
   final bool showStatusIcon;
-  final bool isPressed;
+  final bool initialPressed;
   final bool isSelected;
   final bool closedFullHeight;
   final Widget? expandedContent;
@@ -19,7 +19,7 @@ class ExpandableCard extends StatefulWidget {
       {Key? key,
       this.expandableCardThemeData,
       required this.onTap,
-      required this.isPressed,
+      this.initialPressed = true,
       required this.header,
       required this.description,
       required this.expandedContent,
@@ -35,19 +35,6 @@ class ExpandableCard extends StatefulWidget {
   _ExpandableCardState createState() => _ExpandableCardState();
 }
 
-class __ExpandFadeContainerState extends State<_ExpandFadeContainer> {
-  @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor: widget.sizeAnimation,
-      child: FadeTransition(
-        opacity: widget.fadeAnimation,
-        child: widget.content,
-      ),
-    );
-  }
-}
-
 class _ExpandableCardState extends State<ExpandableCard>
     with MaterialStateMixin, TickerProviderStateMixin {
   static final Animatable<double> _easeInOutTween =
@@ -55,6 +42,7 @@ class _ExpandableCardState extends State<ExpandableCard>
   static final Animatable<double> _halfTween =
       Tween<double>(begin: 0.0, end: 0.5);
 
+  late bool pressed;
   late final AnimationController _controller;
 
   late final Animation<double> _contentAnimation;
@@ -78,127 +66,135 @@ class _ExpandableCardState extends State<ExpandableCard>
     }
 
     final double screenWidth = MediaQuery.of(context).size.width;
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
-      width: widget.closedFullHeight ? screenWidth : widget.isSelected ? screenWidth : (screenWidth - 16 * 3) * 0.5,
-      child: Material(
-        clipBehavior: Clip.antiAlias,
-        borderRadius: BorderRadius.circular(10.0),
-        child: ConstrainedBox(
-          constraints: BoxConstraints(minWidth: 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                decoration: themeData.headerDecoration!.resolve(materialStates),
-                child: Stack(
-                  children: [
-                    Positioned.fill(
-                      child: AnimatedOpacity(
-                        opacity: widget.isSelected ? 0.2 : 0.0,
-                        child: themeData.decorationImage != null
-                            ? Image(
-                                image: themeData.decorationImage!,
-                                fit: BoxFit.cover,
-                              )
-                            : null,
-                        duration: Duration(milliseconds: 300),
-                      ),
+    return Material(
+      clipBehavior: Clip.antiAlias,
+      borderRadius: BorderRadius.circular(10.0),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minWidth: 100),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              decoration: themeData.headerDecoration!.resolve(materialStates),
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: AnimatedOpacity(
+                      opacity: widget.isSelected ? 0.2 : 0.0,
+                      child: themeData.decorationImage != null
+                          ? Image(
+                              image: themeData.decorationImage!,
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                      duration: Duration(milliseconds: 300),
                     ),
-                    Positioned(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          InkWell(
-                            onTap: widget.onTap,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: widget.collapsedPadding,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          AnimatedDefaultTextStyle(
-                                              child: widget.header,
-                                              style: themeData.headerTextStyle!
-                                                  .resolve(materialStates)!,
-                                              duration:
-                                                  Duration(milliseconds: 300)),
-                                          _buildIcon(themeData)
-                                        ],
-                                      ),
-                                      AnimatedSwitcher(
-                                        duration: Duration(milliseconds: 300),
-                                        transitionBuilder: (child, animation) =>
-                                            SizeTransition(
-                                          axis: Axis.vertical,
-                                          sizeFactor: _contentAnimation,
-                                          child: Column(
-                                            children: [
-                                              widget.description != null
-                                                  ? SizedBox(
-                                                      width: 20,
-                                                    )
-                                                  : SizedBox.shrink(),
-                                              child
-                                            ],
-                                          ),
+                  ),
+                  Positioned(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        InkWell(
+                          onTap: widget.onTap != null
+                              ? widget.isSelected
+                                  ? () => setState(() {
+                                        pressed = !pressed;
+                                      })
+                                  : () {
+                                    widget.onTap!();
+                                    pressed = true;
+                                  }
+                              : null,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: widget.collapsedPadding,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        AnimatedDefaultTextStyle(
+                                            child: widget.header,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2!
+                                                .merge(themeData
+                                                    .headerTextStyle!
+                                                    .resolve(materialStates)!),
+                                            duration:
+                                                Duration(milliseconds: 300)),
+                                        _buildIcon(themeData)
+                                      ],
+                                    ),
+                                    AnimatedSwitcher(
+                                      duration: Duration(milliseconds: 300),
+                                      transitionBuilder: (child, animation) =>
+                                          SizeTransition(
+                                        axis: Axis.vertical,
+                                        sizeFactor: _contentAnimation,
+                                        child: Column(
+                                          children: [
+                                            widget.description != null
+                                                ? SizedBox(
+                                                    width: 20,
+                                                  )
+                                                : SizedBox.shrink(),
+                                            child
+                                          ],
                                         ),
-                                        child: widget.description ??
-                                            SizedBox.shrink(),
                                       ),
-                                    ],
-                                  ),
+                                      child: widget.description ??
+                                          SizedBox.shrink(),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              AnimatedSwitcher(
-                  duration: Duration(milliseconds: 300),
-                  transitionBuilder: (child, animation) => SizeTransition(
-                        axis: Axis.vertical,
-                        sizeFactor: _contentAnimation,
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          decoration:
-                              themeData.decoration!.resolve(materialStates),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 22),
-                            child: Center(child: child),
+                              ),
+                            ],
                           ),
-                          //color: Colors.white,
-                          //constraints: BoxConstraints(),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            AnimatedSwitcher(
+                duration: Duration(milliseconds: 300),
+                transitionBuilder: (child, animation) => SizeTransition(
+                      axis: Axis.vertical,
+                      sizeFactor: _contentAnimation,
+                      child: AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        decoration:
+                            themeData.decoration!.resolve(materialStates),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          child: Center(child: child),
                         ),
-                      ),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: widget.contentPadding,
-                      child: DefaultTextStyle(
-                        child: widget.expandedContent ?? SizedBox.shrink(),
-                        style: Theme.of(context)
-                            .extension<ExpandableCardTheme>()!
-                            .contentTextStyle!
-                            .resolve(materialStates)!,
+                        //color: Colors.white,
+                        //constraints: BoxConstraints(),
                       ),
                     ),
-                  )),
-            ],
-          ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: widget.contentPadding,
+                    child: DefaultTextStyle(
+                      child: widget.expandedContent ?? SizedBox.shrink(),
+                      style: Theme.of(context)
+                          .extension<ExpandableCardTheme>()!
+                          .contentTextStyle!
+                          .resolve(materialStates)!,
+                    ),
+                  ),
+                )),
+          ],
         ),
       ),
     );
@@ -215,6 +211,7 @@ class _ExpandableCardState extends State<ExpandableCard>
 
     _contentAnimation = _controller.drive(_easeInOutTween);
 
+    pressed = widget.initialPressed && widget.isSelected;
     // CurvedAnimation(
     //   parent: _controller,
     //   curve: Curves.easeInOut,
@@ -239,6 +236,8 @@ class _ExpandableCardState extends State<ExpandableCard>
 
   void resolveWidgetMaterialState() {
     //logger.e(widget.isPressed);
+
+    pressed = pressed && widget.isSelected;
     if (widget.onTap == null) {
       addMaterialState(MaterialState.disabled);
     } else {
@@ -250,7 +249,7 @@ class _ExpandableCardState extends State<ExpandableCard>
       removeMaterialState(MaterialState.pressed);
       removeMaterialState(MaterialState.selected);
     }
-    if (widget.isPressed) {
+    if (pressed) {
       addMaterialState(MaterialState.pressed);
     } else {
       removeMaterialState(MaterialState.pressed);
@@ -268,44 +267,5 @@ class _ExpandableCardState extends State<ExpandableCard>
             ),
           )
         : SizedBox.shrink();
-  }
-}
-
-class _ExpandFadeContainer extends StatefulWidget {
-  final Animation<double> fadeAnimation;
-
-  final Animation<double> sizeAnimation;
-  final Widget content;
-  const _ExpandFadeContainer(
-      {Key? key,
-      required this.fadeAnimation,
-      required this.content,
-      required this.sizeAnimation})
-      : super(key: key);
-
-  @override
-  State<_ExpandFadeContainer> createState() => __ExpandFadeContainerState();
-}
-
-class _ExpandSizeContainer extends StatefulWidget {
-  final Animation<double> animation;
-  final Widget content;
-
-  const _ExpandSizeContainer(
-      {Key? key, required this.animation, required this.content})
-      : super(key: key);
-
-  @override
-  State<_ExpandSizeContainer> createState() => _ExpandSizeContainerState();
-}
-
-class _ExpandSizeContainerState extends State<_ExpandSizeContainer> {
-  @override
-  Widget build(BuildContext context) {
-    return SizeTransition(
-      sizeFactor: widget.animation,
-      axis: Axis.vertical,
-      child: Center(child: widget.content),
-    );
   }
 }

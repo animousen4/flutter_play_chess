@@ -21,9 +21,13 @@ class SelectionItem extends StatelessWidget {
     state = {};
     if (data.callback == null) {
       state.add(MaterialState.disabled);
+    } else {
+      state.remove(MaterialState.disabled);
     }
     if (data.selected) {
       state.add(MaterialState.selected);
+    } else {
+      state.remove(MaterialState.selected);
     }
   }
 

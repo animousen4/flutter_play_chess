@@ -19,6 +19,11 @@ import 'package:flutter_play_chess/service/user/user.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'view/routes/guard/auth_route_guard.dart';
+import 'view/routes/guard/debug_route_guard.dart';
+import 'view/routes/guard/unauthorized_route_guard.dart';
+import 'view/routes/routes.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
@@ -50,6 +55,10 @@ void main() async {
               userService: userService,
               chopperClient: chopperClient,
               exceptionService: exceptionService,
+              router: AppRouter(
+                  authRouteGuard: AuthRouteGuard(userService),
+                  unauthorizedRouteGuard: UnauthorizedRouteGuard(userService),
+                  debugRouteGuard: DebugRouteGuard()),
             ),
           )),
       blocObserver: AppBlocObserver(exceptionService));

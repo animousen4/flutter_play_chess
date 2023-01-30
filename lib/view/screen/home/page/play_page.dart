@@ -78,20 +78,27 @@ class _PlayPageState extends State<PlayPage> {
                                 });
                               },
                               closedFullHeight: true,
-                              isPressed: selectedIndex == 0,
                               header: Text("Classic"),
                               description: null,
                               expandedContent: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
                                 child: ListTile(
                                   contentPadding: EdgeInsets.zero,
-                                  title: Text("Minutes per side"), // need to be black
+                                  title: Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Text(
+                                      "Minutes per side",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  ), // need to be black
                                   subtitle: SelectionItemList.radio(
-                                    items: [Text("10"), Text("20"), Text("30")],
+                                    items: [Text("10"), Text("20"), Text("40")],
                                     callback: (index) => null,
                                     selectedIndex: 0,
                                     theme: Theme.of(context)
-                                        .extension<SelectionItemThemeSecondary>()!
+                                        .extension<
+                                            SelectionItemThemeSecondary>()!
                                         .themeData,
                                   ),
                                 ),
@@ -103,7 +110,6 @@ class _PlayPageState extends State<PlayPage> {
                                   selectedIndex = 1;
                                 });
                               },
-                              isPressed: selectedIndex == 1,
                               header: Text("Blitz"),
                               description: null,
                               expandedContent: Text("content"),
@@ -114,7 +120,6 @@ class _PlayPageState extends State<PlayPage> {
                                   selectedIndex = 2;
                                 });
                               },
-                              isPressed: selectedIndex == 2,
                               header: Text("Bullet"),
                               description: null,
                               expandedContent: Text("content"),
