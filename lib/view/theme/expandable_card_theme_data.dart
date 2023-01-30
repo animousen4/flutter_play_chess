@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-class ExpandableCardTheme extends ThemeExtension<ExpandableCardTheme> {
+class ExpandableCardThemeData extends ThemeExtension<ExpandableCardThemeData> {
   final MaterialStateProperty<BoxDecoration?>? headerDecoration;
 
   final MaterialStateProperty<BoxDecoration?>? decoration;
@@ -11,44 +12,71 @@ class ExpandableCardTheme extends ThemeExtension<ExpandableCardTheme> {
 
   final MaterialStateProperty<Color?>? iconColor;
 
-  final ImageProvider? decorationImage;
+  final ImageProvider? Function()? decorationImage;
 
-  const ExpandableCardTheme(
+  final BoxConstraints? collapsedConstraints;
+
+  final EdgeInsets? contentPadding;
+
+  final EdgeInsets? collapsedPadding;
+
+  const ExpandableCardThemeData(
       {this.headerDecoration,
       this.decoration,
       this.decorationImage,
       this.headerTextStyle,
+      this.collapsedConstraints,
       this.contentTextStyle,
+      this.contentPadding,
+      this.collapsedPadding,
       this.iconColor});
 
   @override
-  ThemeExtension<ExpandableCardTheme> copyWith({
+  ThemeExtension<ExpandableCardThemeData> copyWith({
     MaterialStateProperty<BoxDecoration?>? headerDecoration,
     MaterialStateProperty<BoxDecoration?>? decoration,
     MaterialStateProperty<TextStyle?>? headerTextStyle,
     MaterialStateProperty<TextStyle?>? contentTextStyle,
     MaterialStateProperty<Color?>? iconColor,
-    ImageProvider? decorationImage,
+    BoxConstraints? collapsedConstraints,
+    EdgeInsets? contentPadding,
+    EdgeInsets? collapsedPadding,
+    ImageProvider? Function()? decorationImage,
   }) {
-    return ExpandableCardTheme(
+    return ExpandableCardThemeData(
         headerDecoration: headerDecoration ?? this.headerDecoration,
         decoration: decoration ?? this.decoration,
         decorationImage: decorationImage ?? this.decorationImage,
         headerTextStyle: headerTextStyle ?? this.headerTextStyle,
+        collapsedConstraints: collapsedConstraints ?? this.collapsedConstraints,
         contentTextStyle: contentTextStyle ?? this.contentTextStyle,
+        collapsedPadding: collapsedPadding ?? this.collapsedPadding,
+        contentPadding: contentPadding ?? this.contentPadding,
         iconColor: iconColor ?? this.iconColor);
   }
 
+  ThemeExtension<ExpandableCardThemeData> merge(ExpandableCardThemeData? other) => other != null ? copyWith(
+    headerDecoration: other.headerDecoration,
+    decoration: other.decoration,
+    headerTextStyle: other.headerTextStyle,
+    contentTextStyle: other.contentTextStyle,
+    iconColor: other.iconColor,
+    collapsedConstraints: other.collapsedConstraints,
+    collapsedPadding: other.collapsedPadding,
+    contentPadding: other.contentPadding,
+    decorationImage: other.decorationImage
+  ) : this;
+
   @override
-  ThemeExtension<ExpandableCardTheme> lerp(
-      covariant ThemeExtension<ExpandableCardTheme>? other, double t) {
+  ThemeExtension<ExpandableCardThemeData> lerp(
+      covariant ThemeExtension<ExpandableCardThemeData>? other, double t) {
     // TODO: implement lerp
 
-    if (other is! ExpandableCardTheme) {
+    if (other is! ExpandableCardThemeData) {
       return this;
     }
 
-    return ExpandableCardTheme(
+    return ExpandableCardThemeData(
         headerDecoration: MaterialStateProperty.lerp<BoxDecoration?>(
             headerDecoration, other.headerDecoration, t, BoxDecoration.lerp),
         decoration: MaterialStateProperty.lerp<BoxDecoration?>(

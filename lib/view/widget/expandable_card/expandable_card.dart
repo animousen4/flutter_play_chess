@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_play_chess/view/theme/expandable_card_theme.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_play_chess/view/theme/expandable_card_theme_data.dart';
 import 'package:logger/logger.dart';
 
 class ExpandableCard extends StatefulWidget {
   final Widget header;
-  final ExpandableCardTheme? expandableCardThemeData;
+  final ExpandableCardThemeData? expandableCardThemeData;
   final dynamic Function()? onTap;
-  final Widget? description;
   final bool showStatusIcon;
   final bool initialPressed;
   final bool isSelected;
   final bool closedFullHeight;
   final Widget? expandedContent;
-  final EdgeInsets contentPadding;
-  final EdgeInsets collapsedPadding;
 
   const ExpandableCard(
       {Key? key,
@@ -21,14 +19,10 @@ class ExpandableCard extends StatefulWidget {
       required this.onTap,
       this.initialPressed = true,
       required this.header,
-      required this.description,
       required this.expandedContent,
       required this.isSelected,
       this.closedFullHeight = false,
-      this.showStatusIcon = false,
-      this.collapsedPadding =
-          const EdgeInsets.only(top: 30, bottom: 20, left: 22, right: 22),
-      this.contentPadding = EdgeInsets.zero})
+      this.showStatusIcon = false})
       : super(key: key);
 
   @override
@@ -53,8 +47,10 @@ class _ExpandableCardState extends State<ExpandableCard>
 
   @override
   Widget build(BuildContext context) {
-    ExpandableCardTheme themeData = widget.expandableCardThemeData ??
-        Theme.of(context).extension<ExpandableCardTheme>()!;
+    // effective
+    ExpandableCardThemeData themeData = Theme.of(context)
+        .extension<ExpandableCardThemeData>()!
+        .merge(widget.expandableCardThemeData) as ExpandableCardThemeData;
 
     resolveWidgetMaterialState();
     if (widget.expandedContent != null) {
@@ -64,8 +60,6 @@ class _ExpandableCardState extends State<ExpandableCard>
         _controller.reverse();
       }
     }
-
-    final double screenWidth = MediaQuery.of(context).size.width;
     return Material(
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.circular(10.0),
@@ -82,9 +76,10 @@ class _ExpandableCardState extends State<ExpandableCard>
                   Positioned.fill(
                     child: AnimatedOpacity(
                       opacity: widget.isSelected ? 0.2 : 0.0,
-                      child: themeData.decorationImage != null
+                      child: themeData.decorationImage != null &&
+                              themeData.decorationImage!.call() != null
                           ? Image(
-                              image: themeData.decorationImage!,
+                              image: themeData.decorationImage!.call()!,
                               fit: BoxFit.cover,
                             )
                           : null,
@@ -97,62 +92,79 @@ class _ExpandableCardState extends State<ExpandableCard>
                       children: [
                         InkWell(
                           onTap: widget.onTap != null
-                              ? widget.isSelected
-                                  ? () => setState(() {
-                                        pressed = !pressed;
-                                      })
-                                  : () {
-                                    widget.onTap!();
-                                    pressed = true;
-                                  }
+                              ? widget.expandedContent != null
+                                  ? widget.isSelected
+                                      ? () {
+                                          setState(() {
+                                            pressed = !pressed;
+                                          });
+                                        }
+                                      : () {
+                                          widget.onTap!();
+                                          pressed = true;
+                                        }
+                                  : widget.onTap
                               : null,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: widget.collapsedPadding,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        AnimatedDefaultTextStyle(
-                                            child: widget.header,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyText2!
-                                                .merge(themeData
-                                                    .headerTextStyle!
-                                                    .resolve(materialStates)!),
-                                            duration:
-                                                Duration(milliseconds: 300)),
-                                        _buildIcon(themeData)
-                                      ],
-                                    ),
-                                    AnimatedSwitcher(
-                                      duration: Duration(milliseconds: 300),
-                                      transitionBuilder: (child, animation) =>
-                                          SizeTransition(
-                                        axis: Axis.vertical,
-                                        sizeFactor: _contentAnimation,
-                                        child: Column(
-                                          children: [
-                                            widget.description != null
-                                                ? SizedBox(
-                                                    width: 20,
-                                                  )
-                                                : SizedBox.shrink(),
-                                            child
-                                          ],
-                                        ),
+                                padding: themeData.collapsedPadding ??
+                                    EdgeInsets.zero,
+                                child: ConstrainedBox(
+                                  constraints: themeData.collapsedConstraints ??
+                                      const BoxConstraints(),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AnimatedDefaultTextStyle(
+                                              child: widget.header,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .merge(themeData
+                                                      .headerTextStyle!
+                                                      .resolve(
+                                                          materialStates)!),
+                                              duration:
+                                                  Duration(milliseconds: 300)),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 21),
+                                            child: _buildIcon(themeData),
+                                          )
+                                        ],
                                       ),
-                                      child: widget.description ??
-                                          SizedBox.shrink(),
-                                    ),
-                                  ],
+                                      /*
+                                        AnimatedSwitcher(
+                                        duration: Duration(milliseconds: 300),
+                                        transitionBuilder: (child, animation) =>
+                                            SizeTransition(
+                                          axis: Axis.vertical,
+                                          sizeFactor: _contentAnimation,
+                                          child: Column(
+                                            children: [
+                                              widget.description != null
+                                                  ? SizedBox(
+                                                      width: 20,
+                                                    )
+                                                  : SizedBox.shrink(),
+                                              child
+                                            ],
+                                          ),
+                                        ),
+                                        child: widget.description ??
+                                            SizedBox.shrink(),
+                                      ),
+                                       */
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],
@@ -184,11 +196,11 @@ class _ExpandableCardState extends State<ExpandableCard>
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding: widget.contentPadding,
+                    padding: themeData.contentPadding ?? EdgeInsets.zero,
                     child: DefaultTextStyle(
                       child: widget.expandedContent ?? SizedBox.shrink(),
                       style: Theme.of(context)
-                          .extension<ExpandableCardTheme>()!
+                          .extension<ExpandableCardThemeData>()!
                           .contentTextStyle!
                           .resolve(materialStates)!,
                     ),
@@ -211,7 +223,11 @@ class _ExpandableCardState extends State<ExpandableCard>
 
     _contentAnimation = _controller.drive(_easeInOutTween);
 
-    pressed = widget.initialPressed && widget.isSelected;
+    if (widget.expandedContent == null) {
+      pressed = false;
+    } else {
+      pressed = widget.initialPressed && widget.isSelected;
+    }
     // CurvedAnimation(
     //   parent: _controller,
     //   curve: Curves.easeInOut,
@@ -222,14 +238,14 @@ class _ExpandableCardState extends State<ExpandableCard>
 
   BoxDecoration resolveDecoration() {
     return Theme.of(context)
-        .extension<ExpandableCardTheme>()!
+        .extension<ExpandableCardThemeData>()!
         .decoration!
         .resolve(materialStates)!;
   }
 
   TextStyle resolveText() {
     return Theme.of(context)
-        .extension<ExpandableCardTheme>()!
+        .extension<ExpandableCardThemeData>()!
         .headerTextStyle!
         .resolve(materialStates)!;
   }
@@ -257,7 +273,7 @@ class _ExpandableCardState extends State<ExpandableCard>
     //logger.d("Current material states: $materialStates");
   }
 
-  Widget _buildIcon(ExpandableCardTheme themeData) {
+  Widget _buildIcon(ExpandableCardThemeData themeData) {
     return widget.showStatusIcon == true
         ? RotationTransition(
             turns: _iconTurns,

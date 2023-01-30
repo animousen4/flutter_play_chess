@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_play_chess/view/png/png_assets.dart';
 import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme.dart';
 import 'package:flutter_play_chess/view/theme/dropdown_physical_button_theme.dart';
-import 'package:flutter_play_chess/view/theme/expandable_card_theme.dart';
+import 'package:flutter_play_chess/view/theme/expandable_card_theme_data.dart';
 import 'package:flutter_play_chess/view/theme/clock_widget_theme.dart';
 import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
+import 'package:flutter_play_chess/view/theme/simple_expandable_card_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_play_chess/view/theme/play_button_theme.dart';
 
@@ -70,11 +71,15 @@ class AppThemeManager {
                   Color(0xFFA54BFF),
                 ], begin: Alignment.bottomCenter, end: Alignment.topCenter),
                 borderRadius: BorderRadius.circular(10))),
-        ExpandableCardTheme(
-            iconColor: MaterialStateProperty.all(Colors.red),
+        ExpandableCardThemeData(
+            iconColor: MaterialStateProperty.all(Colors.grey),
             contentTextStyle:
                 MaterialStateProperty.all(TextStyle(color: Colors.black)),
-            decorationImage: Image.asset(PngAssets.gameModeBackground).image,
+            collapsedPadding:
+                const EdgeInsets.only(top: 30, bottom: 20, left: 22, right: 22),
+            contentPadding: EdgeInsets.zero,
+            decorationImage: () =>
+                Image.asset(PngAssets.gameModeBackground).image,
             decoration: MaterialStateProperty.resolveWith<BoxDecoration>(
                 (states) => BoxDecoration(color: Colors.white)),
             headerDecoration:
@@ -109,6 +114,24 @@ class AppThemeManager {
                       : TextStyle(color: Colors.black)
                   : TextStyle(color: Colors.blueGrey);
             })),
+        SimpleExpandableCardTheme(
+            expandableCardThemeData: ExpandableCardThemeData(
+                decoration: MaterialStateProperty.resolveWith<BoxDecoration>(
+                    (states) => BoxDecoration(color: Colors.white)),
+                decorationImage: () => null,
+                collapsedPadding:
+                    const EdgeInsets.only(top: 14, left: 22, bottom: 14),
+                //collapsedConstraints: const BoxConstraints(minHeight: 40),
+                headerDecoration:
+                    MaterialStateProperty.resolveWith((states) => BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: !states.contains(MaterialState.selected)
+                                  ? [
+                                      Color.fromARGB(255, 44, 35, 79),
+                                      Color.fromARGB(255, 9, 20, 49)
+                                    ]
+                                  : [Colors.white, Colors.white]),
+                        )))),
         SelectionItemThemeData(
             decoration: MaterialStateProperty.resolveWith((states) {
               return BoxDecoration(

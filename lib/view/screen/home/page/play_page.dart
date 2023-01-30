@@ -8,6 +8,7 @@ import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
+import 'package:flutter_play_chess/view/theme/simple_expandable_card_theme.dart';
 import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
 import 'package:flutter_play_chess/view/widget/expandable_card/expandable_card.dart';
 import 'package:flutter_play_chess/view/widget/play_button/play_button.dart';
@@ -79,7 +80,6 @@ class _PlayPageState extends State<PlayPage> {
                               },
                               closedFullHeight: true,
                               header: Text("Classic"),
-                              description: null,
                               expandedContent: Padding(
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 8.0),
@@ -111,7 +111,6 @@ class _PlayPageState extends State<PlayPage> {
                                 });
                               },
                               header: Text("Blitz"),
-                              description: null,
                               expandedContent: Text("content"),
                               isSelected: selectedIndex == 1),
                           ExpandableCard(
@@ -121,8 +120,7 @@ class _PlayPageState extends State<PlayPage> {
                                 });
                               },
                               header: Text("Bullet"),
-                              description: null,
-                              expandedContent: Text("content"),
+                              expandedContent: null,
                               isSelected: selectedIndex == 2)
                         ],
                       ),
@@ -163,22 +161,52 @@ class _PlayPageState extends State<PlayPage> {
                           selectedIndex: state.selectedColorIndex),
                     ),
                     ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Text("Opponent"),
-                      ),
-                      subtitle: ElevatedButton(
-                        onPressed: () {},
-                        child: SizedBox(
-                            height: 50,
-                            child: Align(
-                              child: Text("Online"),
-                              alignment: Alignment.centerLeft,
-                            )),
-                      ),
-                    ),
+                        title: Padding(
+                          padding: const EdgeInsets.only(bottom: 15),
+                          child: Text("Opponent"),
+                        ),
+                        subtitle: Column(
+                          children: [
+                            ExpandableCard(
+                              onTap: () => null,
+                              isSelected: true,
+                              header: Text("Online"),
+                              expandableCardThemeData: Theme.of(context)
+                                  .extension<SimpleExpandableCardTheme>()!
+                                  .expandableCardThemeData,
+                              showStatusIcon: false,
+                              expandedContent: null,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ExpandableCard(
+                              onTap: () => null,
+                              isSelected: false,
+                              header: Text("With friend"),
+                              expandableCardThemeData: Theme.of(context)
+                                  .extension<SimpleExpandableCardTheme>()!
+                                  .expandableCardThemeData,
+                              showStatusIcon: false,
+                              expandedContent: null,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            ExpandableCard(
+                              onTap: () => null,
+                              isSelected: false,
+                              header: Text("With computer"),
+                              expandableCardThemeData: Theme.of(context)
+                                  .extension<SimpleExpandableCardTheme>()!
+                                  .expandableCardThemeData,
+                              showStatusIcon: true,
+                              expandedContent: Text("HI"),
+                            ),
+                          ],
+                        )),
                     SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     ListTile(
                       subtitle: PlayButton(
@@ -190,6 +218,22 @@ class _PlayPageState extends State<PlayPage> {
                           context.pushRoute(PlayGameScreenRoute());
                         },
                       ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("1.213.332 players"),
+                          Text("30.375 games")
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50,
                     ),
                   ]),
               onError: (state) => Center(
