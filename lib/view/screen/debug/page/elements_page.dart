@@ -94,8 +94,8 @@ class _ElementsPageState extends State<ElementsPage> {
         Divider(),
         ListTile(
           title: const Text("variants buttons"),
-          subtitle: SelectionItemList(
-            items: [Text("0"), Text("1")],
+          subtitle: SelectionItemList<int>(
+            items: {0: Text("0"), 1:Text("1")},
             selectedIndexList: selectedIndexList,
             callback: (index) {
               setState(() {
@@ -110,9 +110,9 @@ class _ElementsPageState extends State<ElementsPage> {
         ),
         ListTile(
           title: const Text("radio buttons"),
-          subtitle: SelectionItemList.radio(
-            items: [Text("0"), Text("1")],
-            selectedIndex: selectedIndexRadioList,
+          subtitle: SelectionItemList<int>.radio(
+            items: {0:Text("0"), 1:Text("1")},
+            selected: selectedIndexRadioList,
             callback: (index) {
               setState(() {
                 selectedIndexRadioList = index;

@@ -5,24 +5,26 @@ abstract class PlayMenuEvent {}
 
 abstract class ChangeDataEvent extends PlayMenuEvent {}
 
-abstract class IndexedDataChanged extends ChangeDataEvent {
-  final int newIndex;
+abstract class IndexedDataChanged<T> extends ChangeDataEvent {
+  final T newData;
 
-  IndexedDataChanged(this.newIndex);
+  IndexedDataChanged(this.newData);
 }
 
-class RatedGameChanged extends IndexedDataChanged {
-
-  RatedGameChanged(super.newIndex);
+class RatedGameChanged extends IndexedDataChanged<bool> {
+  RatedGameChanged(super.newData);
 }
 
-class CategoryGameChanged extends IndexedDataChanged {
-  CategoryGameChanged(super.newIndex);
-
+class CategoryGameChanged extends IndexedDataChanged<CategoryGameSetting> {
+  CategoryGameChanged(super.newData);
 }
 
-class ColorGameChanged extends IndexedDataChanged {
-  ColorGameChanged(super.newIndex);
+class TypeGameChanged extends IndexedDataChanged<TypeGameSetting> {
+  TypeGameChanged(super.newData);
+}
+
+class ColorGameChanged extends IndexedDataChanged<ColorGameSetting> {
+  ColorGameChanged(super.newData);
 }
 
 class StartLoadData extends PlayMenuEvent {}

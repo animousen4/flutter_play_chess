@@ -4,11 +4,11 @@ import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:flutter_play_chess/view/widget/const/k_const.dart';
 import 'package:logger/logger.dart';
 
-class SelectionItem extends StatelessWidget {
+class SelectionItem<T> extends StatelessWidget {
   final Widget? child;
   final bool doCenter;
-  final int index;
-  final SelectionItemData data;
+  final T index;
+  final SelectionItemData<T> data;
   final SelectionItemThemeData? theme;
   SelectionItem(
       {Key? key,
@@ -65,10 +65,10 @@ class SelectionItem extends StatelessWidget {
   }
 }
 
-class SelectionItemData {
+class SelectionItemData<T> {
   final bool selected;
   //final int index;
-  final Function(int)? callback; // null -> disabled
+  final Function(T)? callback; // null -> disabled
 
   SelectionItemData({required this.selected, required this.callback});
 }

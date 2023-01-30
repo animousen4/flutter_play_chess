@@ -6,12 +6,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_category/other_game_category_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_category/regular_game_category_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/time_type_game_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/type_game_setting.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:flutter_play_chess/view/theme/simple_expandable_card_theme.dart';
 import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
 import 'package:flutter_play_chess/view/widget/expandable_card/expandable_card.dart';
 import 'package:flutter_play_chess/view/widget/play_button/play_button.dart';
+import 'package:flutter_play_chess/view/widget/selection_list/selection_item.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
 import 'package:auto_route/auto_route.dart';
@@ -48,15 +55,15 @@ class _PlayPageState extends State<PlayPage> {
                         padding: const EdgeInsets.only(bottom: 15),
                         child: Text("Rated game"),
                       ),
-                      subtitle: SelectionItemList.radio(
+                      subtitle: SelectionItemList<bool>.radio(
                         callback: (index) => context
                             .read<PlayMenuBloc>()
                             .add(RatedGameChanged(index)),
-                        items: [
-                          Text("On"),
-                          Text("Off"),
-                        ],
-                        selectedIndex: state.selectedRatedIndex,
+                        items: {
+                          true: Text("On"),
+                          false: Text("Off"),
+                        },
+                        selected: state.isRatedGame,
                       ),
                     ),
                     SizedBox(
@@ -92,14 +99,31 @@ class _PlayPageState extends State<PlayPage> {
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   ), // need to be black
-                                  subtitle: SelectionItemList.radio(
-                                    items: [Text("10"), Text("20"), Text("40")],
-                                    callback: (index) => null,
-                                    selectedIndex: 0,
-                                    theme: Theme.of(context)
-                                        .extension<
-                                            SelectionItemThemeSecondary>()!
-                                        .themeData,
+                                  subtitle: SelectionItemList<Duration>.builder(
+                                    isRadio: true,
+                                    items: [
+                                      Duration(minutes: 10),
+                                      Duration(minutes: 20),
+                                      Duration(minutes: 30)
+                                    ],
+                                    selectedItem: (state.typeGameSetting as TimeTypeGameSetting).timePerSide,
+                                    builder: (item, selected) => SelectionItem<
+                                            Duration>(
+                                        data: SelectionItemData(
+                                          selected: selected,
+                                          callback: (d) { context
+                                              .read<PlayMenuBloc>()
+                                              .add(TypeGameChanged(
+                                                  TimeTypeGameSetting(
+                                                      name: "classic-01",
+                                                      timePerSide: d))); print(d);},
+                                        ),
+                                        index: item,
+                                        theme: Theme.of(context)
+                                            .extension<
+                                                SelectionItemThemeSecondary>()!
+                                            .themeData,
+                                        child: Text(item.inMinutes.toString())),
                                   ),
                                 ),
                               ),
@@ -133,15 +157,15 @@ class _PlayPageState extends State<PlayPage> {
                         padding: const EdgeInsets.only(bottom: 15),
                         child: Text("Category"),
                       ),
-                      subtitle: DropdownPhysicalButton(
-                        selectedIndex: state.selectedCategoryIndex,
+                      subtitle: DropdownPhysicalButton<CategoryGameSetting>(
+                        selected: state.categoryGameSetting,
                         callback: (index) => context
                             .read<PlayMenuBloc>()
                             .add(CategoryGameChanged(index)),
-                        options: [
-                          Text("Regular"),
-                          Text("Other"),
-                        ],
+                        options: {
+                          RegularGameCategorySetting(): Text("Regular"),
+                          OtherGameCategorySetting(): Text("Other"),
+                        },
                       ),
                     ),
                     SizedBox(
@@ -153,12 +177,16 @@ class _PlayPageState extends State<PlayPage> {
                         child: Text("Color"),
                       ),
                       contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                      subtitle: SelectionItemList.radio(
-                          items: [Text("W"), Text("B"), Text("R")],
+                      subtitle: SelectionItemList<ColorGameSetting>.radio(
+                          items: {
+                            ColorGameSetting(color: "w"): Text("W"),
+                            ColorGameSetting(color: "b"): Text("B"),
+                            ColorGameSetting(color: "r"): Text("R")
+                          },
                           callback: (index) => context
                               .read<PlayMenuBloc>()
                               .add(ColorGameChanged(index)),
-                          selectedIndex: state.selectedColorIndex),
+                          selected: state.colorGameSetting),
                     ),
                     ListTile(
                         title: Padding(
