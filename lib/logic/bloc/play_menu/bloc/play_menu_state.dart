@@ -6,33 +6,24 @@ abstract class PlayMenuState {}
 class PlayMenuLoading extends PlayMenuState {}
 
 class PlayMenuNormal extends PlayMenuState {
-  PlayMenuNormal copyWith(
-          {bool? isRatedGame,
-  TypeGameSetting? typeGameSetting,
-  CategoryGameSetting? categoryGameSetting,
-  ColorGameSetting? colorGameSetting,
-  OpponentGameSetting? opponentGameSetting}) =>
-      PlayMenuNormal(
-        isRatedGame: isRatedGame ?? this.isRatedGame,
-        typeGameSetting: typeGameSetting ?? this.typeGameSetting,
-        categoryGameSetting: categoryGameSetting ?? this.categoryGameSetting,
-        colorGameSetting: colorGameSetting ?? this.colorGameSetting,
-        opponentGameSetting: opponentGameSetting ?? this.opponentGameSetting
-      );
 
-  final bool isRatedGame;
-  final TypeGameSetting typeGameSetting;
-  final CategoryGameSetting categoryGameSetting;
-  final ColorGameSetting colorGameSetting;
-  final OpponentGameSetting opponentGameSetting;
+  PlayMenuNormal modifyGameSetting(GameSetting gameSetting) {
+    int index = 0;
+    for (GameSetting g in gameSettings) {
+      if (g.runtimeType == (gameSetting.runtimeType)) {
+        gameSettings[index] = gameSetting;
+      }
+      index++;
+    }
+
+    return PlayMenuNormal(gameSettings: gameSettings);
+  }
+
+  final List<GameSetting> gameSettings;
 
 
   PlayMenuNormal(
-      {required this.isRatedGame,
-      required this.typeGameSetting,
-      required this.categoryGameSetting,
-      required this.colorGameSetting,
-      required this.opponentGameSetting});
+      {required this.gameSettings});
 }
 
 class PlayMenuError extends PlayMenuState {}

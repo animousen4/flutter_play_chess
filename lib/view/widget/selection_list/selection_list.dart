@@ -42,18 +42,21 @@ class SelectionItemList<T> extends StatelessWidget {
   factory SelectionItemList.builder({
     Key? key,
     required Widget Function(T item, bool selected) builder,
-    required List<T> items,
+    List<T>? items,
     List<T>? selectedItems,
+    int? itemCount,
     T? selectedItem,
-    bool isRadio = false,
   }) {
     
     final Map<T, Widget> collection = {};
-    for (T item in items) {
+    if (itemCount != null) {
+      items = List<int>.generate(itemCount, (index) => index) as List<T>;
+    }
+    for (T item in items!) {
       collection.addAll({
         item: builder(
             item,
-            (isRadio ? [selectedItem] : selectedItems! )
+            (selectedItems == null ? [selectedItem] : selectedItems! )
                 .contains(item))
       });
     }

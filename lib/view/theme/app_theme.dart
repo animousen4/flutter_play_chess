@@ -156,7 +156,7 @@ class AppThemeManager {
                       ? Color(0xFFDDD8DF)
                       : states.contains(MaterialState.selected)
                           ? Color(0xFFDDD8DF)
-                          : Colors.transparent,
+                          : Colors.white,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(width: 1, color: Colors.grey));
             }),

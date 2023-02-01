@@ -7,11 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
-import 'package:flutter_play_chess/logic/model/lobby/game_category/other_game_category_setting.dart';
-import 'package:flutter_play_chess/logic/model/lobby/game_category/regular_game_category_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
-import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/time_type_game_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/time_type.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/type_game_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/type_variant.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:flutter_play_chess/view/theme/simple_expandable_card_theme.dart';
@@ -49,241 +49,80 @@ class _PlayPageState extends State<PlayPage> {
               onLoading: (state) => Center(
                     child: CircularProgressIndicator(),
                   ),
-              onNormal: (state) => ListView(
-                children: [
-                    ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Text("Rated game"),
-                      ),
-                      subtitle: SelectionItemList<bool>.radio(
-                        callback: (index) => context
-                            .read<PlayMenuBloc>()
-                            .add(RatedGameChanged(index)),
-                        items: {
-                          true: Text("On"),
-                          false: Text("Off"),
-                        },
-                        selected: state.isRatedGame,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Text("Type"),
-                      ),
-                      subtitle: Wrap(
-                        direction: Axis.horizontal,
-                        spacing: 15,
-                        runSpacing: 15,
-                        children: [
-                          ExpandableCard(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex = 0;
-                                });
-                              },
-                              closedFullHeight: true,
-                              header: Text("Classic"),
-                              expandedContent: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 8.0),
-                                child: ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  title: Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Text(
-                                      "Minutes per side",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ), // need to be black
-                                  subtitle:  SelectionItemList<Duration>.radio(
-                                    items: {
-                                      Duration(minutes: 10): Text("10"),
-                                      Duration(minutes: 20): Text("20"),
-                                      Duration(minutes: 30): Text("30"),
-                                    },
-                                    selected: (state.typeGameSetting
-                                            as TimeTypeGameSetting)
-                                        .timePerSide,
-
-                                    theme: Theme.of(context).extension<SelectionItemThemeSecondary>()!.themeData,
-                                    callback: (d) => context.read<PlayMenuBloc>().add(TypeGameChanged(TimeTypeGameSetting(name: "classic-01", timePerSide: d))),
-
-                                    /*
-                                    
-                                    builder: (item, selected) => SelectionItem<
-                                            Duration>(
-                                        data: SelectionItemData(
-                                          selected: selected,
-                                          callback: (d) {
-                                            context.read<PlayMenuBloc>().add(
-                                                TypeGameChanged(
-                                                    TimeTypeGameSetting(
-                                                        name: "classic-01",
-                                                        timePerSide: d)));
-                                            print(d);
-                                          },
-                                        ),
-                                        index: item,
-                                        theme: Theme.of(context)
-                                            .extension<
-                                                SelectionItemThemeSecondary>()!
-                                            .themeData,
-                                        child: Text(item.inMinutes.toString())),
-                                    
-                                     */
-                                  ),
-                                ),
-                              ),
-                              isSelected: selectedIndex == 0),
-
-                         
-                          ExpandableCard(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex = 1;
-                                });
-                              },
-                              header: Text("Blitz"),
-                              expandedContent: Text("content"),
-                              isSelected: selectedIndex == 1),
-                          ExpandableCard(
-                              onTap: () {
-                                setState(() {
-                                  selectedIndex = 2;
-                                });
-                              },
-                              header: Text("Bullet"),
-                              expandedContent: null,
-                              isSelected: selectedIndex == 2)
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Text("Category"),
-                      ),
-                      subtitle: DropdownPhysicalButton<CategoryGameSetting>(
-                        selected: state.categoryGameSetting,
-                        callback: (index) => context
-                            .read<PlayMenuBloc>()
-                            .add(CategoryGameChanged(index)),
-                        options: {
-                          RegularGameCategorySetting(): Text("Regular"),
-                          OtherGameCategorySetting(): Text("Other"),
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    ListTile(
-                      title: Padding(
-                        padding: const EdgeInsets.only(bottom: 15),
-                        child: Text("Color"),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 15),
-                      subtitle: SelectionItemList<ColorGameSetting>.radio(
-                          items: {
-                            ColorGameSetting(color: "w"): Text("W"),
-                            ColorGameSetting(color: "b"): Text("B"),
-                            ColorGameSetting(color: "r"): Text("R")
-                          },
-                          callback: (index) => context
-                              .read<PlayMenuBloc>()
-                              .add(ColorGameChanged(index)),
-                          selected: state.colorGameSetting),
-                    ),
-                    ListTile(
-                        title: Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: Text("Opponent"),
-                        ),
-                        subtitle: Column(
-                          children: [
-                            ExpandableCard(
-                              onTap: () => null,
-                              isSelected: true,
-                              header: Text("Online"),
-                              expandableCardThemeData: Theme.of(context)
-                                  .extension<SimpleExpandableCardTheme>()!
-                                  .expandableCardThemeData,
-                              showStatusIcon: false,
-                              expandedContent: null,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ExpandableCard(
-                              onTap: () => null,
-                              isSelected: false,
-                              header: Text("With friend"),
-                              expandableCardThemeData: Theme.of(context)
-                                  .extension<SimpleExpandableCardTheme>()!
-                                  .expandableCardThemeData,
-                              showStatusIcon: false,
-                              expandedContent: null,
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ExpandableCard(
-                              onTap: () => null,
-                              isSelected: false,
-                              header: Text("With computer"),
-                              expandableCardThemeData: Theme.of(context)
-                                  .extension<SimpleExpandableCardTheme>()!
-                                  .expandableCardThemeData,
-                              showStatusIcon: true,
-                              expandedContent: Text("HI"),
-                            ),
-                          ],
-                        )),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    ListTile(
-                      subtitle: PlayButton(
-                        child: Text(
-                          "Play",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () {
-                          context.pushRoute(PlayGameScreenRoute());
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("1.213.332 players"),
-                          Text("30.375 games")
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 50,
-                    ),
-                  ]),
+              onNormal: (state) =>
+                  ListView(children: buildSettings(state.gameSettings)),
               onError: (state) => Center(
                     child: Text("Error occured"),
                   ));
         },
       ),
     );
+  }
+
+  List<Widget> buildSettings(List<GameSetting> gameSettings) {
+    final settingWidgets = <Widget>[];
+
+    int gameSettingIndex = 0;
+    for (GameSetting g in gameSettings) {
+      if (g is TypeGameSetting) {
+        // One Type - g - SECTOR
+        settingWidgets.add(((gameSettingIndex) => ListTile(
+          title: Padding(
+            padding: const EdgeInsets.only(bottom: 15),
+            child: Text(g.settingName),
+          ),
+          subtitle: Wrap(
+            direction: Axis.horizontal,
+            spacing: 15,
+            runSpacing: 15,
+            children: () {
+              final List<Widget> types = [];
+
+              // parts of sector
+              int partIndex = 0;
+              for (TypeVariant typeVariant in g.variants) {
+                if (typeVariant is TimeType) {
+                  types.add(((BuildContext context, partIndex) => ExpandableCard(
+                      onTap: () => context
+                                      .read<PlayMenuBloc>()
+                                      .add(
+                                          GameSettingModified(g.copyWith(selectedVariantIndexes: [partIndex]))),
+                      header: Text(typeVariant.name),
+                      expandedContent: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: SelectionItemList<int>.builder(
+                          builder: (index, isSelected) => SelectionItem(
+                              theme: Theme.of(context)
+                                  .extension<SelectionItemThemeSecondary>()!
+                                  .themeData,
+                              data: SelectionItemData<int>(
+                                  selected: typeVariant.selectedIndex == index,
+                                  callback: (index) => context
+                                      .read<PlayMenuBloc>()
+                                      .add(
+                                          GameSettingModified(g.modifyGameSetting(partIndex, typeVariant.modifySelectedIndex(index))))),
+                              child: Text(typeVariant
+                                  .timePerSideVariants[index].inMinutes
+                                  .toString()),
+                              index: index),
+                          itemCount: typeVariant.timePerSideVariants.length,
+                        ),
+                      ),
+                      isSelected: g.selectedVariantIndexes.contains(partIndex))).call(context, partIndex));
+                }
+                partIndex++;
+              }
+
+              return types;
+            }.call(),
+          ),
+        )).call(gameSettingIndex));
+      }
+
+      gameSettingIndex++;
+    }
+
+    return settingWidgets;
   }
 
   Widget resolveWidget(PlayMenuState state,
