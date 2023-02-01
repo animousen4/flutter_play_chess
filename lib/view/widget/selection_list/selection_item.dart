@@ -18,29 +18,31 @@ class SelectionItem<T> extends StatelessWidget {
       required this.index,
       this.theme})
       : super(key: key) {
-    state = {};
+    maState = {};
     if (data.callback == null) {
-      state.add(MaterialState.disabled);
+      maState.add(MaterialState.disabled);
     } else {
-      state.remove(MaterialState.disabled);
+      maState.remove(MaterialState.disabled);
     }
     if (data.selected) {
-      state.add(MaterialState.selected);
+      maState.add(MaterialState.selected);
     } else {
-      state.remove(MaterialState.selected);
+      maState.remove(MaterialState.selected);
     }
   }
 
-  late final Set<MaterialState> state;
+  late final Set<MaterialState> maState;
+
   @override
   Widget build(BuildContext context) {
     final usingTheme =
         theme ?? Theme.of(context).extension<SelectionItemThemeData>()!;
+
     return AnimatedContainer(
       duration: kDefaultTransitionDuration,
       width: kDefaultSelectionSquareSize,
       height: kDefaultSelectionSquareSize,
-      decoration: usingTheme.decoration!.resolve(state),
+      decoration: usingTheme.decoration!.resolve(maState),
       child: Material(
         color: Colors.transparent,
         //borderRadius: BorderRadius.circular(10),
@@ -52,7 +54,7 @@ class SelectionItem<T> extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .bodyText2!
-                .merge(usingTheme.textStyle!.resolve(state)!),
+                .merge(usingTheme.textStyle!.resolve(maState)!),
           ),
           onTap: data.selected == null
               ? null

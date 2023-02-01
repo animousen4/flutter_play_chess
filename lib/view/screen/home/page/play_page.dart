@@ -49,7 +49,8 @@ class _PlayPageState extends State<PlayPage> {
               onLoading: (state) => Center(
                     child: CircularProgressIndicator(),
                   ),
-              onNormal: (state) => ListView(children: [
+              onNormal: (state) => ListView(
+                children: [
                     ListTile(
                       title: Padding(
                         padding: const EdgeInsets.only(bottom: 15),
@@ -99,24 +100,33 @@ class _PlayPageState extends State<PlayPage> {
                                       style: TextStyle(color: Colors.black),
                                     ),
                                   ), // need to be black
-                                  subtitle: SelectionItemList<Duration>.builder(
-                                    isRadio: true,
-                                    items: [
-                                      Duration(minutes: 10),
-                                      Duration(minutes: 20),
-                                      Duration(minutes: 30)
-                                    ],
-                                    selectedItem: (state.typeGameSetting as TimeTypeGameSetting).timePerSide,
+                                  subtitle:  SelectionItemList<Duration>.radio(
+                                    items: {
+                                      Duration(minutes: 10): Text("10"),
+                                      Duration(minutes: 20): Text("20"),
+                                      Duration(minutes: 30): Text("30"),
+                                    },
+                                    selected: (state.typeGameSetting
+                                            as TimeTypeGameSetting)
+                                        .timePerSide,
+
+                                    theme: Theme.of(context).extension<SelectionItemThemeSecondary>()!.themeData,
+                                    callback: (d) => context.read<PlayMenuBloc>().add(TypeGameChanged(TimeTypeGameSetting(name: "classic-01", timePerSide: d))),
+
+                                    /*
+                                    
                                     builder: (item, selected) => SelectionItem<
                                             Duration>(
                                         data: SelectionItemData(
                                           selected: selected,
-                                          callback: (d) { context
-                                              .read<PlayMenuBloc>()
-                                              .add(TypeGameChanged(
-                                                  TimeTypeGameSetting(
-                                                      name: "classic-01",
-                                                      timePerSide: d))); print(d);},
+                                          callback: (d) {
+                                            context.read<PlayMenuBloc>().add(
+                                                TypeGameChanged(
+                                                    TimeTypeGameSetting(
+                                                        name: "classic-01",
+                                                        timePerSide: d)));
+                                            print(d);
+                                          },
                                         ),
                                         index: item,
                                         theme: Theme.of(context)
@@ -124,10 +134,14 @@ class _PlayPageState extends State<PlayPage> {
                                                 SelectionItemThemeSecondary>()!
                                             .themeData,
                                         child: Text(item.inMinutes.toString())),
+                                    
+                                     */
                                   ),
                                 ),
                               ),
                               isSelected: selectedIndex == 0),
+
+                         
                           ExpandableCard(
                               onTap: () {
                                 setState(() {

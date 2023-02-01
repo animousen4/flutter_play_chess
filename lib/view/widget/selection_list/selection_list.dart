@@ -32,6 +32,7 @@ class SelectionItemList<T> extends StatelessWidget {
           List<T>? lockedItemList,
           Axis direction = Axis.horizontal}) =>
       SelectionItemList(
+          key: key,
           items: items,
           callback: callback,
           lockedIndexList: const [],
@@ -39,6 +40,7 @@ class SelectionItemList<T> extends StatelessWidget {
           selectedIndexList: [selected]);
 
   factory SelectionItemList.builder({
+    Key? key,
     required Widget Function(T item, bool selected) builder,
     required List<T> items,
     List<T>? selectedItems,
