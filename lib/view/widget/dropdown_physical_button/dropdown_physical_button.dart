@@ -14,6 +14,14 @@ class DropdownPhysicalButton<T> extends StatefulWidget {
   final void Function(T item)? callback;
   final T selected;
 
+  factory DropdownPhysicalButton.builder({required Widget Function(BuildContext context, int index) builder, required int itemCount, required int selectedIndex, required void Function(int index)? callback}) {
+    Map<int, Widget> options = {};
+    for (int i = 0; i < itemCount; i++){
+      options.addAll({i : Builder(builder: (context) => builder(context, i))});
+    }
+    return DropdownPhysicalButton<int>(options: options, selected: selectedIndex, callback: callback) as DropdownPhysicalButton<T>;
+  }
+
   @override
   State<DropdownPhysicalButton> createState() => _DropdownPhysicalButtonState<T>();
 }

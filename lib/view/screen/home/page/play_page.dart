@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_category/category_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_setting.dart';
@@ -67,56 +68,78 @@ class _PlayPageState extends State<PlayPage> {
       if (g is TypeGameSetting) {
         // One Type - g - SECTOR
         settingWidgets.add(((gameSettingIndex) => ListTile(
+              title: Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Text(g.settingName),
+              ),
+              subtitle: Wrap(
+                direction: Axis.horizontal,
+                spacing: 15,
+                runSpacing: 15,
+                children: () {
+                  final List<Widget> types = [];
+
+                  // parts of sector
+                  int partIndex = 0;
+                  for (TypeVariant typeVariant in g.variants) {
+                    types.add(((BuildContext context, partIndex) =>
+                            ExpandableCard(
+                                onTap: () => context.read<PlayMenuBloc>().add(
+                                    GameSettingModified(g.copyWith(
+                                        selectedVariantIndexes: [partIndex]))),
+                                header: Text(typeVariant.name),
+                                expandedContent: typeVariant is TimeType
+                                    ? Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 15),
+                                        child: SelectionItemList<int>.builder(
+                                          builder: (index, isSelected) => SelectionItem(
+                                              theme: Theme.of(context)
+                                                  .extension<
+                                                      SelectionItemThemeSecondary>()!
+                                                  .themeData,
+                                              data: SelectionItemData<int>(
+                                                  selected:
+                                                      typeVariant.selectedIndex ==
+                                                          index,
+                                                  callback: (index) => context
+                                                      .read<PlayMenuBloc>()
+                                                      .add(GameSettingModified(
+                                                          g.modifyGameSetting(
+                                                              partIndex,
+                                                              typeVariant
+                                                                  .modifySelectedIndex(index))))),
+                                              child: Text(typeVariant.timePerSideVariants[index].inMinutes.toString()),
+                                              index: index),
+                                          itemCount: typeVariant
+                                              .timePerSideVariants.length,
+                                        ),
+                                      )
+                                    : null,
+                                isSelected: g.selectedVariantIndexes
+                                    .contains(partIndex)))
+                        .call(context, partIndex));
+                    partIndex++;
+                  }
+                  return types;
+                }.call(),
+              ),
+            )).call(gameSettingIndex));
+      } else if (g is CategoryGameSetting) {
+        settingWidgets.add(ListTile(
           title: Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: Text(g.settingName),
           ),
-          subtitle: Wrap(
-            direction: Axis.horizontal,
-            spacing: 15,
-            runSpacing: 15,
-            children: () {
-              final List<Widget> types = [];
-
-              // parts of sector
-              int partIndex = 0;
-              for (TypeVariant typeVariant in g.variants) {
-                if (typeVariant is TimeType) {
-                  types.add(((BuildContext context, partIndex) => ExpandableCard(
-                      onTap: () => context
-                                      .read<PlayMenuBloc>()
-                                      .add(
-                                          GameSettingModified(g.copyWith(selectedVariantIndexes: [partIndex]))),
-                      header: Text(typeVariant.name),
-                      expandedContent: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 15),
-                        child: SelectionItemList<int>.builder(
-                          builder: (index, isSelected) => SelectionItem(
-                              theme: Theme.of(context)
-                                  .extension<SelectionItemThemeSecondary>()!
-                                  .themeData,
-                              data: SelectionItemData<int>(
-                                  selected: typeVariant.selectedIndex == index,
-                                  callback: (index) => context
-                                      .read<PlayMenuBloc>()
-                                      .add(
-                                          GameSettingModified(g.modifyGameSetting(partIndex, typeVariant.modifySelectedIndex(index))))),
-                              child: Text(typeVariant
-                                  .timePerSideVariants[index].inMinutes
-                                  .toString()),
-                              index: index),
-                          itemCount: typeVariant.timePerSideVariants.length,
-                        ),
-                      ),
-                      isSelected: g.selectedVariantIndexes.contains(partIndex))).call(context, partIndex));
-                }
-                partIndex++;
-              }
-
-              return types;
-            }.call(),
-          ),
-        )).call(gameSettingIndex));
+          subtitle: DropdownPhysicalButton<int>.builder(
+              builder: (context, index) => Text(
+                  g.variants[index] is RegularCategory ? "Regular" : "Other"),
+              itemCount: g.variants.length,
+              selectedIndex: g.selectedVariantIndexes.first,
+              callback: (index) => context.read<PlayMenuBloc>().add(
+                  GameSettingModified(
+                      g.copyWith(selectedVariantIndexes: [index])))),
+        ));
       }
 
       gameSettingIndex++;

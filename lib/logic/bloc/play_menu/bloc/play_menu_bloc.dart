@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_category/category_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_opponent/game_opponent_setting.dart';
@@ -32,17 +33,19 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
                 Duration(minutes: 30)
               ],
               selectedIndex: 0),
-          TimeType(
-              name: "blitz-01",
-              timePerSideVariants: [
-                Duration(minutes: 1),
-                Duration(minutes: 2),
-                Duration(minutes: 3)
-              ],
-              selectedIndex: 0)
+          TypeVariant(
+            name: "blitz-01",
+          ),
         ], selectedVariantIndexes: [
           0
-        ])
+        ]),
+        CategoryGameSetting(
+              settingName: "category-setting",
+              variants: [
+                RegularCategory(),
+                OtherCategory(),
+              ],
+              selectedVariantIndexes: [0]),
       ]));
     });
 
