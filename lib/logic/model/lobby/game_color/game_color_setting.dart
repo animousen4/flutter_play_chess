@@ -5,4 +5,9 @@ class ColorGameSetting extends GameSetting<ColorVariant> {
 
   ColorGameSetting({required super.settingName, required super.variants, required super.selectedVariantIndexes});
 
+  @override
+  ColorGameSetting copyWith({List<int>? selectedVariantIndexes}) {
+    
+    return ColorGameSetting(settingName: settingName, variants: variants, selectedVariantIndexes: selectedVariantIndexes ?? this.selectedVariantIndexes);
+  }
 }

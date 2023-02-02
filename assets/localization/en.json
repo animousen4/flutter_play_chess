@@ -1,3 +1,27 @@
 {
-    
+    "gameSetting": {
+        "type": {
+            "settingName": "Type",
+            "classic": "Classic",
+            "blitz": "Blitz",
+            "timePerSide" : "Time per side"
+        },
+        "category": {
+            "settingName": "Category",
+            "regular": "Regular",
+            "other": "Other"
+        },
+        "rating": {
+            "settingName": "Rating",
+            "on": "On",
+            "off": "Off"
+        },
+
+        "color" : {
+            "settingName": "Color",
+            "white" : "W",
+            "black" : "B",
+            "random" : "R"
+        }
+    }
 }

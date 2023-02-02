@@ -48,7 +48,7 @@ void main() async {
 
   BlocOverrides.runZoned(
       () => runApp(EasyLocalization(
-            supportedLocales: [Locale("en")],
+            supportedLocales: [Locale("en"), Locale("ru")],
             path: "assets/localization",
             fallbackLocale: Locale("en"),
             child: App(

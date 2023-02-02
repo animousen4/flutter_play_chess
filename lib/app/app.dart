@@ -25,6 +25,7 @@ class App extends StatelessWidget {
   //final _router = AppRouter(routeGuard: RouteGuard(userService));
   @override
   Widget build(BuildContext context) {
+    //context.setLocale(Locale("en"));
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: userService),

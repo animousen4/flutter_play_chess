@@ -1,12 +1,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/category_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_color/color_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_opponent/game_opponent_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_rating/game_rating_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_rating/rating_game_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_setting.dart';
-import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/time_type.dart';
-import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/type_game_setting.dart';
-import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_type/type_variant.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_type/time_type.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_type/type_game_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_type/type_variant.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_item.dart';
 import 'package:logger/logger.dart';
 import 'package:meta/meta.dart';
@@ -24,9 +27,13 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
       }
 
       add(GameSettingLoaded([
-        TypeGameSetting(settingName: "type-setting", variants: [
+        RatingGameSetting(
+            settingName: "gameSetting.rating.settingName",
+            variants: [EnabledRating(), DisabledRating()],
+            selectedVariantIndexes: [0]),
+        TypeGameSetting(settingName: "gameSetting.type.settingName", variants: [
           TimeType(
-              name: "classic-01",
+              name: "gameSetting.type.classic",
               timePerSideVariants: [
                 Duration(minutes: 10),
                 Duration(minutes: 20),
@@ -34,18 +41,30 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
               ],
               selectedIndex: 0),
           TypeVariant(
-            name: "blitz-01",
+            name: "gameSetting.type.blitz",
           ),
         ], selectedVariantIndexes: [
           0
         ]),
         CategoryGameSetting(
-              settingName: "category-setting",
-              variants: [
-                RegularCategory(),
-                OtherCategory(),
-              ],
-              selectedVariantIndexes: [0]),
+            settingName: "gameSetting.category.settingName",
+            variants: [
+              RegularCategory(),
+              OtherCategory(),
+            ],
+            selectedVariantIndexes: [
+              0
+            ]),
+        ColorGameSetting(
+            settingName: "gameSetting.color.settingName",
+            variants: [
+              ColorVariant(GColor.white),
+              ColorVariant(GColor.black),
+              ColorVariant(GColor.random),
+            ],
+            selectedVariantIndexes: [
+              0
+            ])
       ]));
     });
 

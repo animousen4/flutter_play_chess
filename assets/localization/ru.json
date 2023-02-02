@@ -1,0 +1,14 @@
+{
+    "gameSetting": {
+        "type": {
+            "settingName": "Режим",
+            "classic": "Классический",
+            "blitz": "Блиц"
+        },
+        "category": {
+            "settingName": "Тип",
+            "regular": "Обычный",
+            "other": "Другой"
+        }
+    }
+}
