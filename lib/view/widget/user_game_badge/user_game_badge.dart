@@ -27,7 +27,7 @@ class UserGameBadge extends StatelessWidget {
       trailing: clock,
       title: DefaultTextStyle(
         child: name,
-        style: Theme.of(context).textTheme.headline3!,
+        style: Theme.of(context).textTheme.displaySmall!,
       ),
       subtitle: Row(
         children: [

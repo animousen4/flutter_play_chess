@@ -3,7 +3,9 @@ import 'package:flutter_play_chess/logic/model/lobby/game_category/category_vari
 import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/color_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_opponent/computer_difficulty.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_opponent/game_opponent_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_opponent/opponent_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_rating/game_rating_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_rating/rating_game_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_setting.dart';
@@ -25,6 +27,8 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
         emit(state);
         return;
       }
+
+      await Future.delayed(Duration(milliseconds: 700), () {});
 
       add(GameSettingLoaded([
         RatingGameSetting(
@@ -64,18 +68,44 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
             ],
             selectedVariantIndexes: [
               0
+            ]),
+        OpponentGameSetting(
+            settingName: "gameSetting.opponent.settingName",
+            variants: [
+              FriendOpponent(opponentName: "gameSetting.opponent.withFriend"),
+              OnlineOpponent(opponentName: "gameSetting.opponent.online"),
+              ComputerOpponent(
+                  opponentName: "gameSetting.opponent.computer",
+                  difficultyList: [
+                    EasyDifficulty(),
+                    MediumDifficulty(),
+                    HardDifficulty()
+                  ],
+                  selectedDifficultyIndex: 0),
+            ],
+            selectedVariantIndexes: [
+              0
             ])
       ]));
     });
 
+    on<PlayRequest>((event, emit) async {
+      emit((state as PlayMenuNormal).copyWith(isSearching: true));
+
+      await Future.delayed(Duration(seconds: 3));
+
+      emit((state as PlayMenuNormal)
+          .copyWith(isSearching: false, isPlaying: true));
+    });
+
+    on<SearchCancelRequest>((event, emit) {
+      emit((state as PlayMenuNormal).copyWith(isSearching: false));
+    });
     on<GameSettingModified>((event, emit) {
       emit((state as PlayMenuNormal).modifyGameSetting(event.gameSetting));
     });
-    on<GameSettingsModified>((event, emit) {
-      emit(PlayMenuNormal(gameSettings: event.gameSettings));
-    });
     on<GameSettingLoaded>((event, emit) {
-      emit(PlayMenuNormal(gameSettings: event.gameSettings));
+      emit(PlayMenuNormal(gameSettings: event.gameSettings, playAllowed: true));
     });
   }
 }

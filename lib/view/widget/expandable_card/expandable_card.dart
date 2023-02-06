@@ -7,6 +7,7 @@ class ExpandableCard extends StatefulWidget {
   final Widget header;
   final ExpandableCardThemeData? expandableCardThemeData;
   final dynamic Function()? onTap;
+  final bool animateOnFirstBuild;
   final bool showStatusIcon;
   final bool initialPressed;
   final bool isSelected;
@@ -21,6 +22,7 @@ class ExpandableCard extends StatefulWidget {
       required this.header,
       required this.expandedContent,
       required this.isSelected,
+      this.animateOnFirstBuild = false,
       this.closedFullHeight = false,
       this.showStatusIcon = false})
       : super(key: key);
@@ -227,6 +229,9 @@ class _ExpandableCardState extends State<ExpandableCard>
       pressed = false;
     } else {
       pressed = widget.initialPressed && widget.isSelected;
+      if (pressed && !widget.animateOnFirstBuild) {
+        _controller.value = 1;
+      }
     }
     // CurvedAnimation(
     //   parent: _controller,
@@ -234,6 +239,12 @@ class _ExpandableCardState extends State<ExpandableCard>
     // );
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   BoxDecoration resolveDecoration() {

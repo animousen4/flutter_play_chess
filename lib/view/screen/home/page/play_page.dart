@@ -10,6 +10,8 @@ import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/category_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_category/game_category_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_color/game_color_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_opponent/game_opponent_setting.dart';
+import 'package:flutter_play_chess/logic/model/lobby/game_opponent/opponent_variant.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_rating/game_rating_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_setting/game_setting.dart';
 import 'package:flutter_play_chess/logic/model/lobby/game_type/time_type.dart';
@@ -17,6 +19,7 @@ import 'package:flutter_play_chess/logic/model/lobby/game_type/type_game_setting
 import 'package:flutter_play_chess/logic/model/lobby/game_type/type_variant.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/theme/expandable_card_theme_data.dart';
+import 'package:flutter_play_chess/view/theme/outlined_button_theme_secondary.dart';
 import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:flutter_play_chess/view/theme/simple_expandable_card_theme.dart';
 import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
@@ -47,7 +50,49 @@ class _PlayPageState extends State<PlayPage> {
           pinned: true,
         )
       ],
-      body: BlocBuilder<PlayMenuBloc, PlayMenuState>(
+      body: BlocConsumer<PlayMenuBloc, PlayMenuState>(
+        listener: (context, state) {
+          if (state is PlayMenuNormal) {
+            if (state.isSearching) {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text("Searching for opponents"),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                                "It may take up to 5 min to find the right opponent..."),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            OutlinedButton(
+                              onPressed: () {
+                                context
+                                    .read<PlayMenuBloc>()
+                                    .add(SearchCancelRequest());
+                              },
+                              child: Text("Cancel"),
+                              style: Theme.of(context)
+                                  .extension<OutlinedButtonThemeSecondary>()!
+                                  .themeData!
+                                  .style,
+                            )
+                          ],
+                        ),
+                      ),
+                  barrierDismissible: false);
+            } else {
+              context.popRoute();
+            }
+
+            if (state.isPlaying) {
+              context.pushRoute(PlayGameScreenRoute());
+            }
+
+            
+          }
+        },
         builder: (context, state) {
           return resolveWidget(state,
               onLoading: (state) => Center(
@@ -67,6 +112,8 @@ class _PlayPageState extends State<PlayPage> {
     final settingWidgets = <Widget>[];
 
     int gameSettingIndex = 0;
+
+    // build settings sectors
     for (GameSetting g in gameSettings) {
       settingWidgets.add(((gameSettingIndex) => ListTile(
             title: Padding(
@@ -183,11 +230,71 @@ class _PlayPageState extends State<PlayPage> {
                   itemCount: g.variants.length,
                 );
               }
+
+              if (g is OpponentGameSetting) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: (BuildContext context) {
+                    final List<Widget> variantsWidget = [];
+
+                    for (int i = 0; i < g.variants.length; i++) {
+                      // build 1 variant
+
+                      variantsWidget.add(((int index) => ExpandableCard(
+                          expandableCardThemeData: Theme.of(context)
+                              .extension<SimpleExpandableCardTheme>()!
+                              .expandableCardThemeData,
+                          onTap: () {
+                            context.read<PlayMenuBloc>().add(
+                                GameSettingModified(g.copyWith(
+                                    selectedVariantIndexes: [index])));
+                          },
+                          header: Text(g.variants[index].opponentName).tr(),
+                          expandedContent: (int index) {
+                            final variant = g.variants[index];
+                            if (variant is ComputerOpponent) {
+                              return Text("Choose option");
+                            }
+                          }.call(index),
+                          isSelected: g.selectedVariantIndexes
+                              .contains(index))).call(i));
+                      // if (variant is FriendOpponent) {
+                      // } else if (variant is OnlineOpponent) {
+                      // } else if (variant is ComputerOpponent) {
+                      //   // ...
+                      // }
+
+                      //variantsWidget.add(Text(g.variants[i].opponentName).tr());
+                      variantsWidget.add(SizedBox(
+                        height: 15,
+                      ));
+                    }
+                    return variantsWidget;
+                  }.call(context),
+                );
+              }
             }).call(context),
           )).call(gameSettingIndex));
-
       gameSettingIndex++;
     }
+
+    settingWidgets.add(BlocBuilder<PlayMenuBloc, PlayMenuState>(
+      builder: (context, state) {
+        return ListTile(
+            title: PlayButton(
+                child: Text("Play"),
+                onPressed: (state as PlayMenuNormal).playAllowed
+                    ? () {
+                        //context.pushRoute(PlayGameScreenRoute());
+                        context.read<PlayMenuBloc>().add(PlayRequest());
+                      }
+                    : null));
+      },
+    ));
+    settingWidgets.add(SizedBox(
+      height: 15,
+    ));
 
     return settingWidgets;
   }
@@ -195,14 +302,12 @@ class _PlayPageState extends State<PlayPage> {
   Widget resolveWidget(PlayMenuState state,
       {required Widget Function(PlayMenuLoading state) onLoading,
       required Widget Function(PlayMenuNormal state) onNormal,
-      required Widget Function(PlayMenuError state) onError}) {
+      required Widget Function(dynamic state) onError}) {
     switch (state.runtimeType) {
       case PlayMenuLoading:
         return onLoading(state as PlayMenuLoading);
       case PlayMenuNormal:
         return onNormal(state as PlayMenuNormal);
-      case PlayMenuError:
-        return onError(state as PlayMenuError);
       default:
         throw Exception("Not found a suitable builder for state '$state'");
     }

@@ -6,6 +6,7 @@ import 'package:flutter_play_chess/view/theme/decorated_scaffold_theme.dart';
 import 'package:flutter_play_chess/view/theme/dropdown_physical_button_theme.dart';
 import 'package:flutter_play_chess/view/theme/expandable_card_theme_data.dart';
 import 'package:flutter_play_chess/view/theme/clock_widget_theme.dart';
+import 'package:flutter_play_chess/view/theme/outlined_button_theme_secondary.dart';
 import 'package:flutter_play_chess/view/theme/selection_item_theme.dart';
 import 'package:flutter_play_chess/view/theme/simple_expandable_card_theme.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,17 +14,17 @@ import 'package:flutter_play_chess/view/theme/play_button_theme.dart';
 
 const backgroundColor = Color.fromARGB(255, 1, 14, 43);
 const textTheme = TextTheme(
-  headline1: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
-  headline2: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
-  headline3: TextStyle(
+  displayLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
+  displayMedium: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
+  displaySmall: TextStyle(
       fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.white),
-  headline4: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
-  headline5: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
+  headlineMedium: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+  headlineSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
   //headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w500),
-  subtitle1:
+  titleMedium:
       TextStyle(fontSize: 15, fontWeight: FontWeight.w600, letterSpacing: 0.7),
 
-  bodyText2: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+  bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
 );
 
 class AppThemeManager {
@@ -61,6 +62,7 @@ class AppThemeManager {
             timeStyleEnabled: TextStyle(color: Color.fromRGBO(2, 15, 44, 1))),
         PlayButtonTheme(
             buttonStyle: ButtonStyle(
+                foregroundColor: MaterialStatePropertyAll(Colors.white),
                 backgroundColor: MaterialStatePropertyAll(Colors.transparent),
                 shadowColor: MaterialStatePropertyAll(Colors.transparent),
                 shape: MaterialStatePropertyAll(RoundedRectangleBorder(
@@ -122,6 +124,11 @@ class AppThemeManager {
                 collapsedPadding:
                     const EdgeInsets.only(top: 14, left: 22, bottom: 14),
                 //collapsedConstraints: const BoxConstraints(minHeight: 40),
+                headerTextStyle: MaterialStateProperty.resolveWith((states) =>
+                    TextStyle(
+                        color: states.contains(MaterialState.selected)
+                            ? Colors.black
+                            : Colors.grey)),
                 headerDecoration:
                     MaterialStateProperty.resolveWith((states) => BoxDecoration(
                           gradient: LinearGradient(
@@ -161,7 +168,20 @@ class AppThemeManager {
                   border: Border.all(width: 1, color: Colors.grey));
             }),
             textStyle: MaterialStateProperty.resolveWith(
-                (states) => TextStyle(color: Colors.black))))
+                (states) => TextStyle(color: Colors.black)))),
+        OutlinedButtonThemeSecondary(
+          themeData: OutlinedButtonThemeData(
+          style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith((states) =>
+                  Colors.black),
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              )),
+              minimumSize: MaterialStatePropertyAll(Size(double.infinity, 50)),
+              side: MaterialStateProperty.resolveWith((states) => BorderSide(
+                  width: 1,
+                  color: Colors.grey))))
+        ),
       ],
       dialogTheme: DialogTheme(
           backgroundColor: Colors.white,

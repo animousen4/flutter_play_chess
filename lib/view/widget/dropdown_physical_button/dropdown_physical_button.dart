@@ -42,7 +42,7 @@ class _DropdownPhysicalButtonState<T> extends State<DropdownPhysicalButton>
       child: DefaultTextStyle(
         style: Theme.of(context)
             .textTheme
-            .headline3!
+            .displaySmall!
             .copyWith(color: Colors.black),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

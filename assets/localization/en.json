@@ -4,7 +4,7 @@
             "settingName": "Type",
             "classic": "Classic",
             "blitz": "Blitz",
-            "timePerSide" : "Time per side"
+            "timePerSide": "Time per side"
         },
         "category": {
             "settingName": "Category",
@@ -16,12 +16,17 @@
             "on": "On",
             "off": "Off"
         },
-
-        "color" : {
+        "color": {
             "settingName": "Color",
-            "white" : "W",
-            "black" : "B",
-            "random" : "R"
+            "white": "W",
+            "black": "B",
+            "random": "R"
+        },
+        "opponent": {
+            "settingName": "Opponent",
+            "online": "Online",
+            "withFriend": "With friend",
+            "computer": "Computer - {}"
         }
     }
 }

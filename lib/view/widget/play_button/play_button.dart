@@ -10,13 +10,13 @@ class PlayButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).extension<PlayButtonTheme>()!;
+
     return Container(
       child: ElevatedButton(
           onPressed: onPressed,
           child: child,
-          style: (theme.buttonStyle!.merge(Theme.of(context)
-              .elevatedButtonTheme
-              .style!))),
+          style: (theme.buttonStyle!
+              .merge(Theme.of(context).elevatedButtonTheme.style!))),
       decoration: theme.decoration,
     );
   }
