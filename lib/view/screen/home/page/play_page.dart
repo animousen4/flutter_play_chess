@@ -82,11 +82,10 @@ class _PlayPageState extends State<PlayPage> {
                         ),
                       ),
                   barrierDismissible: false);
-            } else {
-              context.popRoute();
             }
 
             if (state.isPlaying) {
+              context.popRoute();
               context.pushRoute(PlayGameScreenRoute());
             }
 

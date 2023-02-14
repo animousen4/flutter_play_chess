@@ -114,9 +114,13 @@ class _$AppRouter extends RootStackRouter {
       );
     },
     AppStatePageRoute.name: (routeData) {
+      final args = routeData.argsAs<AppStatePageRouteArgs>();
       return MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const AppStatePage(),
+        child: AppStatePage(
+          key: args.key,
+          context: args.context,
+        ),
       );
     },
     RequestsPageRoute.name: (routeData) {
@@ -432,14 +436,36 @@ class ElementsPageRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [AppStatePage]
-class AppStatePageRoute extends PageRouteInfo<void> {
-  const AppStatePageRoute()
-      : super(
+class AppStatePageRoute extends PageRouteInfo<AppStatePageRouteArgs> {
+  AppStatePageRoute({
+    Key? key,
+    required BuildContext context,
+  }) : super(
           AppStatePageRoute.name,
           path: 'app-state',
+          args: AppStatePageRouteArgs(
+            key: key,
+            context: context,
+          ),
         );
 
   static const String name = 'AppStatePageRoute';
+}
+
+class AppStatePageRouteArgs {
+  const AppStatePageRouteArgs({
+    this.key,
+    required this.context,
+  });
+
+  final Key? key;
+
+  final BuildContext context;
+
+  @override
+  String toString() {
+    return 'AppStatePageRouteArgs{key: $key, context: $context}';
+  }
 }
 
 /// generated route for

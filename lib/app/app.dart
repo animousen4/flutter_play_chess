@@ -17,8 +17,13 @@ class App extends StatelessWidget {
   final UserService userService;
   final NetworkClientSecured chopperClient;
   final ExceptionService exceptionService;
-  
-  const App({Key? key, required this.userService, required this.chopperClient, required this.exceptionService, required this.router})
+
+  const App(
+      {Key? key,
+      required this.userService,
+      required this.chopperClient,
+      required this.exceptionService,
+      required this.router})
       : super(key: key);
 
   final AppRouter router;
@@ -36,13 +41,23 @@ class App extends StatelessWidget {
         return BlocProvider(
           create: (context) =>
               UserBloc(userService: context.read<UserService>()),
-          child: MaterialApp.router(
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            debugShowCheckedModeBanner: false,
-            routerDelegate: router.delegate(),
-            routeInformationParser: router.defaultRouteParser(),
-            theme: AppThemeManager.darkTheme,
+          child: EasyLocalization(
+            supportedLocales: const [Locale("en"), Locale("ru")],
+            path: "assets/localization",
+            fallbackLocale: const Locale("en"),
+            child: Builder(
+              builder: (context) {
+                return MaterialApp.router(
+                  key: UniqueKey(),
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  debugShowCheckedModeBanner: false,
+                  routerDelegate: router.delegate(),
+                  routeInformationParser: router.defaultRouteParser(),
+                  theme: AppThemeManager.darkTheme,
+                );
+              }
+            ),
           ),
         );
       }),

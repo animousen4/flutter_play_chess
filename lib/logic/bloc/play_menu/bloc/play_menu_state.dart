@@ -9,6 +9,7 @@ class PlayMenuNormal extends PlayMenuState {
   final bool isSearching;
   final bool playAllowed;
   final bool isPlaying;
+  final bool gameFound;
   PlayMenuNormal modifyGameSetting(GameSetting gameSetting) {
     int index = 0;
 
@@ -23,7 +24,8 @@ class PlayMenuNormal extends PlayMenuState {
         gameSettings: gameSettings,
         isSearching: isSearching,
         playAllowed: playAllowed,
-        isPlaying: isPlaying);
+        isPlaying: isPlaying,
+        gameFound: gameFound);
   }
 
   final List<GameSetting> gameSettings;
@@ -32,17 +34,20 @@ class PlayMenuNormal extends PlayMenuState {
           {List<GameSetting>? gameSettings,
           bool? isSearching,
           bool? isPlaying,
-          bool? playAllowed}) =>
+          bool? playAllowed,
+          bool? gameFound}) =>
       PlayMenuNormal(
           gameSettings: gameSettings ?? this.gameSettings,
           playAllowed: playAllowed ?? this.playAllowed,
           isSearching: isSearching ?? this.isSearching,
-          isPlaying: isPlaying ?? this.isPlaying);
+          isPlaying: isPlaying ?? this.isPlaying,
+          gameFound: gameFound ?? this.gameFound);
 
-  PlayMenuNormal(
-      {required this.gameSettings,
-      this.isSearching = false,
-      this.isPlaying = false,
-      required this.playAllowed,
-      });
+  PlayMenuNormal({
+    required this.gameSettings,
+    this.isSearching = false,
+    this.isPlaying = false,
+    this.gameFound = false,
+    required this.playAllowed,
+  });
 }

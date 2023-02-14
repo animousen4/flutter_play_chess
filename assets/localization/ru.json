@@ -3,12 +3,42 @@
         "type": {
             "settingName": "Режим",
             "classic": "Классический",
-            "blitz": "Блиц"
+            "blitz": "Блиц",
+            "timePerSide": "Время на сторону"
         },
         "category": {
             "settingName": "Тип",
             "regular": "Обычный",
             "other": "Другой"
+        },
+
+        "rating": {
+            "settingName": "Рейтинг",
+            "on": "Вкл",
+            "off": "Выкл"
+        },
+        "color": {
+            "settingName": "Цвет",
+            "white": "Б",
+            "black": "Ч",
+            "random": "С"
+        },
+        "opponent": {
+            "settingName": "Оппонент",
+            "online": "Онлайн",
+            "withFriend": "С другом",   
+            "computer": "Компьютер - {}"
+        }
+
+        
+    },
+
+    "debug": {
+        "appState": {
+            "name" : "Состояние приложения",
+            "currentAccount" : "Текущий аккаунт",
+            "language": "Язык"
+                
         }
     }
 }

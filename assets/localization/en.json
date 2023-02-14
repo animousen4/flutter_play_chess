@@ -28,5 +28,15 @@
             "withFriend": "With friend",
             "computer": "Computer - {}"
         }
-    }
+
+        
+    },
+    "debug": {
+            "appState": {
+                "name" : "App State",
+                "currentAccount" : "Current Account",
+                "language": "Language"
+                    
+            }
+        }
 }

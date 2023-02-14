@@ -47,11 +47,8 @@ void main() async {
   final exceptionService = ExceptionService();
 
   BlocOverrides.runZoned(
-      () => runApp(EasyLocalization(
-            supportedLocales: [Locale("en"), Locale("ru")],
-            path: "assets/localization",
-            fallbackLocale: Locale("en"),
-            child: App(
+      () => runApp(
+            App(
               userService: userService,
               chopperClient: chopperClient,
               exceptionService: exceptionService,
@@ -60,6 +57,6 @@ void main() async {
                   unauthorizedRouteGuard: UnauthorizedRouteGuard(userService),
                   debugRouteGuard: DebugRouteGuard()),
             ),
-          )),
+          ),
       blocObserver: AppBlocObserver(exceptionService));
 }
