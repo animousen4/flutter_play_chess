@@ -30,6 +30,7 @@ import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dar
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:lottie/lottie.dart';
+
 @RoutePage()
 class PlayPage extends StatefulWidget {
   const PlayPage({Key? key}) : super(key: key);
@@ -51,56 +52,13 @@ class _PlayPageState extends State<PlayPage> {
           pinned: true,
         )
       ],
-      body: BlocConsumer<PlayMenuBloc, PlayMenuState>(
-        listener: (context, state) async {
-          if (state is PlayMenuNormal) {
-            if (state.isSearching) {
-              showDialog(
-                  context: context,
-                  builder: (c) => AlertDialog(
-                        title: Text("Searching for opponents"),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                                "It may take up to 5 min to find the right opponent..."),
-                            SizedBox(
-                              child:
-                                  Lottie.asset("assets/animation/loading.json"),
-                              height: 50,
-                            ),
-                            OutlinedButton(
-                              onPressed: () {
-                                context
-                                    .read<PlayMenuBloc>()
-                                    .add(SearchCancelRequest());
-                              },
-                              child: Text("Cancel"),
-                              style: Theme.of(context)
-                                  .extension<OutlinedButtonThemeSecondary>()!
-                                  .themeData!
-                                  .style,
-                            )
-                          ],
-                        ),
-                      ),
-                  barrierDismissible: false);
-            } else {
-              context.popRoute();
-              if (state.gameFound) {
-                context.pushRoute(PlayGameRoute());
-                context.read<PlayMenuBloc>().add(GameReceived());
-              }
-            }
-          }
-        },
+      body: BlocBuilder<PlayMenuBloc, PlayMenuState>(
         builder: (context, state) {
           return resolveWidget(state,
               onLoading: (state) => Center(
                     child: CircularProgressIndicator(),
                   ),
-              onNormal: (state) =>
-                  ListView(children: buildSettings(state.gameSettings)),
+              onNormal: (state) => ListView(children: buildSettings(state)),
               onError: (state) => Center(
                     child: Text("Error occured"),
                   ));
@@ -109,188 +67,20 @@ class _PlayPageState extends State<PlayPage> {
     );
   }
 
-  List<Widget> buildSettings(List<GameSetting> gameSettings) {
-    final settingWidgets = <Widget>[];
+  List<Widget> buildSettings(PlayMenuNormal state) {
+    return [
+      menuListTile(
+        tileName: Text("Rated Game"),
+        child: Text("FFf")
+      )
+    ];
+  }
 
-    int gameSettingIndex = 0;
-
-    // build settings sectors
-    for (GameSetting g in gameSettings) {
-      settingWidgets.add(((gameSettingIndex) => ListTile(
-            title: Padding(
-              padding: const EdgeInsets.only(bottom: 15),
-              child: Text(g.settingName).tr(),
-            ),
-            subtitle: ((BuildContext context) {
-              if (g is TypeGameSetting) {
-                return Wrap(
-                  direction: Axis.horizontal,
-                  spacing: 15,
-                  runSpacing: 15,
-                  children: () {
-                    final List<Widget> types = [];
-
-                    // parts of sector
-                    int partIndex = 0;
-                    for (TypeVariant typeVariant in g.variants) {
-                      types.add(((BuildContext context, partIndex) =>
-                          ExpandableCard(
-                              onTap: () => context.read<PlayMenuBloc>().add(
-                                  GameSettingModified(g.copyWith(
-                                      selectedVariantIndexes: [partIndex]))),
-                              header: Text(typeVariant.name).tr(),
-                              expandedContent: typeVariant is TimeType
-                                  ? Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 10, bottom: 25),
-                                      child: ListTile(
-                                        title: Text(
-                                          "gameSetting.type.timePerSide",
-                                          style: Theme.of(context)
-                                              .extension<
-                                                  ExpandableCardThemeData>()!
-                                              .contentTextStyle!
-                                              .resolve({}),
-                                        ).tr(),
-                                        contentPadding: EdgeInsets.zero,
-                                        subtitle: Padding(
-                                          padding:
-                                              const EdgeInsets.only(top: 10),
-                                          child: SelectionItemList<int>.builder(
-                                            builder: (index, isSelected) => SelectionItem(
-                                                theme: Theme.of(context)
-                                                    .extension<
-                                                        SelectionItemThemeSecondary>()!
-                                                    .themeData,
-                                                data: SelectionItemData<int>(
-                                                    selected:
-                                                        typeVariant.selectedIndex ==
-                                                            index,
-                                                    callback: (index) => context
-                                                        .read<PlayMenuBloc>()
-                                                        .add(GameSettingModified(
-                                                            g.modifyGameSetting(
-                                                                partIndex,
-                                                                typeVariant
-                                                                    .modifySelectedIndex(index))))),
-                                                child: Text(typeVariant.timePerSideVariants[index].inMinutes.toString()),
-                                                index: index),
-                                            itemCount: typeVariant
-                                                .timePerSideVariants.length,
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                  : null,
-                              isSelected: g.selectedVariantIndexes.contains(
-                                  partIndex))).call(context, partIndex));
-                      partIndex++;
-                    }
-                    return types;
-                  }.call(),
-                );
-              }
-
-              if (g is CategoryGameSetting) {
-                return DropdownPhysicalButton<int>.builder(
-                    builder: (context, index) =>
-                        Text(g.variants[index].name).tr(),
-                    itemCount: g.variants.length,
-                    selectedIndex: g.selectedVariantIndexes.first,
-                    callback: (index) => context.read<PlayMenuBloc>().add(
-                        GameSettingModified(
-                            g.copyWith(selectedVariantIndexes: [index]))));
-              }
-
-              if (g is RatingGameSetting) {
-                return SelectionItemList<int>.builder(
-                  builder: (index, isSelected) => SelectionItem<int>(
-                      index: index,
-                      data: SelectionItemData<int>(
-                          selected: isSelected,
-                          callback: (index) => context.read<PlayMenuBloc>().add(
-                              GameSettingModified(g
-                                  .copyWith(selectedVariantIndexes: [index])))),
-                      child: Text(g.variants[index].status).tr()),
-                  selectedItems: [g.selectedVariantIndexes.first],
-                  itemCount: g.variants.length,
-                );
-              }
-
-              if (g is ColorGameSetting) {
-                return SelectionItemList<int>.builder(
-                  builder: (index, isSelected) => SelectionItem<int>(
-                      index: index,
-                      data: SelectionItemData<int>(
-                          selected: isSelected,
-                          callback: (index) => context.read<PlayMenuBloc>().add(
-                              GameSettingModified(g
-                                  .copyWith(selectedVariantIndexes: [index])))),
-                      child: Text(g.variants[index].colorName).tr()),
-                  selectedItems: [g.selectedVariantIndexes.first],
-                  itemCount: g.variants.length,
-                );
-              }
-
-              if (g is OpponentGameSetting) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: (BuildContext context) {
-                    final List<Widget> variantsWidget = [];
-
-                    for (int i = 0; i < g.variants.length; i++) {
-                      // build 1 variant
-
-                      variantsWidget.add(((int index) => ExpandableCard(
-                          expandableCardThemeData: Theme.of(context)
-                              .extension<SimpleExpandableCardTheme>()!
-                              .expandableCardThemeData,
-                          onTap: () {
-                            context.read<PlayMenuBloc>().add(
-                                GameSettingModified(g.copyWith(
-                                    selectedVariantIndexes: [index])));
-                          },
-                          header: Text(g.variants[index].opponentName).tr(),
-                          expandedContent: (int index) {
-                            final variant = g.variants[index];
-                            if (variant is ComputerOpponent) {
-                              return Text("Choose option");
-                            }
-                          }.call(index),
-                          isSelected: g.selectedVariantIndexes
-                              .contains(index))).call(i));
-                      variantsWidget.add(SizedBox(
-                        height: 15,
-                      ));
-                    }
-                    return variantsWidget;
-                  }.call(context),
-                );
-              }
-            }).call(context),
-          )).call(gameSettingIndex));
-      gameSettingIndex++;
-    }
-
-    settingWidgets.add(BlocBuilder<PlayMenuBloc, PlayMenuState>(
-      builder: (context, state) {
-        return ListTile(
-            title: PlayButton(
-                child: Text("Play"),
-                onPressed: (state as PlayMenuNormal).playAllowed
-                    ? () {
-                        //context.pushRoute(PlayGameScreenRoute());
-                        context.read<PlayMenuBloc>().add(PlayRequest());
-                      }
-                    : null));
-      },
-    ));
-    settingWidgets.add(SizedBox(
-      height: 15,
-    ));
-
-    return settingWidgets;
+  Widget menuListTile({Widget? tileName, Widget? child}) {
+    return ListTile(
+      title: tileName,
+      subtitle: child,
+    );
   }
 
   Widget resolveWidget(PlayMenuState state,
@@ -316,4 +106,3 @@ class _PlayPageState extends State<PlayPage> {
     super.initState();
   }
 }
-// extended_nested_scroll_view: 

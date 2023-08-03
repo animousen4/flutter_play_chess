@@ -24,69 +24,9 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
 
   PlayMenuBloc() : super(PlayMenuLoading()) {
     on<StartLoadData>((event, emit) async {
-      if (state is PlayMenuNormal) {
-        return;
-      }
-
       await Future.delayed(Duration(milliseconds: 700), () {});
       // emulation of loading data
-      add(GameSettingLoaded([
-        RatingGameSetting(
-            settingName: "gameSetting.rating.settingName",
-            variants: [EnabledRating(), DisabledRating()],
-            selectedVariantIndexes: [0]),
-        TypeGameSetting(settingName: "gameSetting.type.settingName", variants: [
-          TimeType(
-              name: "gameSetting.type.classic",
-              timePerSideVariants: [
-                Duration(minutes: 10),
-                Duration(minutes: 20),
-                Duration(minutes: 30)
-              ],
-              selectedIndex: 0),
-          TypeVariant(
-            name: "gameSetting.type.blitz",
-          ),
-        ], selectedVariantIndexes: [
-          0
-        ]),
-        CategoryGameSetting(
-            settingName: "gameSetting.category.settingName",
-            variants: [
-              RegularCategory(),
-              OtherCategory(),
-            ],
-            selectedVariantIndexes: [
-              0
-            ]),
-        ColorGameSetting(
-            settingName: "gameSetting.color.settingName",
-            variants: [
-              ColorVariant(GColor.white),
-              ColorVariant(GColor.black),
-              ColorVariant(GColor.random),
-            ],
-            selectedVariantIndexes: [
-              0
-            ]),
-        OpponentGameSetting(
-            settingName: "gameSetting.opponent.settingName",
-            variants: [
-              FriendOpponent(opponentName: "gameSetting.opponent.withFriend"),
-              OnlineOpponent(opponentName: "gameSetting.opponent.online"),
-              ComputerOpponent(
-                  opponentName: "gameSetting.opponent.computer",
-                  difficultyList: [
-                    EasyDifficulty(),
-                    MediumDifficulty(),
-                    HardDifficulty()
-                  ],
-                  selectedDifficultyIndex: 0),
-            ],
-            selectedVariantIndexes: [
-              0
-            ])
-      ]));
+      
     });
 
     on<PlayRequest>((event, emit) async {
@@ -103,14 +43,15 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
           .copyWith(isSearching: false, gameFound: false));
     });
     on<GameSettingModified>((event, emit) {
-      emit((state as PlayMenuNormal).modifyGameSetting(event.gameSetting));
+      //emit((state as PlayMenuNormal).modifyGameSetting(event.gameSetting));
     });
     on<GameSettingLoaded>((event, emit) {
-      emit(PlayMenuNormal(gameSettings: event.gameSettings, playAllowed: true));
+      //emit(PlayMenuNormal(gameSettings: event.gameSettings, validated: true));
     });
 
     on<GameReceived>((event, emit) {
-      emit((state as PlayMenuNormal).copyWith(gameFound: false, isPlaying: true));
+      emit((state as PlayMenuNormal)
+          .copyWith(gameFound: false, isPlaying: true));
     });
   }
 }
