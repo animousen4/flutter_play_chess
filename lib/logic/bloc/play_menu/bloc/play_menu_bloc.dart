@@ -25,12 +25,11 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
   PlayMenuBloc() : super(PlayMenuLoading()) {
     on<StartLoadData>((event, emit) async {
       if (state is PlayMenuNormal) {
-        emit(state);
         return;
       }
 
       await Future.delayed(Duration(milliseconds: 700), () {});
-
+      // emulation of loading data
       add(GameSettingLoaded([
         RatingGameSetting(
             settingName: "gameSetting.rating.settingName",

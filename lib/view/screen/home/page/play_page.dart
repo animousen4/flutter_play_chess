@@ -260,13 +260,6 @@ class _PlayPageState extends State<PlayPage> {
                           }.call(index),
                           isSelected: g.selectedVariantIndexes
                               .contains(index))).call(i));
-                      // if (variant is FriendOpponent) {
-                      // } else if (variant is OnlineOpponent) {
-                      // } else if (variant is ComputerOpponent) {
-                      //   // ...
-                      // }
-
-                      //variantsWidget.add(Text(g.variants[i].opponentName).tr());
                       variantsWidget.add(SizedBox(
                         height: 15,
                       ));
