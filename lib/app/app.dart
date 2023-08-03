@@ -12,6 +12,7 @@ import 'package:flutter_play_chess/view/routes/guard/unauthorized_route_guard.da
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/routes/guard/auth_route_guard.dart';
 import 'package:flutter_play_chess/view/theme/app_theme.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   final UserService userService;
@@ -31,36 +32,39 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //context.setLocale(Locale("en"));
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider.value(value: userService),
-        RepositoryProvider.value(value: chopperClient),
-        RepositoryProvider.value(value: exceptionService)
-      ],
-      child: Builder(builder: (context) {
-        return BlocProvider(
-          create: (context) =>
-              UserBloc(userService: context.read<UserService>()),
-          child: EasyLocalization(
-            supportedLocales: const [Locale("en"), Locale("ru")],
-            path: "assets/localization",
-            fallbackLocale: const Locale("en"),
-            child: Builder(
-              builder: (context) {
+    return ListenableProvider.value(
+      value: userService,
+      child: MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider.value(value: chopperClient),
+          RepositoryProvider.value(value: exceptionService)
+        ],
+        child: Builder(builder: (context) {
+          return BlocProvider(
+            create: (context) =>
+                UserBloc(userService: context.read<UserService>()),
+            child: EasyLocalization(
+              supportedLocales: const [Locale("en"), Locale("ru")],
+              path: "assets/localization",
+              fallbackLocale: const Locale("en"),
+              child: Builder(builder: (context) {
                 return MaterialApp.router(
                   key: UniqueKey(),
+                  routerConfig: router.config(
+                    reevaluateListenable: userService
+                  ),
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   debugShowCheckedModeBanner: false,
-                  routerDelegate: router.delegate(),
-                  routeInformationParser: router.defaultRouteParser(),
+                  //routerDelegate: router.delegate(),
+                  //routeInformationParser: router.defaultRouteParser(),
                   theme: AppThemeManager.darkTheme,
                 );
-              }
+              }),
             ),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
 
     // return RepositoryProvider.value(

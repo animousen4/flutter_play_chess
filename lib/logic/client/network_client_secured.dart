@@ -14,7 +14,7 @@ import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/service/user_info/user_info_service.dart';
 
-class NetworkClientSecured extends ChopperClient {
+final class NetworkClientSecured extends ChopperClient {
   final UserService userService;
   final NetworkClient networkClient;
   NetworkClientSecured({required this.userService, required this.networkClient})

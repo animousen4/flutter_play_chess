@@ -40,7 +40,7 @@ class ProfileBadgeHeaderDelegate extends SliverPersistentHeaderDelegate {
               ],
             ),
             leading: GestureDetector(
-              onTap: () => context.pushRoute(PhotoViewScreenRoute(tag: "local-view", img: Image(image: avatar,))),
+              onTap: () => context.pushRoute(PhotoViewRoute(tag: "local-view", img: Image(image: avatar,))),
               child: Hero(
                 tag: "local-view",
                 child: CircleAvatar(

@@ -15,6 +15,8 @@ class PlayRequest extends PlayMenuEvent {}
 
 class SearchCancelRequest extends PlayMenuEvent {}
 
+class GameReceived extends PlayMenuEvent {}
+
 class GameSettingLoaded extends PlayMenuEvent {
   final List<GameSetting> gameSettings;
 

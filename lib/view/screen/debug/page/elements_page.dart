@@ -1,10 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_play_chess/view/widget/debug/text_style_description.dart';
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
-
+@RoutePage()
 class ElementsPage extends StatefulWidget {
   const ElementsPage({Key? key}) : super(key: key);
 

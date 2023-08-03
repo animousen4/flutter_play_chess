@@ -12,6 +12,7 @@ import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:flutter_play_chess/view/widget/decorated_scaffold.dart';
 
+@RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -35,17 +36,19 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
       child: AutoTabsRouter(
           routes: const [
-            PlayPageRoute(),
-            TournamentPageRoute(),
-            LessonPageRoute(),
-            ProfilePageRoute()
+            PlayRoute(),
+            TournamentRoute(),
+            LessonRoute(),
+            ProfileRoute()
           ],
-          builder: (context, page, controller) => OrientationBuilder(
+          builder: (context, page) => OrientationBuilder(
                 builder: (context, orientation) => DecoratedScaffold(
                   body: page,
-                  drawer: orientation == Orientation.landscape ? Drawer(
-                    child: navigationBar(context),
-                  ) : null,
+                  drawer: orientation == Orientation.landscape
+                      ? Drawer(
+                          child: navigationBar(context),
+                        )
+                      : null,
                   bottomNavigationBar: orientation == Orientation.portrait
                       ? navigationBar(context)
                       : null,
@@ -80,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     if (kDebugMode && Globals.autoDebugRedirect) {
-      context.pushRoute(DebugScreenRoute());
+      context.pushRoute(DebugRoute());
     }
     super.initState();
   }

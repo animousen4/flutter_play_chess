@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:logger/logger.dart';
 
-class DebugRouteGuard extends AutoRedirectGuard {
+class DebugRouteGuard extends AutoRouteGuard {
   final _logger = Logger();
   DebugRouteGuard() {}
   @override
@@ -14,13 +14,6 @@ class DebugRouteGuard extends AutoRedirectGuard {
       return;
     }
 
-    router.popAndPush(OopsPageRoute(
-    ));
-  }
-
-  @override
-  Future<bool> canNavigate(RouteMatch route) {
-    _logger.w("call canNavigate");
-    return Future.sync(() => kDebugMode);
+    router.popAndPush(OopsRoute());
   }
 }

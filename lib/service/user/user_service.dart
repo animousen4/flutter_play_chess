@@ -9,9 +9,9 @@ import 'package:rxdart/subjects.dart';
 const String _jwtTokenKey = "jwt_token";
 const String _accessTokenKey = "access_token";
 
-class UserService {
+class UserService extends ChangeNotifier {
   final logger = Logger();
-  late final BehaviorSubject<String?> accessToken;
+  String? accessToken;
   late String? jwtToken;
 
   late final Box<String?> storageData;
@@ -19,40 +19,28 @@ class UserService {
   Future<void> loadUser() async {
     storageData = await Hive.openBox<String?>("storage_data");
 
-    accessToken = BehaviorSubject.seeded(storageData.get(_accessTokenKey));
+    accessToken = storageData.get(_accessTokenKey);
     jwtToken = storageData.get(_jwtTokenKey);
   }
 
-  void _changeAccessToken(String? newAccessToken) {
-    storageData.put(_accessTokenKey, newAccessToken);
-    accessToken.add(newAccessToken);
+  Future<void> _changeAccessToken(String? newAccessToken) async {
+    await storageData.put(_accessTokenKey, newAccessToken);
+    accessToken = newAccessToken;
+    notifyListeners();
   }
 
-  void changeJwtToken(String? newJwtToken) {
-    storageData.put(_jwtTokenKey, newJwtToken);
+  Future<void> changeJwtToken(String? newJwtToken) async {
+    await storageData.put(_jwtTokenKey, newJwtToken);
     jwtToken = newJwtToken;
   }
 
-  void loginViaToken(User user) {
-    _changeAccessToken(user.accessToken);
-    changeJwtToken(user.jwtToken);
+  Future<void> loginViaToken(User user) async {
+    await changeJwtToken(user.jwtToken);
+    await _changeAccessToken(user.accessToken);
   }
 
   void logout() {
     _changeAccessToken(null);
     changeJwtToken(null);
   }
-
-  // bool loginViaDefault(ViaDefaultUser defaultUser, {bool isTest = false}) {
-  //   if (isTest) {
-  //     _loginViaToken(
-  //         User(accessToken: "${defaultUser.username};${defaultUser.password}", jwtToken: "jwt-zzzz"));
-  //     return true;
-  //   }
-
-
-  //   // make request
-  //   // get token
-  //   throw UnimplementedError("Implement request to server");
-  // }
 }

@@ -31,17 +31,23 @@ class LogInBloc extends Bloc<LogInEvent, LogInState> {
     });
     on<LogInDefault>((event, emit) async {
       emit(LogInState(Status.submitting()));
-      var resp = await logInService.loginDefault(LogInRequest((r) => r
-        ..version = "not defined"
-        ..entityAction =
-            EntityAction((act) => act..actionCode = ActionCode.CREATE_ENTITY)
-                .toBuilder()
-        ..entityInfo = EntityLogin((login) => login
-          ..accessToken = null
-          ..appPackage = "not defined"
-          ..appVersion = "0.0.0"
-          ..userLogin = event.username
-          ..userPass = event.password).toBuilder()));
+      // var resp = await logInService.loginDefault(LogInRequest((r) => r
+      //   ..version = "not defined"
+      //   ..entityAction =
+      //       EntityAction((act) => act..actionCode = ActionCode.CREATE_ENTITY)
+      //           .toBuilder()
+      //   ..entityInfo = EntityLogin((login) => login
+      //     ..accessToken = null
+      //     ..appPackage = "not defined"
+      //     ..appVersion = "0.0.0"
+      //     ..userLogin = event.username
+      //     ..userPass = event.password).toBuilder()));
+
+      //!!!!!!!!!!!!!!
+
+      await Future.delayed(Duration(milliseconds: 500));
+      await userService
+          .loginViaToken(User(accessToken: "TESTACCESS", jwtToken: "TESTJWT"));
 
       emit(LogInState(Status.submissionSuccess()));
     });

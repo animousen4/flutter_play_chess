@@ -11,7 +11,7 @@ import 'package:flutter_play_chess/logic/error/client_error.dart';
 import 'package:flutter_play_chess/service/sign_up/sign_up_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
-
+@RoutePage()
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 

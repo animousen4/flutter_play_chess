@@ -7,8 +7,9 @@ import 'package:flutter_play_chess/logic/bloc/status/status.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/widget/dialog/error/error_dialog.dart';
 
-class DefaultLogin extends StatelessWidget {
-  const DefaultLogin({Key? key}) : super(key: key);
+@RoutePage()
+class DefaultLoginPage extends StatelessWidget {
+  const DefaultLoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,22 +18,26 @@ class DefaultLogin extends StatelessWidget {
         listener: (context, state) async {
           if (state.status is SubmissionSuccess) {
             await context.router.pop();
-            context.router.replace(const HomeScreenRoute());
+            context.router.replace(const HomeRoute());
           } else if (state.status is SubmittingStatus) {
-            showDialog(context: context, builder: (context) => AlertDialog(title: Text("Loading"), content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                CircularProgressIndicator(),
-              ],
-            ),), barrierDismissible: false);
-
-          }
-          
-          else if (state.status is ErrorStatus) {
+            showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                      title: Text("Loading"),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CircularProgressIndicator(),
+                        ],
+                      ),
+                    ),
+                barrierDismissible: false);
+          } else if (state.status is ErrorStatus) {
             await context.router.pop();
             showDialog(
                 context: context,
-                builder: (context) => ErrorDialog(error: (state.status as ErrorStatus).error));
+                builder: (context) =>
+                    ErrorDialog(error: (state.status as ErrorStatus).error));
           }
         },
         child: SafeArea(
@@ -48,7 +53,7 @@ class DefaultLogin extends StatelessWidget {
                   child: const Text('Log in [debug]')),
               TextButton(
                   onPressed: () {
-                    context.pushRoute(SignUpScreenRoute());
+                    context.pushRoute(SignUpRoute());
                   },
                   child: Text("Go to sign up"))
             ],

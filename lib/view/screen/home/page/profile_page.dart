@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flag/flag.dart';
 import 'package:flag/flag_widget.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_play_chess/view/widget/country/country_view.dart';
 import 'package:flutter_play_chess/view/widget/short_stats/short_stats.dart';
 import 'package:flutter_play_chess/view/widget/sliver/profile_badge.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+@RoutePage()
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
 

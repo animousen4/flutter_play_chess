@@ -19,46 +19,49 @@ import 'package:flutter_play_chess/view/screen/login/pages/default_login.dart';
 import 'package:flutter_play_chess/view/screen/photo_view/photo_view_screen.dart';
 import 'package:flutter_play_chess/view/screen/sign_up/sign_up_screen.dart';
 
+import '../screen/app_screen/app_screen.dart';
 import '../screen/play/play_game_screen.dart';
 
 part 'routes.gr.dart';
 
-@MaterialAutoRouter(
-  //replaceInRouteName: 'Page,Route',
-  routes: <AutoRoute>[
-    AutoRoute(path: "/home", initial: true, page: HomeScreen, guards: [
-      AuthRouteGuard
-    ], children: [
-      AutoRoute(path: "play", page: PlayPage),
-      AutoRoute(path: "tournament", page: TournamentPage),
-      AutoRoute(path: "lesson", page: LessonPage),
-      AutoRoute(path: "profile", page: ProfilePage),
-    ]),
-    AutoRoute(path: "/login", page: LoginScreen, children: [
-      AutoRoute(path: "default", initial: true, page: DefaultLogin,
-          guards: [
-            UnauthorizedRouteGuard
-          ])
-    ]),
-    AutoRoute(
-        path: "/sign_up", page: SignUpScreen, guards: [
-          UnauthorizedRouteGuard
-        ]),
-    AutoRoute(path: "/playgame", page: PlayGameScreen),
-    AutoRoute(path: "/debug", page: DebugScreen, children: [
-      AutoRoute(path: "elements", page: ElementsPage),
-      AutoRoute(path: "app-state", page: AppStatePage),
-      AutoRoute(path: "requests", initial: true, page: RequestsPage)
-    ], guards: [
-      DebugRouteGuard
-    ]),
-    AutoRoute(path: "/view", page: PhotoViewScreen),
-    AutoRoute(path: "*", page: OopsPage)
-  ],
-)
+@AutoRouterConfig()
 class AppRouter extends _$AppRouter {
-  AppRouter(
-      {required super.authRouteGuard,
-      required super.debugRouteGuard,
-      required super.unauthorizedRouteGuard});
+  final UserService userService;
+
+  AppRouter(this.userService);
+
+  @override
+  List<AutoRoute> get routes => [
+        AutoRoute(path: "/home", initial: true, page: HomeRoute.page, guards: [
+          AuthRouteGuard(userService)
+        ], children: [
+          AutoRoute(path: "play", page: PlayRoute.page),
+          AutoRoute(path: "tournament", page: TournamentRoute.page),
+          AutoRoute(path: "lesson", page: LessonRoute.page),
+          AutoRoute(path: "profile", page: ProfileRoute.page),
+        ]),
+        AutoRoute(path: "/login", page: LoginRoute.page, guards: [
+          UnauthorizedRouteGuard(userService)
+        ], children: [
+          AutoRoute(
+            path: "default",
+            initial: true,
+            page: DefaultLoginRoute.page,
+          )
+        ]),
+        AutoRoute(
+            path: "/sign_up",
+            page: SignUpRoute.page,
+            guards: [UnauthorizedRouteGuard(userService)]),
+        AutoRoute(path: "/playgame", page: PlayGameRoute.page),
+        AutoRoute(path: "/debug", page: DebugRoute.page, children: [
+          AutoRoute(path: "elements", page: ElementsRoute.page),
+          AutoRoute(path: "app-state", page: AppStateRoute.page),
+          AutoRoute(path: "requests", initial: true, page: RequestsRoute.page)
+        ], guards: [
+          DebugRouteGuard()
+        ]),
+        AutoRoute(path: "/view", page: PhotoViewRoute.page),
+        AutoRoute(path: "*", page: OopsRoute.page)
+      ];
 }

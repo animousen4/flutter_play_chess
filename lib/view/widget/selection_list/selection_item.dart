@@ -35,8 +35,7 @@ class SelectionItem<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final usingTheme =
-        theme ?? Theme.of(context).extension<SelectionItemThemeData>()!;
+    final usingTheme = Theme.of(context).extension<SelectionItemThemeData>()!.merge(theme) as SelectionItemThemeData;
 
     return AnimatedContainer(
       duration: kDefaultTransitionDuration,

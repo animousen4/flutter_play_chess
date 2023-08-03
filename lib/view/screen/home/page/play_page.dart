@@ -29,7 +29,8 @@ import 'package:flutter_play_chess/view/widget/selection_list/selection_item.dar
 import 'package:flutter_play_chess/view/widget/selection_list/selection_list.dart';
 import 'package:flutter_play_chess/view/widget/sliver/play_sliver_delegate.dart';
 import 'package:auto_route/auto_route.dart';
-
+import 'package:lottie/lottie.dart';
+@RoutePage()
 class PlayPage extends StatefulWidget {
   const PlayPage({Key? key}) : super(key: key);
 
@@ -51,12 +52,12 @@ class _PlayPageState extends State<PlayPage> {
         )
       ],
       body: BlocConsumer<PlayMenuBloc, PlayMenuState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is PlayMenuNormal) {
             if (state.isSearching) {
               showDialog(
                   context: context,
-                  builder: (context) => AlertDialog(
+                  builder: (c) => AlertDialog(
                         title: Text("Searching for opponents"),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
@@ -64,7 +65,9 @@ class _PlayPageState extends State<PlayPage> {
                             Text(
                                 "It may take up to 5 min to find the right opponent..."),
                             SizedBox(
-                              height: 20,
+                              child:
+                                  Lottie.asset("assets/animation/loading.json"),
+                              height: 50,
                             ),
                             OutlinedButton(
                               onPressed: () {
@@ -82,14 +85,13 @@ class _PlayPageState extends State<PlayPage> {
                         ),
                       ),
                   barrierDismissible: false);
-            }
-
-            if (state.isPlaying) {
+            } else {
               context.popRoute();
-              context.pushRoute(PlayGameScreenRoute());
+              if (state.gameFound) {
+                context.pushRoute(PlayGameRoute());
+                context.read<PlayMenuBloc>().add(GameReceived());
+              }
             }
-
-            
           }
         },
         builder: (context, state) {

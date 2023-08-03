@@ -6,6 +6,7 @@ import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/widget/decorated_scaffold.dart';
 
+@RoutePage()
 class DebugScreen extends StatefulWidget {
   const DebugScreen({Key? key}) : super(key: key);
 
@@ -19,7 +20,11 @@ class _DebugScreenState extends State<DebugScreen>
   @override
   Widget build(BuildContext context) {
     return AutoTabsRouter.tabBar(
-      routes: [ElementsPageRoute(), AppStatePageRoute(context: context), RequestsPageRoute()],
+      routes: [
+        ElementsRoute(),
+        AppStateRoute(context: context),
+        RequestsRoute()
+      ],
       builder: (context, content, tabController) => DecoratedScaffold(
         appBar: AppBar(
           title: Text("Debug"),

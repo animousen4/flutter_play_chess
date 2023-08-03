@@ -9,5 +9,11 @@ class PlayGameBloc extends Bloc<PlayGameEvent, PlayGameState> {
     on<PlayGameEvent>((event, emit) {
       // TODO: implement event handler
     });
+
+    on<ConnectToGame>((event, emit) async {
+      Future.delayed(const Duration(milliseconds: 600), () {
+        
+      });
+    });
   }
 }

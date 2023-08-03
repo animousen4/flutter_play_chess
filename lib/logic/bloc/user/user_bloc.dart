@@ -10,9 +10,9 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserService userService;
   UserBloc({required this.userService}) : super(UserState(isReady: false)) {
-    userService.accessToken.listen((value) {
-      add(_UserChanged(accessToken: value, jwtToken: userService.jwtToken));
-    });
+    // userService.accessToken.listen((value) {
+    //   add(_UserChanged(accessToken: value, jwtToken: userService.jwtToken));
+    // });
 
     on<LogOut>((event, emit) {
       userService.logout();

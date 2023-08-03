@@ -21,6 +21,7 @@ part 'play_menu_state.dart';
 
 class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
   final logger = Logger();
+
   PlayMenuBloc() : super(PlayMenuLoading()) {
     on<StartLoadData>((event, emit) async {
       if (state is PlayMenuNormal) {
@@ -95,17 +96,22 @@ class PlayMenuBloc extends Bloc<PlayMenuEvent, PlayMenuState> {
       await Future.delayed(Duration(seconds: 3));
 
       emit((state as PlayMenuNormal)
-          .copyWith(isSearching: false, isPlaying: true));
+          .copyWith(isSearching: false, gameFound: true));
     });
 
     on<SearchCancelRequest>((event, emit) {
-      emit((state as PlayMenuNormal).copyWith(isSearching: false));
+      emit((state as PlayMenuNormal)
+          .copyWith(isSearching: false, gameFound: false));
     });
     on<GameSettingModified>((event, emit) {
       emit((state as PlayMenuNormal).modifyGameSetting(event.gameSetting));
     });
     on<GameSettingLoaded>((event, emit) {
       emit(PlayMenuNormal(gameSettings: event.gameSettings, playAllowed: true));
+    });
+
+    on<GameReceived>((event, emit) {
+      emit((state as PlayMenuNormal).copyWith(gameFound: false, isPlaying: true));
     });
   }
 }

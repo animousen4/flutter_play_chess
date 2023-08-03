@@ -3,31 +3,19 @@ import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:logger/logger.dart';
 
-class UnauthorizedRouteGuard extends AutoRedirectGuard {
+class UnauthorizedRouteGuard extends AutoRouteGuard {
   final UserService userService;
   final _logger = Logger();
-  UnauthorizedRouteGuard(this.userService) {
-    userService.accessToken.listen((value) {
-      if (value != null) {
-        reevaluate();
-      }
-    });
-  }
+  UnauthorizedRouteGuard(this.userService);
   @override
   void onNavigation(NavigationResolver resolver, StackRouter router) async {
-    _logger.w("call onNavigation");
+    _logger.w("call onNavigation2 ${userService.accessToken}");
 
-    if (userService.accessToken.value != null) {
-      router.replaceAll([HomeScreenRoute()]);
+    if (userService.accessToken != null) {
+      router.replaceAll([HomeRoute()]);
       return;
     }
 
     resolver.next();
-  }
-
-  @override
-  Future<bool> canNavigate(RouteMatch route) {
-    _logger.w("call canNavigate");
-    return Future.sync(() => false);
   }
 }

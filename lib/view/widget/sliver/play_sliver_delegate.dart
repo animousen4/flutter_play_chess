@@ -91,7 +91,7 @@ class PlaySliverDelegate extends SliverPersistentHeaderDelegate {
               ? Builder(builder: (context) {
                   return IconButton(
                       onPressed: () {
-                        context.router.push(DebugScreenRoute());
+                        context.router.push(DebugRoute());
                       },
                       icon: const Icon(Icons.adb_outlined));
                 })

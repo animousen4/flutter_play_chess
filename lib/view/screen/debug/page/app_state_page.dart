@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/view/widget/dropdown_physical_button/dropdown_physical_button.dart';
-
+@RoutePage()  
 class AppStatePage extends StatefulWidget {
   const AppStatePage({Key? key, required this.context}) : super(key: key);
 

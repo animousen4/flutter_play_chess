@@ -32,7 +32,7 @@ class AppAuthenticator extends Authenticator {
                   EntityAction((a) => a..actionCode = ActionCode.CREATE_ENTITY)
                       .toBuilder()
               ..entityInfo = EntityLogin(
-                      (i) => i..accessToken = userService.accessToken.value)
+                      (i) => i..accessToken = userService.accessToken)
                   .toBuilder()));
         if (response.isSuccessful) {
           final newJwtToken = response.body!.createdEntity.jwtToken;

@@ -16,6 +16,9 @@ class SelectionItemThemeData extends ThemeExtension<SelectionItemThemeData> {
         textStyle: textStyle ?? this.textStyle);
   }
 
+  ThemeExtension<SelectionItemThemeData> merge(SelectionItemThemeData? other) => other != null ?
+      copyWith(decoration: other.decoration, textStyle: other.textStyle) : this;
+
   @override
   ThemeExtension<SelectionItemThemeData> lerp(
       covariant ThemeExtension<SelectionItemThemeData>? other, double t) {

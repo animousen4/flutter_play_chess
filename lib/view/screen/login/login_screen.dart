@@ -10,7 +10,7 @@ import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
 import 'package:flutter_play_chess/view/screen/app_screen/app_screen.dart';
-
+@RoutePage()
 class LoginScreen extends AppScreen {
   LoginScreen({Key? key}) : super(key: key);
 

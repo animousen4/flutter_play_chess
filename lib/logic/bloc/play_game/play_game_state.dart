@@ -6,5 +6,5 @@ abstract class PlayGameState {}
 class PlayGameLoading extends PlayGameState {}
 
 class PlayGameReady extends PlayGameState {
-  
+    
 }

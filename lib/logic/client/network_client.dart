@@ -6,7 +6,7 @@ import 'package:flutter_play_chess/logic/client/interceptors/server_exception_in
 import 'package:flutter_play_chess/logic/error/server_error.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 
-class NetworkClient extends ChopperClient {
+final class NetworkClient extends ChopperClient {
   NetworkClient() : super(
     baseUrl: Uri.parse(Globals.url),
     converter: DataConverter(),

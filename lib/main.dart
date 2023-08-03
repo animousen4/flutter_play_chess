@@ -37,8 +37,7 @@ void main() async {
   final userService = UserService();
   await userService.loadUser();
 
-  //final alice = Alice();
-
+  // !!!!!!!!!!!!!!
   HttpOverrides.global = DebugHttpOverride();
 
   final chopperClient = NetworkClientSecured(
@@ -46,17 +45,12 @@ void main() async {
 
   final exceptionService = ExceptionService();
 
-  BlocOverrides.runZoned(
-      () => runApp(
-            App(
-              userService: userService,
-              chopperClient: chopperClient,
-              exceptionService: exceptionService,
-              router: AppRouter(
-                  authRouteGuard: AuthRouteGuard(userService),
-                  unauthorizedRouteGuard: UnauthorizedRouteGuard(userService),
-                  debugRouteGuard: DebugRouteGuard()),
-            ),
-          ),
-      blocObserver: AppBlocObserver(exceptionService));
+  runApp(
+    App(
+      userService: userService,
+      chopperClient: chopperClient,
+      exceptionService: exceptionService,
+      router: AppRouter(userService),
+    ),
+  );
 }

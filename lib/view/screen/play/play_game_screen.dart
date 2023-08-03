@@ -5,6 +5,8 @@ import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:flutter_play_chess/view/widget/clock/clock_widget.dart';
 import 'package:flutter_play_chess/view/widget/country/country_view.dart';
@@ -15,7 +17,7 @@ import 'package:squares/squares.dart';
 import 'package:square_bishop/square_bishop.dart';
 import 'package:bishop/bishop.dart' as bishop;
 //import 'package:flutter_stateless_chessboard/flutter_stateless_chessboard.dart';
-
+@RoutePage()
 class PlayGameScreen extends StatefulWidget {
   const PlayGameScreen({super.key});
 
@@ -137,7 +139,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   }
 
   void _resetGame([bool ss = true]) {
-    game = bishop.Game(variant: bishop.Variant.standard());
+    game = bishop.Game(variant: bishop.Variant.standard().copyWith());
     state = game.squaresState(player);
     if (ss) setState(() {});
   }
