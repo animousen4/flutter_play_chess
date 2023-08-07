@@ -8,6 +8,7 @@ import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/service/user_info/user_info_service.dart';
+import 'package:flutter_play_chess/view/responsive/responsive_helper.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
 import 'package:flutter_play_chess/view/svg/svg_manager.dart';
 import 'package:flutter_play_chess/view/widget/decorated_scaffold.dart';
@@ -41,22 +42,44 @@ class _HomeScreenState extends State<HomeScreen> {
             LessonRoute(),
             ProfileRoute()
           ],
-          builder: (context, page) => OrientationBuilder(
-                builder: (context, orientation) => DecoratedScaffold(
-                  body: page,
-                  drawer: orientation == Orientation.landscape
-                      ? Drawer(
-                          child: navigationBar(context),
-                        )
-                      : null,
-                  bottomNavigationBar: orientation == Orientation.portrait
-                      ? navigationBar(context)
-                      : null,
-                ),
-              )),
+          builder: (context, page) => LayoutBuilder(
+            builder: (context, constraints) => DecoratedScaffold(
+                      body: context.read<ResponsiveHelper>().isDesktop
+                          ? Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [navigationRail(context), Expanded(child: page)],
+                            )
+                          : page,
+                      bottomNavigationBar:
+                          context.read<ResponsiveHelper>().isDesktop ? null : navigationBar(context),
+                    ),
+          )
+              ),
     );
   }
 
+  Widget navigationRail(BuildContext context) => NavigationRail(
+        selectedIndex: context.tabsRouter.activeIndex,
+        onDestinationSelected: context.tabsRouter.setActiveIndex,
+        destinations: [
+          NavigationRailDestination(
+              icon: SvgIcons.playIconNotActive,
+              selectedIcon: SvgIcons.playIconActive,
+              label: Text("Play")),
+          NavigationRailDestination(
+              icon: SvgIcons.trophyIconNotActive,
+              selectedIcon: SvgIcons.trophyIconActive,
+              label: Text("Tournaments")),
+          NavigationRailDestination(
+              icon: SvgIcons.lessonIconNotActive,
+              selectedIcon: SvgIcons.lessonIconActive,
+              label: Text("Lesson")),
+          NavigationRailDestination(
+              icon: SvgIcons.profileIconNotActive,
+              selectedIcon: SvgIcons.profileIconActive,
+              label: Text("Profile")),
+        ],
+      );
   Widget navigationBar(BuildContext context) => NavigationBar(
         selectedIndex: context.tabsRouter.activeIndex,
         onDestinationSelected: context.tabsRouter.setActiveIndex,

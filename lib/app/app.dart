@@ -7,6 +7,7 @@ import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
 import 'package:flutter_play_chess/service/excpetion_service/exception_service.dart';
 import 'package:flutter_play_chess/service/login/login_service.dart';
 import 'package:flutter_play_chess/service/user/user_service.dart';
+import 'package:flutter_play_chess/view/responsive/responsive_helper.dart';
 import 'package:flutter_play_chess/view/routes/guard/debug_route_guard.dart';
 import 'package:flutter_play_chess/view/routes/guard/unauthorized_route_guard.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
@@ -37,7 +38,8 @@ class App extends StatelessWidget {
       child: MultiRepositoryProvider(
         providers: [
           RepositoryProvider.value(value: chopperClient),
-          RepositoryProvider.value(value: exceptionService)
+          RepositoryProvider.value(value: exceptionService),
+          RepositoryProvider(create: (context) => ResponsiveHelper(maxMobileAspectRatio: 0.6, context: context))
         ],
         child: Builder(builder: (context) {
           return BlocProvider(
