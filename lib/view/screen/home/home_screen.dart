@@ -3,10 +3,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_play_chess/globals.dart';
+import 'package:flutter_play_chess/logic/bloc/game_status/game_status_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/play_menu/bloc/play_menu_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user/user_bloc.dart';
 import 'package:flutter_play_chess/logic/bloc/user_info/user_info_bloc.dart';
 import 'package:flutter_play_chess/logic/client/network_client_secured.dart';
+import 'package:flutter_play_chess/service/game_status_service/game_status_service.dart';
 import 'package:flutter_play_chess/service/user_info/user_info_service.dart';
 import 'package:flutter_play_chess/view/responsive/responsive_helper.dart';
 import 'package:flutter_play_chess/view/routes/routes.dart';
@@ -24,37 +26,64 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (context) => PlayMenuBloc(),
+        RepositoryProvider(
+          create: (context) => GameStatusService()..initGameService(),
         ),
-        BlocProvider(
-            create: (context) => UserInfoBloc(
-                userInfoService: context
-                    .read<NetworkClientSecured>()
-                    .getService<UserInfoService>()))
       ],
-      child: AutoTabsRouter(
-          routes: const [
-            PlayRoute(),
-            TournamentRoute(),
-            LessonRoute(),
-            ProfileRoute()
+      child: Builder(builder: (context) {
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => PlayMenuBloc(),
+            ),
+            BlocProvider(
+                create: (context) => UserInfoBloc(
+                    userInfoService: context
+                        .read<NetworkClientSecured>()
+                        .getService<UserInfoService>())),
+            BlocProvider(
+                create: (context) => GameStatusBloc(
+                    gameStatusService: context.read<GameStatusService>()))
           ],
-          builder: (context, page) => LayoutBuilder(
-            builder: (context, constraints) => DecoratedScaffold(
-                      body: context.read<ResponsiveHelper>().isDesktop
-                          ? Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [navigationRail(context), Expanded(child: page)],
-                            )
-                          : page,
-                      bottomNavigationBar:
-                          context.read<ResponsiveHelper>().isDesktop ? null : navigationBar(context),
+          child: AutoTabsRouter(
+              routes: const [
+                PlayRoute(),
+                TournamentRoute(),
+                LessonRoute(),
+                ProfileRoute()
+              ],
+              builder: (context, page) => LayoutBuilder(
+                    builder: (context, constraints) =>
+                        BlocBuilder<GameStatusBloc, GameStatusState>(
+                      builder: (context, gameStatusState) {
+                        return DecoratedScaffold(
+                          body: context.read<ResponsiveHelper>().isDesktop
+                              ? Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    navigationRail(context),
+                                    Expanded(child: page)
+                                  ],
+                                )
+                              : page,
+                          bottomSheet: gameStatusState.gameStatus == null
+                              ? null
+                              : BottomSheet(
+                                  onClosing: () {},
+                                  builder: (context) =>
+                                      Text("${gameStatusState.gameStatus}")),
+                          bottomNavigationBar:
+                              context.read<ResponsiveHelper>().isDesktop
+                                  ? null
+                                  : navigationBar(context),
+                        );
+                      },
                     ),
-          )
-              ),
+                  )),
+        );
+      }),
     );
   }
 

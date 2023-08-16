@@ -13,25 +13,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_play_chess/view/theme/play_button_theme.dart';
 
 const backgroundColor = Color.fromARGB(255, 1, 14, 43);
-const textTheme = TextTheme(
-  displayLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
-  displayMedium: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
-  displaySmall: TextStyle(
-      fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.white),
-  headlineMedium: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
-  headlineSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
-  //headline6: TextStyle(fontSize: 10.0, fontWeight: FontWeight.w500),
-  titleMedium:
-      TextStyle(fontSize: 15, fontWeight: FontWeight.w600, letterSpacing: 0.7),
-
-  bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-);
 
 class AppThemeManager {
   static ThemeData get darkTheme => ThemeData(
       useMaterial3: true,
       typography: Typography.material2021(colorScheme: ColorScheme.dark()),
-      brightness: Brightness.dark,
+      colorScheme: ColorScheme.dark(surface: Color.fromARGB(255, 1, 11, 33)),
       extensions: [
         DecoratedScaffoldTheme(
             decoration: BoxDecoration(
@@ -39,9 +26,6 @@ class AppThemeManager {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     colors: [
-              //Color.fromARGB(255, 1, 14, 43),
-              //Color.fromARGB(255, 1, 14, 43),
-
               Color.fromRGBO(2, 15, 44, 1),
               Color.fromRGBO(2, 15, 44, 1),
               Color.fromRGBO(2, 15, 44, 1),
@@ -170,18 +154,17 @@ class AppThemeManager {
             textStyle: MaterialStateProperty.resolveWith(
                 (states) => TextStyle(color: Colors.black)))),
         OutlinedButtonThemeSecondary(
-          themeData: OutlinedButtonThemeData(
-          style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.resolveWith((states) =>
-                  Colors.black),
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              )),
-              minimumSize: MaterialStatePropertyAll(Size(double.infinity, 50)),
-              side: MaterialStateProperty.resolveWith((states) => BorderSide(
-                  width: 1,
-                  color: Colors.grey))))
-        ),
+            themeData: OutlinedButtonThemeData(
+                style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.resolveWith(
+                        (states) => Colors.black),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    )),
+                    minimumSize:
+                        MaterialStatePropertyAll(Size(double.infinity, 50)),
+                    side: MaterialStateProperty.resolveWith((states) =>
+                        BorderSide(width: 1, color: Colors.grey))))),
       ],
       dialogTheme: DialogTheme(
           backgroundColor: Colors.white,
@@ -228,7 +211,17 @@ class AppThemeManager {
           selectedColor: backgroundColor,
           borderRadius: BorderRadius.circular(5),
           color: Colors.white.withOpacity(0.6)),
-      textTheme: textTheme,
+      textTheme: TextTheme(
+        displayLarge: TextStyle(fontSize: 36.0, fontWeight: FontWeight.w700),
+        displayMedium: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w600),
+        displaySmall: TextStyle(
+            fontSize: 16.0, fontWeight: FontWeight.w500, color: Colors.white),
+        headlineMedium: TextStyle(fontSize: 14.0, fontWeight: FontWeight.w500),
+        headlineSmall: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w500),
+        titleMedium: TextStyle(
+            fontSize: 15, fontWeight: FontWeight.w600, letterSpacing: 0.7),
+        bodyMedium: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+      ),
       inputDecorationTheme: InputDecorationTheme(
           constraints: BoxConstraints(maxHeight: 48),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
@@ -237,6 +230,6 @@ class AppThemeManager {
       navigationBarTheme: const NavigationBarThemeData(
           height: 48,
           labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
-          backgroundColor: Color.fromARGB(255, 1, 11, 33),
+          //backgroundColor: Color.fromARGB(255, 1, 11, 33),
           indicatorColor: Colors.transparent));
 }
